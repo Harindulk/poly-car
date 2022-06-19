@@ -4,11 +4,32 @@ using System;
 using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
+using PlayFab;
+using PlayFab.ClientModels;
+
 
 public class StopWatch : MonoBehaviour
 {
     public TMP_Text currentTimeText;
+    public TMP_Text scoreText;
     float currentTime;
+    int score = 0;
+    public float multiplier = 5;
+
+    public GameObject completedPanel;
+    public TMP_Text completeTimeEnd; 
+
+    public static StopWatch instance;
+    public PlayFabManager playFabManager;
+    public GameObject hidegamepanel;
+    public AudioSource winSound;
+    public AudioSource engineSound;
+    public AudioSource TireSound;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -22,5 +43,30 @@ public class StopWatch : MonoBehaviour
         currentTime = currentTime + Time.deltaTime;
         TimeSpan time = TimeSpan.FromSeconds(currentTime);
         currentTimeText.text = time.ToString(@"mm\:ss\:ff");
+
+        score = Mathf.RoundToInt(currentTime * multiplier);
+        scoreText.text = score.ToString();
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Player")
+        {
+            Debug.Log("Finish");
+            playFabManager.SendLeaderboard(score);
+            completedPanel.SetActive(true);
+            completeTimeEnd.text = currentTimeText.text;
+            Time.timeScale = 0.5f;
+            hidegamepanel.SetActive(false);
+            engineSound.Pause();
+            TireSound.Pause();
+            playwinsound();
+        }
+    }
+
+    private void playwinsound()
+    {
+        //wait for the second 
+        Invoke("winSound", 1f);
     }
 }

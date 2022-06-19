@@ -9,6 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Menu.unity
     guid: ff56ebe64ff9d1f468ffab4d0e56ae65
   - enabled: 1
-    path: Assets/Scenes/japan.unity
+    path: Assets/Scenes/Green Forest.unity
     guid: ac751aefc7f7b4e4da9971ae9dfd9453
   m_configObjects: {}

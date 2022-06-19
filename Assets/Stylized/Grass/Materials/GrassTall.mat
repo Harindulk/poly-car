@@ -80,7 +80,7 @@ Material:
     - _Billboard: 0
     - _Blend: 0
     - _BumpScale: 1
-    - _ColorMapHeight: 1
+    - _ColorMapHeight: 0
     - _ColorMapStrength: 1
     - _Cull: 0
     - _Cutoff: 0.5
