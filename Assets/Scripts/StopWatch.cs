@@ -7,7 +7,6 @@ using UnityEngine.UI;
 using PlayFab;
 using PlayFab.ClientModels;
 
-
 public class StopWatch : MonoBehaviour
 {
     public TMP_Text currentTimeText;
@@ -17,7 +16,7 @@ public class StopWatch : MonoBehaviour
     public float multiplier = 5;
 
     public GameObject completedPanel;
-    public TMP_Text completeTimeEnd; 
+    public TMP_Text completeTimeEnd;
 
     public static StopWatch instance;
     public PlayFabManager playFabManager;
@@ -25,6 +24,7 @@ public class StopWatch : MonoBehaviour
     public AudioSource winSound;
     public AudioSource engineSound;
     public AudioSource TireSound;
+    public GameObject winDisable;
 
     private void Awake()
     {
@@ -60,13 +60,9 @@ public class StopWatch : MonoBehaviour
             hidegamepanel.SetActive(false);
             engineSound.Pause();
             TireSound.Pause();
-            playwinsound();
+
+            winDisable.SetActive(false);
         }
     }
 
-    private void playwinsound()
-    {
-        //wait for the second 
-        Invoke("winSound", 1f);
-    }
 }

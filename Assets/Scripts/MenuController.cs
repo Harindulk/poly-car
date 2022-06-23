@@ -12,10 +12,12 @@ using UnityEngine.Rendering;
 public class MenuController : MonoBehaviour
 {
     public RenderPipelineAsset[] qualitylevels;
-    public AudioMixer audiomixer;
+    public AudioMixer uiMixer;
+    public AudioMixer gameMixer;
+    public AudioMixer vehicleMixer;
     public TMP_Dropdown resolutionDropdown;
     public TMP_Dropdown qualityDropdown;
-    Resolution [] resolutions;
+    Resolution[] resolutions;
 
 
     void Start()
@@ -43,18 +45,28 @@ public class MenuController : MonoBehaviour
         resolutionDropdown.RefreshShownValue();
 
         qualityDropdown.value = QualitySettings.GetQualityLevel();
-    }    
+    }
+
+    //audio
+    public void uiVolume(float uiVolume)
+    {
+        uiMixer.SetFloat("uiVolume", uiVolume);
+    }
+    public void GameMusic(float ingameMusic)
+    {
+        gameMixer.SetFloat("ingameMusic", ingameMusic);
+    }
+    public void VehicleVolume(float vehicleVolume)
+    {
+        vehicleMixer.SetFloat("vehicleVolume", vehicleVolume);
+    }
+
 
     public void SetResolution(int resolutionIndex)
     {
         Resolution resolution = resolutions[resolutionIndex];
         Screen.SetResolution(resolution.width, resolution.height, Screen.fullScreen);
     }
-
-    public void SetVolume(float uiVolume)
-    {
-        audiomixer.SetFloat("uiVolume", uiVolume);
-    } 
 
     public void SetQuality(int value)
     {
@@ -65,9 +77,12 @@ public class MenuController : MonoBehaviour
     public void SetFullscreen(bool isFullscreen)
     {
         Screen.fullScreen = isFullscreen;
+        SaveGame.Save<bool>("isFullscreen", isFullscreen);
+
+
     }
 
-    public void quit ()
+    public void quit()
     {
         Application.Quit();
     }
@@ -106,4 +121,5 @@ public class MenuController : MonoBehaviour
     {
         SceneManager.LoadScene("Green Forest");
     }
+
 }

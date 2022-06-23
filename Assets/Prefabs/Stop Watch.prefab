@@ -53,7 +53,14 @@ MonoBehaviour:
   currentTimeText: {fileID: 3721879905253779281}
   scoreText: {fileID: 0}
   multiplier: 5
+  completedPanel: {fileID: 0}
+  completeTimeEnd: {fileID: 0}
   playFabManager: {fileID: 0}
+  hidegamepanel: {fileID: 0}
+  winSound: {fileID: 0}
+  engineSound: {fileID: 0}
+  TireSound: {fileID: 0}
+  winDisable: {fileID: 0}
 --- !u!1 &3721879905253779287
 GameObject:
   m_ObjectHideFlags: 0

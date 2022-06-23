@@ -4846,8 +4846,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5df6be62267bfe54ca057e172e2db5f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audiomixer: {fileID: 24100000, guid: 54be119e2d34e2c4d946b4d02988a4a4, type: 2}
+  qualitylevels: []
+  uiMixer: {fileID: 0}
+  gameMixer: {fileID: 0}
+  vehicleMixer: {fileID: 0}
   resolutionDropdown: {fileID: 6644424183947009439}
+  qualityDropdown: {fileID: 0}
 --- !u!1 &6644424182670892576
 GameObject:
   m_ObjectHideFlags: 0

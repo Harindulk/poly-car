@@ -129,7 +129,7 @@ public class PlayFabManager : MonoBehaviour
             texts[1].text = item.DisplayName;
             texts[2].text = item.StatValue.ToString();
         }
-    }
 
+    }
 
 }
