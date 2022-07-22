@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using TMPro;
-using BayatGames.SaveGameFree;
 using UnityEngine.Audio;
 using UnityEngine.Rendering;
 
@@ -18,10 +17,31 @@ public class MenuController : MonoBehaviour
     public TMP_Dropdown resolutionDropdown;
     public TMP_Dropdown qualityDropdown;
     Resolution[] resolutions;
+    
+    //for load
+    private float uiValue; 
+    private float gameVolumeValue; 
+    private float vehicleVolumeValue; 
+    
+    [SerializeField] private int resolutionIndexInt;
+    [SerializeField] private int qualityLevelInt;
+    
+    [SerializeField] private bool isFullscreenValue;
 
+    //slider
+    [SerializeField] private Slider uiSlider; 
+    [SerializeField] private Slider gameVolumeSlider; 
+    [SerializeField] private Slider vehicleVolumeSlider; 
+    [SerializeField] private Toggle fullscreenToggle;
+    
 
     void Start()
     {
+        //load
+        uiSlider.value = PlayerPrefs.GetFloat("uiVolume", uiValue);
+        gameVolumeSlider.value = PlayerPrefs.GetFloat("ingameMusic", gameVolumeValue);
+        vehicleVolumeSlider.value = PlayerPrefs.GetFloat("vehicleVolume", vehicleVolumeValue);
+
         resolutions = Screen.resolutions;
 
         resolutionDropdown.ClearOptions();
@@ -48,19 +68,21 @@ public class MenuController : MonoBehaviour
     }
 
     //audio
-    public void uiVolume(float uiVolume)
+    public void uiVolumes(float uiValue)
     {
-        uiMixer.SetFloat("uiVolume", uiVolume);
+        uiMixer.SetFloat("uiVolume", uiValue);
+        PlayerPrefs.SetFloat("uiVolume", uiValue);
     }
-    public void GameMusic(float ingameMusic)
+    public void GameMusic(float gameVolumeValue)
     {
-        gameMixer.SetFloat("ingameMusic", ingameMusic);
+        gameMixer.SetFloat("ingameMusic", gameVolumeValue);
+        PlayerPrefs.SetFloat("ingameMusic", gameVolumeValue);
     }
-    public void VehicleVolume(float vehicleVolume)
+    public void VehicleVolume(float vehicleVolumeValue)
     {
-        vehicleMixer.SetFloat("vehicleVolume", vehicleVolume);
+        vehicleMixer.SetFloat("vehicleVolume", vehicleVolumeValue);
+        PlayerPrefs.SetFloat("vehicleVolume", vehicleVolumeValue);
     }
-
 
     public void SetResolution(int resolutionIndex)
     {
@@ -74,11 +96,13 @@ public class MenuController : MonoBehaviour
         QualitySettings.renderPipeline = qualitylevels[value];
     }
 
-    public void SetFullscreen(bool isFullscreen)
+    public void SetFullscreen(bool isFullscreenValue)
     {
-        Screen.fullScreen = isFullscreen;
-        SaveGame.Save<bool>("isFullscreen", isFullscreen);
+        Screen.fullScreen = isFullscreenValue;
+    }
 
+    private void OnApplicationQuit()
+    {
 
     }
 
@@ -120,6 +144,11 @@ public class MenuController : MonoBehaviour
     public void GreenForest()
     {
         SceneManager.LoadScene("Green Forest");
+    }
+    
+    public void SaveSettings()
+    {
+
     }
 
 }

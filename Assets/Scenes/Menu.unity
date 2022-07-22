@@ -1515,7 +1515,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1804356583}
         m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
-        m_MethodName: uiVolume
+        m_MethodName: uiVolumes
         m_Mode: 0
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12453,7 +12453,7 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 1804356583}
         m_TargetAssemblyTypeName: MenuController, Assembly-CSharp
-        m_MethodName: SaveBack
+        m_MethodName: SaveSettings
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -12877,6 +12877,15 @@ MonoBehaviour:
   vehicleMixer: {fileID: 24100000, guid: 0b2ef69f3ad9b3d48b76952e35d392e4, type: 2}
   resolutionDropdown: {fileID: 957053773}
   qualityDropdown: {fileID: 1431643946}
+  uiValue: 0
+  gameVolumeValue: 0
+  vehicleVolumeValue: 0
+  resolutionIndexInt: 0
+  qualityLevelInt: 0
+  isFullscreenBool: 0
+  uiSlider: {fileID: 399579879}
+  gameVolumeSlider: {fileID: 398003868}
+  vehicleVolumeSlider: {fileID: 198950937}
 --- !u!114 &1804356584
 MonoBehaviour:
   m_ObjectHideFlags: 0

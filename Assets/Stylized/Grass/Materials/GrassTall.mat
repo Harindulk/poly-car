@@ -22,7 +22,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: GrassTall
   m_Shader: {fileID: 4800000, guid: d7dd1c3f4cba1d441a7d295a168bac0d, type: 3}
-  m_ShaderKeywords: _ADVANCED_LIGHTING
+  m_ShaderKeywords: _ADVANCED_LIGHTING _ENVIRONMENTREFLECTIONS_OFF
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
@@ -74,7 +74,7 @@ Material:
     - _AlphaClip: 0
     - _AlphaToCoverage: 1
     - _AngleFading: 0
-    - _BendFlattenStrength: 1
+    - _BendFlattenStrength: 0
     - _BendMode: 0
     - _BendPushStrength: 1
     - _Billboard: 0
@@ -83,19 +83,19 @@ Material:
     - _ColorMapHeight: 0
     - _ColorMapStrength: 1
     - _Cull: 0
-    - _Cutoff: 0.5
+    - _Cutoff: 0.811
     - _Darkening: 0.1
     - _DisableBending: 0
     - _DisableDecals: 0
     - _DstBlend: 0
-    - _EnvironmentReflections: 1
+    - _EnvironmentReflections: 0
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
     - _LightingMode: 2
     - _Metallic: 0
     - _OcclusionIndirectStrength: 0.25
-    - _OcclusionStrength: 0
+    - _OcclusionStrength: 0.3
     - _PerspectiveCorrection: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
@@ -108,11 +108,11 @@ Material:
     - _SpherifyNormals: 0
     - _SrcBlend: 1
     - _Surface: 0
-    - _Translucency: 0.2
-    - _TranslucencyFalloff: 4
+    - _Translucency: 0
+    - _TranslucencyFalloff: 1
     - _TranslucencyIndirect: 0
     - _TranslucencyOffset: 0
-    - _VertexDarkening: 0.1
+    - _VertexDarkening: 1
     - _WindAmbientStrength: 0.2
     - _WindGustFreq: 4
     - _WindGustStrength: 0.31
@@ -126,14 +126,14 @@ Material:
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 0.425876, g: 0.745283, b: 0, a: 1}
-    - _BendTint: {r: 0.8, g: 0.8, b: 0.8, a: 1}
+    - _BaseColor: {r: 1, g: 0.28773582, b: 0.28773582, a: 1}
+    - _BendTint: {r: 1, g: 1, b: 1, a: 1}
     - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _FadeParams: {r: 35.148514, g: 95.049484, b: 1, a: 0}
-    - _HueVariation: {r: 1, g: 0.63, b: 0, a: 0.15}
+    - _HueVariation: {r: 0.9759525, g: 1, b: 0, a: 0.15}
     - _LODDebugColor: {r: 1, g: 1, b: 1, a: 1}
-    - _NormalParams: {r: 0.401, g: 1, b: 0, a: 0}
+    - _NormalParams: {r: 0, g: 0.331, b: 1, a: 0}
     - _ScalemapInfluence: {r: 0, g: 1, b: 0, a: 0}
     - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
     - _WindDirection: {r: 1, g: 0, b: 0, a: 0}

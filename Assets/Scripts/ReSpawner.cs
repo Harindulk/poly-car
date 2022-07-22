@@ -5,10 +5,14 @@ using UnityEngine;
 public class ReSpawner : MonoBehaviour
 {
     [SerializeField] private Transform player;
-    [SerializeField] private Rigidbody CarRb;
-    [SerializeField] private Transform respawnPoint;
     [SerializeField] private GameObject blackPanel;
     [SerializeField] private AutoRespawner AutoRespawner;
+    [SerializeField] private Rigidbody CarRb;
+
+    private void Start()
+    {
+        CarRb = player.GetComponent<Rigidbody>();
+    }
 
     void OnTriggerEnter(Collider other)
     {
