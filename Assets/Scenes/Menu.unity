@@ -10431,7 +10431,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 830.58044, y: -748.2799}
+  m_AnchoredPosition: {x: 830.58044, y: -662}
   m_SizeDelta: {x: 1331.161, y: 99.604}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1698396404
@@ -10724,7 +10724,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: v2022.6.14a
+  m_text: v2022.8.30a
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f5d4f771e14388147a87612ad5984d64, type: 2}
   m_sharedMaterial: {fileID: 2060521762745726808, guid: f5d4f771e14388147a87612ad5984d64,
@@ -10990,7 +10990,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -528.99994, y: -128}
+  m_AnchoredPosition: {x: -528.99994, y: -41.720085}
   m_SizeDelta: {x: 600, y: 129}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1717984229
@@ -11337,7 +11337,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: poly car
+  m_text: micro rally
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f5d4f771e14388147a87612ad5984d64, type: 2}
   m_sharedMaterial: {fileID: 2060521762745726808, guid: f5d4f771e14388147a87612ad5984d64,
@@ -11373,7 +11373,7 @@ MonoBehaviour:
   m_fontSizeMin: 18
   m_fontSizeMax: 72
   m_fontStyle: 1
-  m_HorizontalAlignment: 2
+  m_HorizontalAlignment: 1
   m_VerticalAlignment: 1024
   m_textAlignment: 65535
   m_characterSpacing: 0
@@ -11402,7 +11402,7 @@ MonoBehaviour:
   m_VertexBufferAutoSizeReduction: 0
   m_useMaxVisibleDescender: 1
   m_pageToDisplay: 1
-  m_margin: {x: 0, y: 0, z: 0, w: 0}
+  m_margin: {x: 145.66153, y: 0, z: 0, w: 0}
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_hasFontAssetChanged: 0
@@ -12912,7 +12912,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1828449900
 RectTransform:
   m_ObjectHideFlags: 0
@@ -13510,7 +13510,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 872.45, y: -498}
+  m_AnchoredPosition: {x: 872.45, y: -411.7201}
   m_SizeDelta: {x: 1414.88, y: 188.143}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1853019377
@@ -13533,7 +13533,11 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: The Multiplayer part of the game is fully handled by using Azure Playfab.
+  m_text: 'a game by Harindu Fonseka ( aka harindulk on google)
+
+
+    The Multiplayer
+    part of the game is fully handled by using Azure Playfab.'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: f5d4f771e14388147a87612ad5984d64, type: 2}
   m_sharedMaterial: {fileID: 2100000, guid: cff3840e9be75c04ea94e6a2d8a8b4e0, type: 2}
