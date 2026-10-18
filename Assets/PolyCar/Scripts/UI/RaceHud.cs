@@ -101,7 +101,7 @@ namespace PolyCar
             centerBox.Add(_center); centerBox.Add(_sub);
             _root.Add(centerBox);
 
-            _hint = UiKit.Label("R  respawn     C  camera     Q  look back     ESC  pause", "hud-hint");
+            _hint = UiKit.Label("SPACE  drift     SHIFT  boost     R  respawn     C  camera     Q  look back     ESC  pause", "hud-hint");
             _root.Add(_hint);
             _fps = UiKit.Label("", "hud-fps");
             _root.Add(_fps);

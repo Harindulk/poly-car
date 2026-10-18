@@ -44,6 +44,18 @@ Vortex R (5) and Zenith X (7) unlock with medals. Each has its own top speed, ac
 - Settings: resolution, window mode, vsync, FPS cap, quality preset, render scale, motion blur, volumes,
   units, camera, shake, FPS counter, progress reset.
 
+## What's new in 2.0 (2026 remaster)
+
+- Upgraded from Unity 2021.2 to Unity 6.6 (URP 17, Render Graph, Input System, UI Toolkit).
+- New driving model, AI rivals, ghosts, splits, medals, unlockable cars, drift scoring and boost.
+- Two new circuits (Sakura Ring, Dust Canyon) built by a procedural map generator; Green Forest fixed
+  (it had no respawn points, a broken finish trigger and a duplicated script that stopped compilation).
+- Removed duplicate asset folders whose copied `.meta` files shared GUIDs (Unity was silently re-mapping
+  car models, URP quality assets and post-processing profiles), and the PlayFab login that signed every
+  player into the same account.
+- Smooth on PC: on an Apple M5 at 1080p High every track holds about 110-120 fps with a 99th-percentile
+  frame time under 16 ms (`-benchmark` mode, see below).
+
 ## Build
 
 Open the project in **Unity 6000.6.0f1** (with Windows Build Support), then use the menu
@@ -55,7 +67,9 @@ Batch mode:
 Unity -batchmode -quit -projectPath <path> -executeMethod PolyCar.Editor.SceneBuilders.BuildWindows -logFile build.log
 ```
 
-Launch the build with `-autopilot` to let the AI drive your car (benchmark / attract mode).
+Launch options: `-map <green_forest|sakura_ring|dust_canyon>` (skip the menu), `-car <id>`,
+`-autopilot` (the AI drives your car), `-benchmark` (60 s autopilot run, writes `benchmark.txt` to the save
+folder and quits), `-benchmarkSeconds <n>`, `-mute`, `-keyboardbot` (AI with keyboard-style inputs).
 
 ## Project layout
 
