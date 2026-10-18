@@ -50,11 +50,15 @@ namespace PolyCar.Editor
         [MenuItem("Poly Car/Maps/Build Dust Canyon")]
         public static void BuildCanyon() => Build(CanyonTrack(), CanyonTheme(), DecorateCanyon);
 
+        [MenuItem("Poly Car/Maps/Build Frost Peak")]
+        public static void BuildFrost() => Build(FrostTrack(), FrostTheme(), DecorateFrost);
+
         [MenuItem("Poly Car/Maps/Build All")]
         public static void BuildAllMaps()
         {
             BuildSakura();
             BuildCanyon();
+            BuildFrost();
             PolyCarSetup.BuildMapCatalog();
         }
 
@@ -120,6 +124,35 @@ namespace PolyCar.Editor
                 ("Assets/Prefabs/Shrub.prefab", 1.2f, 0.4f, 0.8f, 6f),
             },
             sceneryCount = 500, mountainHeight = 95f, hillNoise = 5f, saturation = 10f,
+        };
+
+        private static Track FrostTrack() => new Track
+        {
+            sceneName = "Frost Peak", seed = 33, halfWidth = 7f,
+            control = new[]
+            {
+                new Vector3(0, 20, 0), new Vector3(180, 22, 10), new Vector3(300, 28, 80), new Vector3(330, 34, 200),
+                new Vector3(250, 40, 300), new Vector3(120, 44, 320), new Vector3(40, 40, 250), new Vector3(-40, 34, 300),
+                new Vector3(-160, 30, 330), new Vector3(-280, 26, 250), new Vector3(-300, 22, 120), new Vector3(-220, 20, 30),
+                new Vector3(-100, 18, -10),
+            },
+        };
+
+        private static Theme FrostTheme() => new Theme
+        {
+            key = "frost",
+            grassA = new Color(0.9f, 0.93f, 0.98f), grassB = new Color(0.83f, 0.87f, 0.95f), rock = new Color(0.42f, 0.45f, 0.52f),
+            dirt = new Color(0.62f, 0.63f, 0.67f), snow = new Color(0.97f, 0.98f, 1f),
+            skyTint = new Color(0.5f, 0.6f, 0.82f), groundColor = new Color(0.7f, 0.72f, 0.8f), fog = new Color(0.82f, 0.86f, 0.94f),
+            sun = new Color(1f, 0.86f, 0.74f), ambientSky = new Color(0.7f, 0.76f, 0.92f), ambientEquator = new Color(0.78f, 0.8f, 0.88f), ambientGround = new Color(0.5f, 0.52f, 0.6f),
+            fogDensity = 0.0026f, sunEuler = new Vector3(18f, -60f, 0f), sunIntensity = 1.25f, exposure = 1.15f,
+            scenery = new[]
+            {
+                ("Assets/Prefabs/SGS_SpruceTree.prefab", 6f, 0.9f, 1.6f, 9f),
+                ("Assets/Prefabs/DemoSpruce.prefab", 2f, 0.9f, 1.5f, 9f),
+                ("Assets/Prefabs/SGS_DemoRock.prefab", 1f, 0.5f, 1.4f, 7f),
+            },
+            sceneryCount = 1300, mountainHeight = 110f, hillNoise = 9f, saturation = 5f,
         };
 
         // ------------------------------------------------------------------ build
@@ -783,6 +816,33 @@ namespace PolyCar.Editor
                 if (NearestRoad(c, p.x, p.z, out _) < c.track.halfWidth + 5f) continue;
                 p.y = c.heightAt(p.x, p.z);
                 Cactus(parent, p, Mathf.Lerp(2.5f, 5.5f, (float)c.rnd.NextDouble()), cactus, c.rnd);
+            }
+        }
+
+        private static void DecorateFrost(Ctx c)
+        {
+            var parent = new GameObject("Frost").transform; parent.SetParent(c.root, false);
+            var red = Mat(c, "poleRed", new Color(0.85f, 0.15f, 0.12f), 0.3f);
+            var white = Mat(c, "poleWhite", new Color(0.95f, 0.95f, 0.95f), 0.3f);
+            int m = c.center.Count;
+            float hw = c.track.halfWidth;
+            // Red/white snow marker poles along both edges.
+            for (int i = 0; i < m; i += 10)
+                foreach (int side in new[] { -1, 1 })
+                {
+                    Vector3 right = Vector3.Cross(Vector3.up, Heading(c, i));
+                    Vector3 p = c.center[i] + right * side * (hw + 2.4f);
+                    p.y = c.heightAt(p.x, p.z);
+                    var rot = Quaternion.LookRotation(Heading(c, i), Vector3.up);
+                    Box(parent, "PoleW", p + Vector3.up * 0.6f, rot, new Vector3(0.12f, 1.2f, 0.12f), white, false);
+                    Box(parent, "PoleR", p + Vector3.up * 1.55f, rot, new Vector3(0.13f, 0.7f, 0.13f), red, false);
+                }
+            // Snow-capped peaks around the valley.
+            var peaks = new[] { new Vector3(c.maxX + 520f, -20f, c.maxZ + 380f), new Vector3(c.minX - 600f, -20f, c.maxZ + 520f), new Vector3(c.minX - 420f, -20f, c.minZ - 520f), new Vector3(c.maxX + 300f, -20f, c.minZ - 640f) };
+            for (int k = 0; k < peaks.Length; k++)
+            {
+                var cone = Cone(c, "Peak" + k, 380f + k * 40f, 300f + (k % 2) * 90f, 14 + k, peaks[k], c.mats["rock"], c.mats["snow"], 0.55f);
+                cone.transform.SetParent(parent, true);
             }
         }
 

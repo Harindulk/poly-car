@@ -23,6 +23,7 @@ Medals (bronze, silver, gold) on each track earn stars, and stars unlock cars in
 
 - **Green Forest**: the original 4.1 km point-to-point mountain stage.
 - **Sakura Ring**: 1.7 km lakeside circuit with cherry blossoms, torii gates and Mount Fuji (3 laps by default).
+- **Frost Peak**: 1.7 km snowy mountain loop with spruce forest and frozen peaks (3 laps by default).
 - **Dust Canyon**: 3.2 km desert circuit through mesas (2 laps by default).
 
 ## Cars
@@ -48,7 +49,7 @@ Vortex R (5) and Zenith X (7) unlock with medals. Each has its own top speed, ac
 
 - Upgraded from Unity 2021.2 to Unity 6.6 (URP 17, Render Graph, Input System, UI Toolkit).
 - New driving model, AI rivals, ghosts, splits, medals, unlockable cars, drift scoring and boost.
-- Two new circuits (Sakura Ring, Dust Canyon) built by a procedural map generator; Green Forest fixed
+- Three new circuits (Sakura Ring, Frost Peak, Dust Canyon) built by a procedural map generator; Green Forest fixed
   (it had no respawn points, a broken finish trigger and a duplicated script that stopped compilation).
 - Removed duplicate asset folders whose copied `.meta` files shared GUIDs (Unity was silently re-mapping
   car models, URP quality assets and post-processing profiles), and the PlayFab login that signed every

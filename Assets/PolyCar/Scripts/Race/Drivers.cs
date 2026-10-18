@@ -98,6 +98,7 @@ namespace PolyCar
             float aLat = lateralGrip * skill;
             float corner = path.SpeedLimitAt(d + Mathf.Max(0f, speed) * 0.25f, aLat, 13f * skill);
             float desired = Mathf.Min(_car.TopSpeed * _car.SpeedMultiplier, corner);
+            if (_racer.Finished) desired = Mathf.Min(desired, 16f); // cool-down lap after the line
             float maxCurv = path.CurvatureAhead(d, 40f);
 
             // Big heading error (recovering, hairpin): slow right down so the car can come round.
@@ -123,7 +124,7 @@ namespace PolyCar
                 _reverseTimer -= Time.deltaTime;
                 input = new DriveInput { Brake = 1f, Steer = _reverseSteer };
             }
-            else if (Mathf.Abs(speed) < 1.5f && !_racer.Finished)
+            else if (Mathf.Abs(speed) < 1.5f)
             {
                 _stuckTimer += Time.deltaTime;
                 if (_stuckTimer > 2.5f)
@@ -135,7 +136,6 @@ namespace PolyCar
             }
             else _stuckTimer = Mathf.Max(0f, _stuckTimer - Time.deltaTime * 2f);
 
-            if (_racer.Finished) input = new DriveInput { Throttle = 0.25f, Steer = input.Steer };
             if (keyboardStyle)
             {
                 // Digital keys: a held key is +-1; small corrections become short taps (dither by time).

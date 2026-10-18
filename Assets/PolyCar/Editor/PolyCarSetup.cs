@@ -585,6 +585,12 @@ Thanks for playing!";
             },
             new MapSpec
             {
+                id = "frost_peak", displayName = "Frost Peak", sceneName = "Frost Peak", laps = 3,
+                blurb = "A climbing loop through snowy spruce forest under frozen peaks. Mind the crests.",
+                goldTime = 148f, silverTime = 166f, bronzeTime = 192f, lengthLabel = "1.7 KM", accent = new Color(0.55f, 0.8f, 1f),
+            },
+            new MapSpec
+            {
                 id = "dust_canyon", displayName = "Dust Canyon", sceneName = "Dust Canyon", laps = 2,
                 blurb = "Fast sweepers through red-rock desert mesas. Flat out, if you dare.",
                 goldTime = 158f, silverTime = 178f, bronzeTime = 205f, lengthLabel = "3.2 KM", accent = new Color(1f, 0.5f, 0.2f),
