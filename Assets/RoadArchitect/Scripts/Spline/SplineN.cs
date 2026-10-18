@@ -1092,11 +1092,11 @@ namespace RoadArchitect
         public Material[] shoulderCutLMarkerMats;
 
         [UnityEngine.Serialization.FormerlySerializedAs("RoadCut_PhysicMat")]
-        public PhysicMaterial roadCutPhysicMat;
+        public PhysicsMaterial roadCutPhysicMat;
         [UnityEngine.Serialization.FormerlySerializedAs("ShoulderCutR_PhysicMat")]
-        public PhysicMaterial shoulderCutRPhysicMat;
+        public PhysicsMaterial shoulderCutRPhysicMat;
         [UnityEngine.Serialization.FormerlySerializedAs("ShoulderCutL_PhysicMat")]
-        public PhysicMaterial shoulderCutLPhysicMat;
+        public PhysicsMaterial shoulderCutLPhysicMat;
 
 
         /// <summary> Stores the cut materials. For use in UpdateCuts(). See UpdateCuts() in this code file for further description of this system. </summary>

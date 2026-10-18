@@ -128,7 +128,7 @@ namespace StylizedWater
         private Camera InitializeReflectionCamera()
         {
             var go = new GameObject("", typeof(Camera));
-            go.name = "Reflection Camera [" + go.GetInstanceID() + "]";
+            go.name = "Reflection Camera [" + go.GetEntityId() + "]";
             var camData = go.AddComponent(typeof(UnityEngine.Rendering.Universal.UniversalAdditionalCameraData)) as UnityEngine.Rendering.Universal.UniversalAdditionalCameraData;
 
             camData.requiresColorOption = CameraOverrideOption.Off;

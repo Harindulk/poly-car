@@ -77,8 +77,8 @@ namespace RoadArchitect
         private SerializedProperty shoulderMaterialMarker2;
         private SerializedProperty shoulderMaterialMarker3;
         private SerializedProperty shoulderMaterialMarker4;
-        private SerializedProperty roadPhysicMaterial;
-        private SerializedProperty shoulderPhysicMaterial;
+        private SerializedProperty roadPhysicsMaterial;
+        private SerializedProperty shoulderPhysicsMaterial;
         #endregion
 
         //Editor only variables:
@@ -167,8 +167,8 @@ namespace RoadArchitect
             shoulderMaterialMarker2 = serializedObject.FindProperty("ShoulderMaterialMarker2");
             shoulderMaterialMarker3 = serializedObject.FindProperty("ShoulderMaterialMarker3");
             shoulderMaterialMarker4 = serializedObject.FindProperty("ShoulderMaterialMarker4");
-            roadPhysicMaterial = serializedObject.FindProperty("RoadPhysicMaterial");
-            shoulderPhysicMaterial = serializedObject.FindProperty("ShoulderPhysicMaterial");
+            roadPhysicsMaterial = serializedObject.FindProperty("RoadPhysicsMaterial");
+            shoulderPhysicsMaterial = serializedObject.FindProperty("ShoulderPhysicsMaterial");
         }
 
 
@@ -623,13 +623,13 @@ namespace RoadArchitect
             //Physics materials:
             GUILayout.Label("Physics materials defaults:");
             //Option: physical road mat:
-            //		t_RoadPhysicMaterial.serializedObject = (PhysicMaterial)EditorGUILayout.ObjectField("  Road mat: ",RS.RoadPhysicMaterial,typeof(PhysicMaterial),false);
-            EditorGUILayout.PropertyField(roadPhysicMaterial, new GUIContent("Road phys mat: "));
+            //		t_RoadPhysicsMaterial.serializedObject = (PhysicsMaterial)EditorGUILayout.ObjectField("  Road mat: ",RS.RoadPhysicsMaterial,typeof(PhysicsMaterial),false);
+            EditorGUILayout.PropertyField(roadPhysicsMaterial, new GUIContent("Road phys mat: "));
 
 
             //Option: physical shoulder mat:
-            //		t_ShoulderPhysicMaterial.serializedObject = (PhysicMaterial)EditorGUILayout.ObjectField("  Shoulder mat: ",RS.ShoulderPhysicMaterial,typeof(PhysicMaterial),false);
-            EditorGUILayout.PropertyField(shoulderPhysicMaterial, new GUIContent("Shoulder phys mat: "));
+            //		t_ShoulderPhysicsMaterial.serializedObject = (PhysicsMaterial)EditorGUILayout.ObjectField("  Shoulder mat: ",RS.ShoulderPhysicsMaterial,typeof(PhysicsMaterial),false);
+            EditorGUILayout.PropertyField(shoulderPhysicsMaterial, new GUIContent("Shoulder phys mat: "));
 
 
             GUILayout.Space(4);

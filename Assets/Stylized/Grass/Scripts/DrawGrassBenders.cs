@@ -1,4 +1,4 @@
-﻿//Stylized Grass Shader
+//Stylized Grass Shader
 //Staggart Creations (http://staggart.xyz)
 //Copyright protected under Unity Asset Store EULA
 
@@ -31,7 +31,7 @@ namespace StylizedGrass
             
             private bool trailEnabled;
 
-            public override void Configure(CommandBuffer cmd, RenderTextureDescriptor cameraTextureDescriptor)
+            private void EnsureInit()
             {
                 //Note: may conflict with existing property blocks but this is an edge case
                 if (props == null) props = new MaterialPropertyBlock();
@@ -44,13 +44,30 @@ namespace StylizedGrass
             private ParticleSystemRenderer m_ParticleRenderer;
             public ParticleSystem.ColorOverLifetimeModule m_ParticleRendererGrad;
             
-            public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
+            private class PassData { public DrawGrassBendersPass pass; public Camera camera; }
+
+            // Unity 6 Render Graph port of the original Execute() (URP compatibility mode was removed).
+            public override void RecordRenderGraph(UnityEngine.Rendering.RenderGraphModule.RenderGraph renderGraph, ContextContainer frameData)
             {
-                var cmd = CommandBufferPool.Get(profilerSampler.name);
+                if (!StylizedGrassRenderer.Instance || !StylizedGrassRenderer.Instance.renderCam) return;
+                EnsureInit();
+                var cameraData = frameData.Get<UniversalCameraData>();
+                var resourceData = frameData.Get<UniversalResourceData>();
+                using (var builder = renderGraph.AddRasterRenderPass<PassData>(profilerTag, out var passData))
+                {
+                    passData.pass = this;
+                    passData.camera = cameraData.camera;
+                    builder.SetRenderAttachment(resourceData.activeColorTexture, 0);
+                    builder.AllowGlobalStateModification(true);
+                    builder.SetRenderFunc((PassData data, UnityEngine.Rendering.RenderGraphModule.RasterGraphContext ctx) => data.pass.Draw(ctx.cmd, data.camera));
+                }
+            }
+
+            private void Draw(RasterCommandBuffer cmd, Camera camera)
+            {
 
                 GeometryUtility.CalculateFrustumPlanes(StylizedGrassRenderer.Instance.renderCam, frustrumPlanes);
 
-                using (new ProfilingScope(cmd, profilerSampler))
                 {
                     foreach (KeyValuePair<int, List<GrassBender>> layer in StylizedGrassRenderer.GrassBenders)
                     {
@@ -85,7 +102,7 @@ namespace StylizedGrass
                                 if (!trailEnabled) m_TrailRenderer.enabled = true;
 
                                 if (b.bakedMesh == null) b.bakedMesh = new Mesh();
-                                m_TrailRenderer.BakeMesh(b.bakedMesh, renderingData.cameraData.camera, false);
+                                m_TrailRenderer.BakeMesh(b.bakedMesh, camera, false);
 
                                 cmd.DrawMesh(b.bakedMesh, Matrix4x4.identity, GrassBenderBase.TrailMaterial, 0, b.alphaBlending ? 1 : 0, props);
 
@@ -114,7 +131,7 @@ namespace StylizedGrass
                                 //Todo: Create repo project and file bug report. 
                                 //cmd.DrawRenderer(m_ParticleRenderer, m_Material, 0, 0);
                                 if (!b.bakedMesh) b.bakedMesh = new Mesh();
-                                m_ParticleRenderer.BakeMesh(b.bakedMesh, renderingData.cameraData.camera);
+                                m_ParticleRenderer.BakeMesh(b.bakedMesh, camera);
 
                                 cmd.DrawMesh(b.bakedMesh, localSpace ? m_ParticleRenderer.localToWorldMatrix : Matrix4x4.identity, GrassBenderBase.MeshMaterial, 0, b.alphaBlending ? 1 : 0, props);
 
@@ -123,7 +140,7 @@ namespace StylizedGrass
                                 {
                                     if (!b.particleTrailMesh) b.particleTrailMesh = new Mesh();
 
-                                    m_ParticleRenderer.BakeTrailsMesh(b.particleTrailMesh, renderingData.cameraData.camera);
+                                    m_ParticleRenderer.BakeTrailsMesh(b.particleTrailMesh, camera);
                                     cmd.DrawMesh(b.particleTrailMesh, localSpace ? m_ParticleRenderer.localToWorldMatrix : Matrix4x4.identity, GrassBenderBase.TrailMaterial, 1, b.alphaBlending ? 1 : 0, props);
                                     //cmd.DrawRenderer(m_ParticleRenderer, GrassBenderBase.TrailMaterial, 1, 0);
                                 }
@@ -151,7 +168,7 @@ namespace StylizedGrass
                                 m_LineRenderer.SetPropertyBlock(props);
                                 
                                 if (b.bakedMesh == null) b.bakedMesh = new Mesh();
-                                m_LineRenderer.BakeMesh(b.bakedMesh, renderingData.cameraData.camera, false);
+                                m_LineRenderer.BakeMesh(b.bakedMesh, camera, false);
 
                                 cmd.DrawMesh(b.bakedMesh, m_LineRenderer.useWorldSpace ? Matrix4x4.identity : m_LineRenderer.transform.localToWorldMatrix, GrassBenderBase.TrailMaterial, 0, b.alphaBlending ? 1 : 0, props);
                                 
@@ -161,8 +178,6 @@ namespace StylizedGrass
                         }
                     }
                 }
-                context.ExecuteCommandBuffer(cmd);
-                CommandBufferPool.Release(cmd);
             }
 
             /// Cleanup any allocated resources that were created during the execution of this render pass.

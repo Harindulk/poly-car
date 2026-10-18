@@ -1,4 +1,4 @@
-﻿//━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━																												
+//━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━																												
 // Copyright 2020, Alexander Ameye, All rights reserved.
 // https://alexander-ameye.gitbook.io/stylized-water/
 //━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━	
@@ -25,9 +25,18 @@ namespace StylizedWater
             this.waterLevel = waterLevel;
         }
 
-        public override void Execute(ScriptableRenderContext context, ref RenderingData renderingData)
+        private class PassData
         {
-            var cam = renderingData.cameraData.camera;
+            public Material material;
+            public Matrix4x4 matrix;
+        }
+
+        // Unity 6 Render Graph port of the original Execute() (URP compatibility mode was removed).
+        public override void RecordRenderGraph(UnityEngine.Rendering.RenderGraphModule.RenderGraph renderGraph, ContextContainer frameData)
+        {
+            var cameraData = frameData.Get<UniversalCameraData>();
+            var resourceData = frameData.Get<UniversalResourceData>();
+            var cam = cameraData.camera;
 
             if (cam.cameraType == CameraType.Preview || !causticsMaterial) return;
 
@@ -36,16 +45,22 @@ namespace StylizedWater
                         : Matrix4x4.TRS(Vector3.zero, Quaternion.Euler(-45f, 45f, 0f), Vector3.one);
             causticsMaterial.SetMatrix("_MainLightDirection", sunMatrix);
 
-            CommandBuffer cmd = CommandBufferPool.Get(profilerTag);
-
             if (!mesh) mesh = GenerateQuad(1000f);
             var position = cam.transform.position;
             position.y = cam.transform.position.y > waterLevel ? waterLevel : cam.transform.position.y - BIAS;
-            var matrix = Matrix4x4.TRS(position, Quaternion.identity, Vector3.one);
-            cmd.DrawMesh(mesh, matrix, causticsMaterial, 0, 0);
 
-            context.ExecuteCommandBuffer(cmd);
-            CommandBufferPool.Release(cmd);
+            using (var builder = renderGraph.AddRasterRenderPass<PassData>(profilerTag, out var passData))
+            {
+                passData.material = causticsMaterial;
+                passData.matrix = Matrix4x4.TRS(position, Quaternion.identity, Vector3.one);
+                builder.SetRenderAttachment(resourceData.activeColorTexture, 0);
+                builder.SetRenderAttachmentDepth(resourceData.activeDepthTexture, UnityEngine.Rendering.RenderGraphModule.AccessFlags.Read);
+                builder.AllowGlobalStateModification(true);
+                builder.SetRenderFunc((PassData data, UnityEngine.Rendering.RenderGraphModule.RasterGraphContext ctx) =>
+                {
+                    ctx.cmd.DrawMesh(mesh, data.matrix, data.material, 0, 0);
+                });
+            }
         }
 
         private static Mesh GenerateQuad(float size)

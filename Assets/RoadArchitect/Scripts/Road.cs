@@ -148,8 +148,8 @@ namespace RoadArchitect
         public Material ShoulderMaterialMarker3;
         public Material ShoulderMaterialMarker4;
 
-        public PhysicMaterial RoadPhysicMaterial;
-        public PhysicMaterial ShoulderPhysicMaterial;
+        public PhysicsMaterial RoadPhysicsMaterial;
+        public PhysicsMaterial ShoulderPhysicsMaterial;
         #endregion
 
 
@@ -1485,13 +1485,13 @@ namespace RoadArchitect
                 ShoulderMaterial2 = RoadEditorUtility.LoadMaterial(basePath + "/Materials/Markers/RoadDetailOverlay1.mat");
             }
 
-            if (isShouldersEnabled && !RoadPhysicMaterial)
+            if (isShouldersEnabled && !RoadPhysicsMaterial)
             {
-                RoadPhysicMaterial = RoadEditorUtility.LoadPhysicsMaterial(basePath + "/Physics/Pavement.physicMaterial");
+                RoadPhysicsMaterial = RoadEditorUtility.LoadPhysicsMaterial(basePath + "/Physics/Pavement.physicMaterial");
             }
-            if (isShouldersEnabled && !ShoulderPhysicMaterial)
+            if (isShouldersEnabled && !ShoulderPhysicsMaterial)
             {
-                ShoulderPhysicMaterial = RoadEditorUtility.LoadPhysicsMaterial(basePath + "/Physics/Dirt.physicMaterial");
+                ShoulderPhysicsMaterial = RoadEditorUtility.LoadPhysicsMaterial(basePath + "/Physics/Dirt.physicMaterial");
             }
         }
 
@@ -1540,8 +1540,8 @@ namespace RoadArchitect
                 ShoulderMaterial1 = RoadEditorUtility.LoadMaterial(basePath + "/Materials/Shoulder1.mat");
                 ShoulderMaterial2 = RoadEditorUtility.LoadMaterial(basePath + "/Materials/Markers/RoadDetailOverlay1.mat");
 
-                RoadPhysicMaterial = RoadEditorUtility.LoadPhysicsMaterial(basePath + "/Physics/Pavement.physicMaterial");
-                ShoulderPhysicMaterial = RoadEditorUtility.LoadPhysicsMaterial(basePath + "/Physics/Dirt.physicMaterial");
+                RoadPhysicsMaterial = RoadEditorUtility.LoadPhysicsMaterial(basePath + "/Physics/Pavement.physicMaterial");
+                ShoulderPhysicsMaterial = RoadEditorUtility.LoadPhysicsMaterial(basePath + "/Physics/Dirt.physicMaterial");
             }
             else if (roadMaterialDropdown == RoadMaterialDropdownEnum.Dirt)
             {
@@ -1703,8 +1703,8 @@ namespace RoadArchitect
             road.ShoulderMaterialMarker3 = ShoulderMaterialMarker3;
             road.ShoulderMaterialMarker4 = ShoulderMaterialMarker4;
 
-            road.RoadPhysicMaterial = RoadPhysicMaterial;
-            road.ShoulderPhysicMaterial = ShoulderPhysicMaterial;
+            road.RoadPhysicsMaterial = RoadPhysicsMaterial;
+            road.ShoulderPhysicsMaterial = ShoulderPhysicsMaterial;
 
             road.spline.TriggerSetup();
 

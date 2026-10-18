@@ -2193,7 +2193,7 @@ namespace RoadArchitect
             {
                 MeshCollider MC = tObj.AddComponent<MeshCollider>();
                 MC.sharedMesh = MF.sharedMesh;
-                MC.material = road.RoadPhysicMaterial;
+                MC.material = road.RoadPhysicsMaterial;
                 MC.material.name = MC.material.name.Replace(" (Instance)", "");
             }
 
@@ -2311,7 +2311,7 @@ namespace RoadArchitect
 
                     if (MC)
                     {
-                        MC.sharedMaterial = road.RoadPhysicMaterial;
+                        MC.sharedMaterial = road.RoadPhysicsMaterial;
                     }
                 }
             }
@@ -2401,7 +2401,7 @@ namespace RoadArchitect
             _createdObj.transform.parent = _masterObj.transform;
             if (!_isMarkers && MC != null)
             {
-                MC.sharedMaterial = road.RoadPhysicMaterial;
+                MC.sharedMaterial = road.RoadPhysicsMaterial;
             }
 
             #if UNITY_EDITOR
@@ -2511,7 +2511,7 @@ namespace RoadArchitect
 
             if (!_isMarkers && MC != null)
             {
-                MC.sharedMaterial = road.ShoulderPhysicMaterial;
+                MC.sharedMaterial = road.ShoulderPhysicsMaterial;
             }
             _createdObj.transform.parent = _masterObj.transform;
 

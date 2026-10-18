@@ -57,3 +57,9 @@ sysinfo.txt
 
 # Crashlytics generated file
 crashlytics-build.properties
+
+# Unity 6 / IDE
+*.slnx
+.vscode/
+/[Uu]ser[Ss]ettings/
+/Logs/

@@ -233,7 +233,7 @@ namespace StylizedGrass
         private Camera CreateCamera()
         {
             Camera cam = new GameObject().AddComponent<Camera>();
-            cam.gameObject.name = "GrassBendCamera " + GetInstanceID();
+            cam.gameObject.name = "GrassBendCamera " + GetEntityId();
             cam.transform.localEulerAngles = new Vector3(90f, 0f, 0f);
             cam.gameObject.hideFlags = HideFlags.HideAndDontSave;
 
@@ -322,7 +322,7 @@ namespace StylizedGrass
                 wrapMode = TextureWrapMode.Clamp,
                 anisoLevel = 0,
 
-                name = "BendMap" + GetInstanceID(),
+                name = "BendMap" + GetEntityId(),
                 isPowerOfTwo = true,
                 hideFlags = HideFlags.DontSave
             };

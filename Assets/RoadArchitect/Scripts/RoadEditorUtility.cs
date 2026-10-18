@@ -124,10 +124,10 @@ namespace RoadArchitect
 
 
         /// <summary> Returns the PhysicsMaterial from _assetPath </summary>
-        public static PhysicMaterial LoadPhysicsMaterial(string _assetPath)
+        public static PhysicsMaterial LoadPhysicsMaterial(string _assetPath)
         {
             #if UNITY_EDITOR
-            return AssetDatabase.LoadAssetAtPath<PhysicMaterial>(_assetPath);
+            return AssetDatabase.LoadAssetAtPath<PhysicsMaterial>(_assetPath);
             #else
             // Here you can return your physics material loaded at runtime
             return null;
