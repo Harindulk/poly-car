@@ -221,7 +221,8 @@ Label { -unity-text-align: middle-left; white-space: normal; }
 .results-record { -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 40px; color: rgb(80, 230, 140); }
 .results-par { font-size: 19px; color: rgb(150, 158, 176); }
 .results-unlock { -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 40px; color: rgb(80, 200, 255); margin-top: 10px; }
-.results-row { flex-direction: row; align-items: center; height: 52px; padding: 0 12px; border-radius: 6px; }
+.results-row { flex-direction: row; align-items: center; height: 46px; padding: 0 12px; border-radius: 6px; }
+.results-cup-head { margin-top: 14px; color: rgb(255, 214, 80); }
 .results-row-player { background-color: rgba(255, 106, 26, 0.35); }
 .results-row-pos { width: 50px; -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 36px; }
 .results-row-name { flex-grow: 1; font-size: 26px; }

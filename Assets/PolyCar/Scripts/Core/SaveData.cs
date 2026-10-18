@@ -29,6 +29,8 @@ namespace PolyCar
         public int racesFinished;
         public int racesWon;
         public float totalDistanceKm;
+        public int cupsPlayed;
+        public int cupsWon;
 
         private static SaveData _current;
         public static SaveData Current => _current ??= Load();

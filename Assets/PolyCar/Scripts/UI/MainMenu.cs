@@ -95,6 +95,7 @@ namespace PolyCar
 
             var buttons = UiKit.Box("menu-buttons");
             buttons.Add(UiKit.Button("RACE", ShowPlay, "pc-button-big"));
+            buttons.Add(UiKit.Button("CHAMPIONSHIP", ShowCupSetup));
             buttons.Add(UiKit.Button("GARAGE", ShowGarage));
             buttons.Add(UiKit.Button("RECORDS", ShowRecords));
             buttons.Add(UiKit.Button("SETTINGS", () => ShowSettings(ShowTitle)));
@@ -196,12 +197,48 @@ namespace PolyCar
             go.schedule.Execute(() => go.Focus()).StartingIn(30);
         }
 
+        private void ShowCupSetup()
+        {
+            var st = GameSettings.Current;
+            var s = NewScreen("menu-setup", ShowTitle);
+            s.Add(Header("CHAMPIONSHIP", ShowTitle));
+            var panel = UiKit.Box("panel", "panel-setup");
+            var car = Cars.cars[_carIndex];
+            panel.Add(UiKit.Label("CAR:  " + car.displayName.ToUpper(), "panel-subtitle"));
+            panel.Add(UiKit.Label($"Race all {Maps.maps.Length} tracks back to back against the same three rivals. Points for every finish: 10, 7, 5, 3. Highest total wins the cup.", "garage-blurb"));
+            var trackList = new System.Text.StringBuilder();
+            foreach (var m in Maps.maps) trackList.Append(m.displayName.ToUpper()).Append(m.IsCircuit ? $" ({m.laps} LAPS)" : " (SPRINT)").Append("   ");
+            panel.Add(UiKit.Label(trackList.ToString(), "info-small"));
+            panel.Add(UiKit.Stepper("DIFFICULTY", () => ((Difficulty)st.difficulty).ToString().ToUpper(), d => st.difficulty = (st.difficulty + d + 3) % 3, out _));
+            panel.Add(UiKit.Label($"CUPS WON {Save.cupsWon}   -   CUPS PLAYED {Save.cupsPlayed}", "info-small"));
+            var buttons = UiKit.Box("panel-buttons-row");
+            var go = UiKit.Button("START CUP", () =>
+            {
+                st.Save();
+                GameAudio.Confirm();
+                GameFlow.StartCup(Cars.cars[_carIndex].id);
+            }, "pc-button-big", "pc-button-go");
+            buttons.Add(go);
+            buttons.Add(UiKit.Button("CHANGE CAR", () => ShowGarage(ShowCupSetup)));
+            panel.Add(buttons);
+            s.Add(panel);
+            s.Add(UiKit.Label("ENTER start   ESC back", "menu-footer"));
+            go.schedule.Execute(() => go.Focus()).StartingIn(30);
+        }
+
         private void ShowGarage() => ShowGarage(ShowTitle);
 
         private void ShowGarage(System.Action back)
         {
-            var s = NewScreen("menu-garage", back);
-            s.Add(Header("GARAGE", back));
+            // Leaving without pressing SELECT goes back to the car you actually own/selected.
+            System.Action leave = () =>
+            {
+                _carIndex = Cars.IndexOf(Save.selectedCar);
+                ShowCar(Cars.cars[_carIndex]);
+                back();
+            };
+            var s = NewScreen("menu-garage", leave);
+            s.Add(Header("GARAGE", leave));
             var panel = UiKit.Box("garage-panel");
             var car = Cars.cars[_carIndex];
             bool unlocked = Save.IsUnlocked(car);

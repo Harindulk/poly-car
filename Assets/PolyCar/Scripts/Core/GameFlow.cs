@@ -1,13 +1,67 @@
 using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UIElements;
 
 namespace PolyCar
 {
+    /// <summary>A championship in progress: every track in order against the same rivals, points per race.</summary>
+    public class CupState
+    {
+        public static readonly int[] PointsTable = { 10, 7, 5, 3, 2, 1 };
+        public string[] maps;
+        public int index;
+        public string playerCar;
+        public string[] rivalCars;
+        public string[] rivalNames;
+        public readonly Dictionary<string, int> points = new Dictionary<string, int>();
+
+        public bool IsLastRace => index >= maps.Length - 1;
+        public string CurrentMap => maps[Mathf.Clamp(index, 0, maps.Length - 1)];
+
+        public List<KeyValuePair<string, int>> Standings()
+        {
+            var list = new List<KeyValuePair<string, int>>(points);
+            list.Sort((a, b) => b.Value.CompareTo(a.Value));
+            return list;
+        }
+    }
+
     /// <summary>What the next race is (chosen in the menu) and fading scene changes.</summary>
     public static class GameFlow
     {
+        public static CupState Cup;
+        private static readonly string[] RivalNames = { "Kenji", "Maya", "Rico", "Lena", "Viktor" };
+
+        public static void StartCup(string carId)
+        {
+            var maps = MapCatalog.Instance.maps;
+            var cars = new List<string>();
+            foreach (var c in CarCatalog.Instance.cars) if (c.id != carId) cars.Add(c.id);
+            for (int i = cars.Count - 1; i > 0; i--) { int j = Random.Range(0, i + 1); (cars[i], cars[j]) = (cars[j], cars[i]); }
+            int rivals = Mathf.Min(3, cars.Count);
+            Cup = new CupState
+            {
+                maps = System.Array.ConvertAll(maps, m => m.id),
+                index = 0,
+                playerCar = carId,
+                rivalCars = cars.GetRange(0, rivals).ToArray(),
+                rivalNames = new List<string>(RivalNames).GetRange(0, rivals).ToArray(),
+            };
+            Cup.points["You"] = 0;
+            foreach (var n in Cup.rivalNames) Cup.points[n] = 0;
+            Laps = -1;
+            StartRace(Cup.CurrentMap, carId);
+        }
+
+        public static void NextCupRace()
+        {
+            if (Cup == null || Cup.IsLastRace) { ToMenu(); return; }
+            Cup.index++;
+            StartRace(Cup.CurrentMap, Cup.playerCar);
+        }
+
         public const string MenuScene = "Menu";
 
         public static string MapId = "";
@@ -46,7 +100,7 @@ namespace PolyCar
             Load(map.sceneName);
         }
 
-        public static void ToMenu() => Load(MenuScene);
+        public static void ToMenu() { Cup = null; Load(MenuScene); }
         public static void Restart() => Load(SceneManager.GetActiveScene().name);
 
         public static void Load(string scene)

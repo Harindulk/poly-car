@@ -61,10 +61,11 @@ namespace PolyCar
             if (r.unlockedSomething) left.Add(UiKit.Label("UNLOCKED:  " + r.unlockedName.ToUpper(), "results-unlock"));
             cols.Add(left);
 
+            var cup = GameFlow.Cup;
             if (multi)
             {
                 var right = UiKit.Box("results-right");
-                right.Add(UiKit.Label("STANDINGS", "results-key"));
+                right.Add(UiKit.Label(cup != null ? $"RACE {cup.index + 1} OF {cup.maps.Length}" : "STANDINGS", "results-key"));
                 int i = 1;
                 foreach (var s in r.standings)
                 {
@@ -76,16 +77,56 @@ namespace PolyCar
                     right.Add(row);
                     i++;
                 }
+                if (cup != null)
+                {
+                    right.Add(UiKit.Label(cup.IsLastRace ? "FINAL CUP STANDINGS" : "CUP POINTS", "results-key", "results-cup-head"));
+                    int k = 1;
+                    foreach (var kv in cup.Standings())
+                    {
+                        var row = UiKit.Box("results-row");
+                        if (kv.Key == "You") row.AddToClassList("results-row-player");
+                        row.Add(UiKit.Label(k + ".", "results-row-pos"));
+                        row.Add(UiKit.Label(kv.Key.ToUpper(), "results-row-name"));
+                        row.Add(UiKit.Label(kv.Value + " PTS", "results-row-time"));
+                        right.Add(row);
+                        k++;
+                    }
+                }
                 cols.Add(right);
+            }
+            if (cup != null && cup.IsLastRace)
+            {
+                bool champ = cup.Standings()[0].Key == "You";
+                title.text = champ ? "CHAMPION!" : "CUP COMPLETE";
+                title.EnableInClassList("results-win", champ);
             }
             panel.Add(cols);
 
             var buttons = UiKit.Box("panel-buttons-row");
-            var again = UiKit.Button("RACE AGAIN", GameFlow.Restart);
-            buttons.Add(again);
-            var next = NextMap();
-            if (next != null) buttons.Add(UiKit.Button("NEXT: " + next.displayName.ToUpper(), () => GameFlow.StartRace(next.id, _race.PlayerSpec.id)));
-            buttons.Add(UiKit.Button("MAIN MENU", GameFlow.ToMenu, "pc-button-dim"));
+            Button again;
+            if (cup != null)
+            {
+                if (!cup.IsLastRace)
+                {
+                    var nextMap = MapCatalog.Instance.Get(cup.maps[cup.index + 1]);
+                    again = UiKit.Button("NEXT RACE: " + nextMap.displayName.ToUpper(), GameFlow.NextCupRace);
+                    buttons.Add(again);
+                    buttons.Add(UiKit.Button("QUIT CUP", GameFlow.ToMenu, "pc-button-dim"));
+                }
+                else
+                {
+                    again = UiKit.Button("MAIN MENU", GameFlow.ToMenu);
+                    buttons.Add(again);
+                }
+            }
+            else
+            {
+                again = UiKit.Button("RACE AGAIN", GameFlow.Restart);
+                buttons.Add(again);
+                var next = NextMap();
+                if (next != null) buttons.Add(UiKit.Button("NEXT: " + next.displayName.ToUpper(), () => GameFlow.StartRace(next.id, _race.PlayerSpec.id)));
+                buttons.Add(UiKit.Button("MAIN MENU", GameFlow.ToMenu, "pc-button-dim"));
+            }
             panel.Add(buttons);
 
             _overlay.Add(panel);

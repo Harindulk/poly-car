@@ -14,6 +14,8 @@ namespace PolyCar
     {
         public string displayName = "Player";
         public bool isPlayer;
+        /// <summary>AI pace before catch-up: difficulty x parity with the player's car.</summary>
+        public float BaseSpeedMultiplier = 1f;
 
         public PolyCarController Car { get; private set; }
         public RaceManager Race { get; private set; }

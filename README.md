@@ -19,6 +19,12 @@ remastered for Unity 6 in 2026 with a new driving model, AI rivals, ghosts, thre
 Drifting fills the boost meter, and drift points build a combo that banks after a short pause (a crash loses it).
 Medals (bronze, silver, gold) on each track earn stars, and stars unlock cars in the garage.
 
+## Modes
+
+- **Race**: any track, 0-5 rivals (0 = time trial against your ghost), laps, difficulty.
+- **Championship**: all four tracks back to back against the same three rivals; points 10-7-5-3 per race.
+  Rivals run at your car's top speed (then difficulty), so every car is competitive.
+
 ## Tracks
 
 - **Green Forest**: the original 4.1 km point-to-point mountain stage.

@@ -73,6 +73,7 @@ namespace PolyCar
         private GhostData _ghost;
         private Camera _cam;
         private int _finishCounter;
+        private bool _cupScored;
         private static readonly string[] BotNames = { "Kenji", "Maya", "Rico", "Lena", "Viktor", "Aiko", "Sol", "Nova", "Dex", "Juno" };
 
         private void Awake()
@@ -185,7 +186,8 @@ namespace PolyCar
         {
             var catalog = CarCatalog.Instance;
             PlayerSpec = GameFlow.CurrentCar ?? catalog.cars[0];
-            int opponents = Mathf.Clamp(GameSettings.Current.opponents, 0, 7);
+            var cup = GameFlow.Cup;
+            int opponents = cup != null ? cup.rivalCars.Length : Mathf.Clamp(GameSettings.Current.opponents, 0, 7);
 
             // Rivals use the other cars, shuffled.
             var pool = new List<CarSpec>();
@@ -201,14 +203,18 @@ namespace PolyCar
             {
                 bool isPlayer = slot == slots - 1; // player starts at the back and chases
                 CarSpec spec = isPlayer ? PlayerSpec : (pool.Count > 0 ? pool[slot % pool.Count] : PlayerSpec);
+                if (!isPlayer && cup != null) spec = catalog.Get(cup.rivalCars[slot]);
                 GridPose(slot, slots, out Vector3 pos, out Quaternion rot, out float dist);
                 var racer = SpawnCar(spec, pos, rot, dist, isPlayer);
-                racer.displayName = isPlayer ? "You" : BotNames[slot % BotNames.Length];
+                racer.displayName = isPlayer ? "You" : cup != null ? cup.rivalNames[slot] : BotNames[slot % BotNames.Length];
                 if (!isPlayer)
                 {
                     var bot = racer.gameObject.AddComponent<BotDriver>();
                     bot.skill = skill * UnityEngine.Random.Range(0.96f, 1.04f);
-                    racer.Car.SpeedMultiplier = speedMul * UnityEngine.Random.Range(0.97f, 1.02f);
+                    // Parity: rivals run at the player's car's top speed whatever they drive, then difficulty.
+                    float parity = Mathf.Clamp(PlayerSpec.topSpeedKmh / Mathf.Max(1f, spec.topSpeedKmh), 0.7f, 1.3f);
+                    racer.BaseSpeedMultiplier = speedMul * parity * UnityEngine.Random.Range(0.97f, 1.02f);
+                    racer.Car.SpeedMultiplier = racer.BaseSpeedMultiplier;
                 }
             }
         }
@@ -390,14 +396,12 @@ namespace PolyCar
         private void RubberBand()
         {
             if (Player == null || State != RaceState.Racing) return;
-            var diff = (Difficulty)GameSettings.Current.difficulty;
-            float baseMul = diff == Difficulty.Easy ? 0.86f : diff == Difficulty.Hard ? 1.01f : 0.94f;
             foreach (var r in Racers)
             {
                 if (r == Player || r.Finished) continue;
                 float gap = r.TotalProgress - Player.TotalProgress; // + ahead of the player
                 float k = Mathf.Clamp(-gap / 150f, -1f, 1f);
-                r.Car.SpeedMultiplier = baseMul * (1f + k * 0.06f);
+                r.Car.SpeedMultiplier = r.BaseSpeedMultiplier * (1f + k * 0.06f);
             }
         }
 
@@ -463,6 +467,25 @@ namespace PolyCar
             foreach (var r in Racers)
                 Result.standings.Add((r.displayName, r.Finished ? r.FinishTime : -1f, r == Player, r.Finished));
             Result.position = Player.Position;
+            var cup = GameFlow.Cup;
+            if (cup != null && !_cupScored)
+            {
+                _cupScored = true;
+                for (int i = 0; i < Racers.Count; i++)
+                {
+                    string n = Racers[i].displayName;
+                    int pts = i < CupState.PointsTable.Length ? CupState.PointsTable[i] : 0;
+                    cup.points[n] = (cup.points.TryGetValue(n, out int had) ? had : 0) + pts;
+                }
+                if (cup.IsLastRace)
+                {
+                    var st = cup.Standings();
+                    var save = SaveData.Current;
+                    save.cupsPlayed++;
+                    if (st.Count > 0 && st[0].Key == "You") save.cupsWon++;
+                    save.Save();
+                }
+            }
             PlayerFinished?.Invoke(Result);
             if (Result.newRecord || Result.medal != Medal.None) GameAudio.Jingle();
         }
