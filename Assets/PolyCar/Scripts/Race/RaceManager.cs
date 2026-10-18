@@ -136,6 +136,22 @@ namespace PolyCar
             _cam.nearClipPlane = 0.1f;
             _cam.farClipPlane = Mathf.Max(_cam.farClipPlane, 1500f);
             Chase = _cam.GetComponent<ChaseCamera>() ?? _cam.gameObject.AddComponent<ChaseCamera>();
+            var camData = _cam.GetComponent<UnityEngine.Rendering.Universal.UniversalAdditionalCameraData>();
+            if (camData) camData.renderPostProcessing = true;
+
+            // Optional speed blur (Settings > Motion Blur), as a runtime-only global volume.
+            if (GameSettings.Current.motionBlur)
+            {
+                var profile = ScriptableObject.CreateInstance<UnityEngine.Rendering.VolumeProfile>();
+                var mb = profile.Add<UnityEngine.Rendering.Universal.MotionBlur>(true);
+                mb.intensity.Override(0.18f);
+                mb.quality.Override(UnityEngine.Rendering.Universal.MotionBlurQuality.Low);
+                mb.clamp.Override(0.05f);
+                var vol = new GameObject("[MotionBlur]").AddComponent<UnityEngine.Rendering.Volume>();
+                vol.isGlobal = true;
+                vol.priority = 10f;
+                vol.sharedProfile = profile;
+            }
         }
 
         private void SpawnField()

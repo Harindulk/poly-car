@@ -80,13 +80,45 @@ namespace PolyCar.Editor
             locked.SetColor("_BaseColor", new Color(0.07f, 0.075f, 0.09f));
             locked.SetFloat("_Smoothness", 0.75f);
 
+            var soft = SoftParticleTexture();
             var flame = LoadOrCreateMat(MatDir + "/BoostFlame.mat", particles);
             MakeTransparent(flame, true);
             flame.SetColor("_BaseColor", new Color(1f, 0.55f, 0.15f, 0.9f));
-            var smokeTex = FindSmokeTexture();
-            if (smokeTex) flame.SetTexture("_BaseMap", smokeTex);
+            flame.SetTexture("_BaseMap", soft);
 
-            foreach (var m in new[] { ghost, locked, flame }) EditorUtility.SetDirty(m);
+            var smoke = LoadOrCreateMat(MatDir + "/TyreSmoke.mat", particles);
+            MakeTransparent(smoke, false);
+            smoke.SetColor("_BaseColor", new Color(0.92f, 0.92f, 0.94f, 0.55f));
+            smoke.SetTexture("_BaseMap", soft);
+
+            foreach (var m in new[] { ghost, locked, flame, smoke }) EditorUtility.SetDirty(m);
+        }
+
+        /// <summary>Soft round puff (radial falloff) for smoke and flames.</summary>
+        private static Texture2D SoftParticleTexture()
+        {
+            string path = MatDir + "/SoftPuff.png";
+            if (!File.Exists(path))
+            {
+                const int S = 64;
+                var tex = new Texture2D(S, S, TextureFormat.RGBA32, false);
+                for (int y = 0; y < S; y++)
+                    for (int x = 0; x < S; x++)
+                    {
+                        float dx = (x + 0.5f) / S * 2f - 1f, dy = (y + 0.5f) / S * 2f - 1f;
+                        float a = Mathf.Clamp01(1f - Mathf.Sqrt(dx * dx + dy * dy));
+                        a = a * a * (3f - 2f * a);
+                        tex.SetPixel(x, y, new Color(1f, 1f, 1f, a));
+                    }
+                tex.Apply();
+                File.WriteAllBytes(path, tex.EncodeToPNG());
+                AssetDatabase.ImportAsset(path);
+                var imp = (TextureImporter)AssetImporter.GetAtPath(path);
+                imp.alphaIsTransparency = true;
+                imp.wrapMode = TextureWrapMode.Clamp;
+                imp.SaveAndReimport();
+            }
+            return AssetDatabase.LoadAssetAtPath<Texture2D>(path);
         }
 
         private static Texture FindSmokeTexture()
@@ -343,11 +375,29 @@ namespace PolyCar.Editor
                     var ps = s.GetComponent<ParticleSystem>();
                     if (ps)
                     {
+                        ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
                         var main = ps.main;
                         main.simulationSpace = ParticleSystemSimulationSpace.World;
                         main.playOnAwake = false;
+                        main.startLifetime = new ParticleSystem.MinMaxCurve(0.9f, 1.6f);
+                        main.startSize = new ParticleSystem.MinMaxCurve(0.6f, 1.2f);
+                        main.startSpeed = new ParticleSystem.MinMaxCurve(0.4f, 1.4f);
+                        main.startColor = new Color(0.95f, 0.95f, 0.97f, 0.5f);
+                        main.gravityModifier = -0.04f;
+                        main.maxParticles = 160;
                         var em = ps.emission;
                         em.rateOverTimeMultiplier = 0f;
+                        var shape = ps.shape; shape.enabled = true; shape.shapeType = ParticleSystemShapeType.Sphere; shape.radius = 0.25f;
+                        var sol = ps.sizeOverLifetime; sol.enabled = true; sol.size = new ParticleSystem.MinMaxCurve(1f, AnimationCurve.EaseInOut(0f, 0.6f, 1f, 3.2f));
+                        var col = ps.colorOverLifetime; col.enabled = true;
+                        var g = new Gradient();
+                        g.SetKeys(new[] { new GradientColorKey(Color.white, 0f), new GradientColorKey(Color.white, 1f) },
+                                  new[] { new GradientAlphaKey(0.55f, 0f), new GradientAlphaKey(0.25f, 0.5f), new GradientAlphaKey(0f, 1f) });
+                        col.color = g;
+                        var pr = s.GetComponent<ParticleSystemRenderer>();
+                        pr.sharedMaterial = AssetDatabase.LoadAssetAtPath<Material>(MatDir + "/TyreSmoke.mat");
+                        pr.shadowCastingMode = ShadowCastingMode.Off;
+                        pr.receiveShadows = false;
                         smokes.Add(ps);
                     }
                 }
@@ -495,13 +545,13 @@ Thanks for playing!";
             {
                 id = "sakura_ring", displayName = "Sakura Ring", sceneName = "Sakura Ring", laps = 3,
                 blurb = "A lakeside circuit under cherry blossoms and torii gates, with Mount Fuji watching.",
-                goldTime = 150f, silverTime = 170f, bronzeTime = 195f, accent = new Color(1f, 0.55f, 0.75f),
+                goldTime = 150f, silverTime = 168f, bronzeTime = 195f, lengthLabel = "1.7 KM", accent = new Color(1f, 0.55f, 0.75f),
             },
             new MapSpec
             {
                 id = "dust_canyon", displayName = "Dust Canyon", sceneName = "Dust Canyon", laps = 2,
                 blurb = "Fast sweepers through red-rock desert mesas. Flat out, if you dare.",
-                goldTime = 140f, silverTime = 160f, bronzeTime = 185f, accent = new Color(1f, 0.5f, 0.2f),
+                goldTime = 158f, silverTime = 178f, bronzeTime = 205f, lengthLabel = "3.2 KM", accent = new Color(1f, 0.5f, 0.2f),
             },
         };
     }

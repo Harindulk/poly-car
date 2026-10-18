@@ -11,4 +11,10 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Scenes/Green Forest.unity
     guid: ac751aefc7f7b4e4da9971ae9dfd9453
+  - enabled: 1
+    path: Assets/PolyCar/Maps/Sakura Ring.unity
+    guid: 4a3e288715a8041868ed4c5ba9d2230c
+  - enabled: 1
+    path: Assets/PolyCar/Maps/Dust Canyon.unity
+    guid: 237e1eb8f0909491d8eec6d74a2d623f
   m_configObjects: {}
