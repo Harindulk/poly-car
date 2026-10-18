@@ -18,6 +18,16 @@ namespace PolyCar
         public static MapSpec CurrentMap => MapCatalog.Instance ? MapCatalog.Instance.Get(string.IsNullOrEmpty(MapId) ? SaveData.Current.selectedMap : MapId) : null;
         public static CarSpec CurrentCar => CarCatalog.Instance ? CarCatalog.Instance.Get(string.IsNullOrEmpty(CarId) ? SaveData.Current.selectedCar : CarId) : null;
 
+        /// <summary>Value after a command-line flag (e.g. -map sakura_ring), or null.</summary>
+        public static string Arg(string name)
+        {
+            var args = System.Environment.GetCommandLineArgs();
+            for (int i = 0; i < args.Length - 1; i++) if (args[i] == name) return args[i + 1];
+            return null;
+        }
+
+        public static bool HasArg(string name) => System.Array.IndexOf(System.Environment.GetCommandLineArgs(), name) >= 0;
+
         public static int LapsFor(MapSpec map)
         {
             if (map == null || !map.IsCircuit) return 0;
@@ -26,6 +36,8 @@ namespace PolyCar
 
         public static void StartRace(string mapId, string carId)
         {
+            // A lap count chosen for one track never carries over to another.
+            if (mapId != MapId) Laps = -1;
             MapId = mapId; CarId = carId;
             var map = MapCatalog.Instance.Get(mapId);
             SaveData.Current.selectedMap = mapId;
@@ -48,7 +60,8 @@ namespace PolyCar
         private static void Boot()
         {
             GameSettings.Current.Apply();
-            Application.runInBackground = false;
+            // Benchmarks and autopilot runs keep going when the window isn't focused.
+            Application.runInBackground = HasArg("-benchmark") || HasArg("-autopilot");
         }
     }
 

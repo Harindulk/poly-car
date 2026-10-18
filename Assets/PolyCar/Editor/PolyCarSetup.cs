@@ -29,10 +29,36 @@ namespace PolyCar.Editor
             CreateMaterials();
             BuildCars();
             BuildMapCatalog();
+            ConfigureAudioImport();
             WriteCredits();
             AssetDatabase.SaveAssets();
             AssetDatabase.Refresh();
             Debug.Log("Poly Car: setup complete.");
+        }
+
+        /// <summary>Music streams (Vorbis), effects decompress on load; engine/tyre loops mono.</summary>
+        [MenuItem("Poly Car/Setup/Audio Import Settings")]
+        public static void ConfigureAudioImport()
+        {
+            foreach (var guid in AssetDatabase.FindAssets("t:AudioClip", new[] { Res + "/Audio" }))
+            {
+                string path = AssetDatabase.GUIDToAssetPath(guid);
+                var imp = AssetImporter.GetAtPath(path) as AudioImporter;
+                if (imp == null) continue;
+                bool music = path.Contains("/Music/");
+                var s = imp.defaultSampleSettings;
+                var load = music ? AudioClipLoadType.Streaming : AudioClipLoadType.DecompressOnLoad;
+                float q = music ? 0.55f : 0.75f;
+                if (s.loadType == load && s.compressionFormat == AudioCompressionFormat.Vorbis && Mathf.Approximately(s.quality, q) && imp.forceToMono == !music) continue;
+                s.loadType = load;
+                s.compressionFormat = AudioCompressionFormat.Vorbis;
+                s.quality = q;
+                s.preloadAudioData = !music;
+                imp.defaultSampleSettings = s;
+                imp.forceToMono = !music;
+                imp.loadInBackground = music;
+                imp.SaveAndReimport();
+            }
         }
 
         private static void EnsureFolders()

@@ -142,13 +142,6 @@ namespace PolyCar.Editor
             sun.transform.rotation = Quaternion.Euler(38f, -140f, 0f);
             RenderSettings.sun = sun;
 
-            var rim = new GameObject("Rim Light").AddComponent<Light>();
-            rim.type = LightType.Spot;
-            rim.color = new Color(1f, 0.55f, 0.2f);
-            rim.intensity = 30f;
-            rim.range = 18f;
-            rim.spotAngle = 60f;
-            rim.transform.SetPositionAndRotation(new Vector3(3.5f, 4.5f, 4.5f), Quaternion.LookRotation(new Vector3(-3.5f, -4f, -4.5f)));
 
             // Showroom: ground, a turntable plinth with an accent ring, trees and track props behind.
             var groundMat = MakeLit("Assets/PolyCar/Materials/MenuGround.mat", new Color(0.33f, 0.52f, 0.28f), 0.1f);
@@ -277,12 +270,24 @@ namespace PolyCar.Editor
 
         // ------------------------------------------------------------ Build
 
+        [MenuItem("Poly Car/Build/macOS (test)")]
+        public static void BuildMac()
+        {
+            ConfigurePlayer();
+            var scenes = EditorBuildSettings.scenes.Where(s => s.enabled).Select(s => s.path).ToArray();
+            string outPath = Path.GetFullPath("Builds/Mac/PolyCar.app");
+            Directory.CreateDirectory(Path.GetDirectoryName(outPath));
+            var report = BuildPipeline.BuildPlayer(new BuildPlayerOptions { scenes = scenes, locationPathName = outPath, target = BuildTarget.StandaloneOSX, targetGroup = BuildTargetGroup.Standalone });
+            File.WriteAllText("Builds/mac-build.txt", $"{report.summary.result} {report.summary.totalSize / (1024 * 1024)} MB");
+        }
+
         [MenuItem("Poly Car/Build/Windows (64-bit)")]
         public static void BuildWindows()
         {
             ConfigurePlayer();
             var scenes = EditorBuildSettings.scenes.Where(s => s.enabled).Select(s => s.path).ToArray();
             string outDir = Path.GetFullPath("Builds/Windows");
+            if (Directory.Exists(outDir)) Directory.Delete(outDir, true); // no stale files from older builds
             Directory.CreateDirectory(outDir);
             var opts = new BuildPlayerOptions
             {
@@ -303,6 +308,7 @@ namespace PolyCar.Editor
         public static void ConfigurePlayer()
         {
             PlayerSettings.productName = "Poly Car";
+            PlayerSettings.SetApplicationIdentifier(UnityEditor.Build.NamedBuildTarget.Standalone, "com.harindulkgames.polycar");
             PlayerSettings.bundleVersion = "2.0.0";
             PlayerSettings.fullScreenMode = FullScreenMode.FullScreenWindow;
             PlayerSettings.resizableWindow = true;
@@ -311,8 +317,12 @@ namespace PolyCar.Editor
             PlayerSettings.defaultIsNativeResolution = true;
             PlayerSettings.SetScriptingBackend(UnityEditor.Build.NamedBuildTarget.Standalone, ScriptingImplementation.Mono2x);
             PlayerSettings.SetUseDefaultGraphicsAPIs(BuildTarget.StandaloneWindows64, false);
-            PlayerSettings.SetGraphicsAPIs(BuildTarget.StandaloneWindows64, new[] { GraphicsDeviceType.Direct3D11, GraphicsDeviceType.Direct3D12, GraphicsDeviceType.Vulkan });
+            PlayerSettings.SetGraphicsAPIs(BuildTarget.StandaloneWindows64, new[] { GraphicsDeviceType.Direct3D11 });
             PlayerSettings.SetManagedStrippingLevel(UnityEditor.Build.NamedBuildTarget.Standalone, ManagedStrippingLevel.Disabled);
+            // SRP Batcher handles the draw calls; static batching only duplicated every tree into huge combined meshes.
+            PlayerSettings.SetStaticBatchingForPlatform(BuildTarget.StandaloneWindows64, false);
+            PlayerSettings.SetStaticBatchingForPlatform(BuildTarget.StandaloneOSX, false);
+            PolyCarSetup.ConfigureAudioImport();
         }
     }
 }

@@ -72,7 +72,8 @@ namespace PolyCar
 
             AudioListener.volume = Mathf.Clamp01(masterVolume);
 
-            if (display && !Application.isEditor)
+            // Explicit -screen-width/-screen-height launch arguments win (benchmarks, streaming setups).
+            if (display && !Application.isEditor && !GameFlow.HasArg("-screen-width"))
             {
                 var mode = windowMode == 1 ? FullScreenMode.ExclusiveFullScreen : windowMode == 2 ? FullScreenMode.Windowed : FullScreenMode.FullScreenWindow;
                 int w = resolutionWidth > 0 ? resolutionWidth : Screen.currentResolution.width;

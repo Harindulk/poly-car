@@ -43,7 +43,7 @@ namespace PolyCar
         /// <summary>Test/benchmark mode: the AI drives the player's car (dev pref in the Editor, -autopilot in builds).</summary>
         public static bool Autopilot => Application.isEditor
             ? PlayerPrefs.GetInt("polycar.dev.autopilot", 0) == 1
-            : Array.IndexOf(Environment.GetCommandLineArgs(), "-autopilot") >= 0;
+            : GameFlow.HasArg("-autopilot") || GameFlow.HasArg("-benchmark");
 
         public RaceState State { get; private set; } = RaceState.Intro;
         public float RaceTime { get; private set; }
@@ -86,6 +86,7 @@ namespace PolyCar
         {
             if (Current == this) Current = null;
             Time.timeScale = 1f;
+            Cursor.visible = true;
         }
 
         private void Start()
@@ -101,6 +102,7 @@ namespace PolyCar
             SetupCamera();
             SpawnField();
             if (GameSettings.Current.ghost) SpawnGhost(mapId);
+            WarmUp();
 
             RaceHud.Create(this);
             PauseMenu.Create(this);
@@ -111,6 +113,31 @@ namespace PolyCar
 
         /// <summary>Sprints are stored with laps = 0, circuits with the lap count raced.</summary>
         public int RecordLaps => Path.loop ? Laps : 0;
+
+        /// <summary>
+        /// Renders a dozen small views along the track while the loading screen is still up, so shaders,
+        /// textures and meshes are uploaded before the race instead of hitching on the first lap.
+        /// </summary>
+        private void WarmUp()
+        {
+            var rt = RenderTexture.GetTemporary(640, 360, 24);
+            var prevTarget = _cam.targetTexture;
+            var prevPos = _cam.transform.position; var prevRot = _cam.transform.rotation;
+            _cam.targetTexture = rt;
+            const int views = 14;
+            for (int i = 0; i < views; i++)
+            {
+                float d = Path.Length * i / views;
+                Vector3 p = Path.PointAt(d) + Vector3.up * 3f;
+                _cam.transform.SetPositionAndRotation(p, Quaternion.LookRotation(Path.DirectionAt(d)));
+                _cam.Render();
+                _cam.transform.rotation = Quaternion.LookRotation(-Path.DirectionAt(d));
+                _cam.Render();
+            }
+            _cam.targetTexture = prevTarget;
+            _cam.transform.SetPositionAndRotation(prevPos, prevRot);
+            RenderTexture.ReleaseTemporary(rt);
+        }
 
         private void BuildCheckpoints()
         {
@@ -308,6 +335,7 @@ namespace PolyCar
             RaceTime = 0f;
             foreach (var r in Racers) { r.Car.InputLocked = false; r.BeginRace(0f); }
             _recorder.Begin(PlayerSpec.id);
+            if (GameFlow.HasArg("-benchmark")) gameObject.AddComponent<PerfProbe>();
             SetState(RaceState.Racing);
             yield return new WaitForSeconds(0.8f);
             CountdownValue = -1;
@@ -322,7 +350,7 @@ namespace PolyCar
         private void Update()
         {
             if (PolyInput.PausePressed() && State != RaceState.Intro && (Result == null || !ResultsScreen.Visible)) SetPaused(!Paused);
-            if (Paused) return;
+            if (Paused) { if (!Cursor.visible) Cursor.visible = true; return; }
 
             if (State == RaceState.Racing || State == RaceState.Finished) RaceTime += Time.deltaTime;
             if (State == RaceState.Racing)
@@ -331,6 +359,9 @@ namespace PolyCar
                 if (PolyInput.RestartPressed()) GameFlow.Restart();
             }
             if (PolyInput.CameraPressed() && Chase) Chase.CycleMode();
+            // Hide the mouse while driving; show it for pause and results.
+            bool wantCursor = Paused || ResultsScreen.Visible;
+            if (Cursor.visible != wantCursor) Cursor.visible = wantCursor;
             UpdatePositions();
             RubberBand();
         }

@@ -22,6 +22,7 @@ namespace PolyCar
         private int _carIndex;
         private int _mapIndex;
         private Label _starsLabel;
+        private static bool _argsConsumed;
 
         private CarCatalog Cars => CarCatalog.Instance;
         private MapCatalog Maps => MapCatalog.Instance;
@@ -30,6 +31,8 @@ namespace PolyCar
         private void Start()
         {
             Time.timeScale = 1f;
+            UnityEngine.Cursor.visible = true;
+            UnityEngine.Cursor.lockState = CursorLockMode.None;
             UiKit.EnsureEventSystem();
             _doc = UiKit.CreateDocument("[Menu]", 5, transform);
             UiNavigator.Attach(_doc);
@@ -37,6 +40,14 @@ namespace PolyCar
             _carIndex = Cars.IndexOf(Save.selectedCar);
             if (!Save.IsUnlocked(Cars.cars[_carIndex])) _carIndex = 0;
             _mapIndex = Maps.IndexOf(Save.selectedMap);
+            // Command line: -map <id> [-car <id>] jumps straight into a race (benchmarks, testing).
+            string argMap = GameFlow.Arg("-map");
+            if (!string.IsNullOrEmpty(argMap) && !_argsConsumed && Maps.Get(argMap) != null && Maps.Get(argMap).id == argMap)
+            {
+                _argsConsumed = true;
+                GameFlow.StartRace(argMap, GameFlow.Arg("-car") ?? Save.selectedCar);
+                return;
+            }
             GameAudio.PlayMenuMusic();
             ShowCar(Cars.cars[_carIndex]);
             ShowTitle();
@@ -148,6 +159,7 @@ namespace PolyCar
         {
             var map = Maps.maps[_mapIndex];
             var st = GameSettings.Current;
+            if (GameFlow.MapId != map.id) { GameFlow.MapId = map.id; GameFlow.Laps = map.laps; }
             if (GameFlow.Laps <= 0) GameFlow.Laps = map.laps;
             var s = NewScreen("menu-setup", ShowPlay);
             s.Add(Header(map.displayName.ToUpper(), ShowPlay));

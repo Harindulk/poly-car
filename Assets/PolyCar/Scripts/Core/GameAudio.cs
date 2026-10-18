@@ -51,7 +51,7 @@ namespace PolyCar
             _confirm = Resources.Load<AudioClip>("Audio/UI/Navigation Button Ding 04");
             _jingle = Resources.Load<AudioClip>("Audio/Fx/NewBest_Steel07");
             _beep = Resources.Load<AudioClip>("Audio/Fx/beep");
-            _go = Resources.Load<AudioClip>("Audio/Fx/Starting Line");
+            _go = Resources.Load<AudioClip>("Audio/Fx/unlock");
             GameSettings.Changed += ApplyVolumes;
             ApplyVolumes();
         }
@@ -103,8 +103,8 @@ namespace PolyCar
         public static void Jingle() => Instance.PlayOne(Instance._jingle, 0.8f);
         public static void CountBeep(bool go)
         {
-            if (go && Instance._go) Instance.PlayOne(Instance._go, 0.7f);
-            else Instance.PlayOne(Instance._beep, 0.6f, go ? 1.5f : 1f);
+            Instance.PlayOne(Instance._beep, go ? 0.75f : 0.6f, go ? 1.6f : 1f);
+            if (go && Instance._go) Instance.PlayOne(Instance._go, 0.35f, 1.2f);
         }
     }
 }
