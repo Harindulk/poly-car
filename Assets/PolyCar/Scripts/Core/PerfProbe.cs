@@ -11,6 +11,11 @@ namespace PolyCar
     public class PerfProbe : MonoBehaviour
     {
         public float duration = 60f;
+
+        private void Start()
+        {
+            if (float.TryParse(GameFlow.Arg("-benchmarkSeconds"), out float secs) && secs > 2f) duration = secs;
+        }
         private readonly List<float> _frames = new List<float>(8000);
         private readonly int[] _spikesPer10s = new int[7];
         private readonly System.Text.StringBuilder _firstSpikes = new System.Text.StringBuilder();
@@ -45,9 +50,11 @@ namespace PolyCar
             float max = sorted.Count > 0 ? sorted[sorted.Count - 1] : 0f;
             int over33 = 0; foreach (var f in _frames) if (f > 33.4f) over33++;
             var race = RaceManager.Current;
+            int playing = 0;
+            foreach (var a in FindObjectsByType<AudioSource>()) if (a.isPlaying) playing++;
             string text = $"scene={UnityEngine.SceneManagement.SceneManager.GetActiveScene().name} frames={_frames.Count} avgFps={1000f / avg:0.0} avgMs={avg:0.00} p99Ms={p99:0.00} maxMs={max:0.00} over33ms={over33} " +
                           $"res={Screen.width}x{Screen.height} quality={QualitySettings.names[QualitySettings.GetQualityLevel()]} gpu={SystemInfo.graphicsDeviceName} progress={(race && race.Player ? race.Player.TotalProgress : 0f):0}" +
-                          $"\nspikes/10s={string.Join(",", _spikesPer10s)} gen0GCs={System.GC.CollectionCount(0) - _gcAtStart} first={_firstSpikes}";
+                          $" audioPlaying={playing}" + $"\nspikes/10s={string.Join(",", _spikesPer10s)} gen0GCs={System.GC.CollectionCount(0) - _gcAtStart} first={_firstSpikes}";
             Debug.Log("Poly Car benchmark: " + text);
             try
             {

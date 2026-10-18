@@ -62,6 +62,7 @@ namespace PolyCar
             GameSettings.Current.Apply();
             // Benchmarks and autopilot runs keep going when the window isn't focused.
             Application.runInBackground = HasArg("-benchmark") || HasArg("-autopilot");
+            if (HasArg("-mute")) AudioListener.volume = 0f; // silent test runs; audio still plays internally
         }
     }
 

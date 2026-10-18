@@ -70,7 +70,7 @@ namespace PolyCar
             if (!Application.isEditor && UnityEngine.Rendering.GraphicsSettings.currentRenderPipeline is UnityEngine.Rendering.Universal.UniversalRenderPipelineAsset urp)
                 urp.renderScale = Mathf.Clamp(renderScale, 0.5f, 1f);
 
-            AudioListener.volume = Mathf.Clamp01(masterVolume);
+            AudioListener.volume = GameFlow.HasArg("-mute") ? 0f : Mathf.Clamp01(masterVolume);
 
             // Explicit -screen-width/-screen-height launch arguments win (benchmarks, streaming setups).
             if (display && !Application.isEditor && !GameFlow.HasArg("-screen-width"))
