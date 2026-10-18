@@ -166,5 +166,21 @@ namespace PolyCar.Tests
                 Assert.Less(m.silverTime, m.bronzeTime, m.id);
             }
         }
+
+        [Test]
+        public void CupStandingsSortByPoints()
+        {
+            var cup = new CupState { maps = new[] { "a", "b" }, index = 0, rivalCars = new string[0], rivalNames = new string[0] };
+            cup.points["You"] = 7; cup.points["Maya"] = 10; cup.points["Rico"] = 3;
+            var st = cup.Standings();
+            Assert.AreEqual("Maya", st[0].Key);
+            Assert.AreEqual("You", st[1].Key);
+            Assert.AreEqual("Rico", st[2].Key);
+            Assert.IsFalse(cup.IsLastRace);
+            cup.index = 1;
+            Assert.IsTrue(cup.IsLastRace);
+            Assert.AreEqual("b", cup.CurrentMap);
+            Assert.AreEqual(10, CupState.PointsTable[0]);
+        }
     }
 }

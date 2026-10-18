@@ -126,7 +126,8 @@ namespace PolyCar
         private static SceneLoader _instance;
         private UIDocument _doc;
         private VisualElement _overlay;
-        private Label _tip;
+        private Label _tip, _title;
+        private VisualElement _art;
         private bool _busy;
 
         private static readonly string[] Tips =
@@ -162,11 +163,18 @@ namespace PolyCar
             _overlay = new VisualElement();
             _overlay.AddToClassList("loader");
             _overlay.pickingMode = PickingMode.Ignore;
-            var title = new Label("LOADING");
-            title.AddToClassList("loader-title");
+            _art = new VisualElement();
+            _art.AddToClassList("loader-art");
+            _art.pickingMode = PickingMode.Ignore;
+            var shade = new VisualElement();
+            shade.AddToClassList("loader-shade");
+            _title = new Label("LOADING");
+            _title.AddToClassList("loader-title");
             _tip = new Label();
             _tip.AddToClassList("loader-tip");
-            _overlay.Add(title);
+            _overlay.Add(_art);
+            _overlay.Add(shade);
+            _overlay.Add(_title);
             _overlay.Add(_tip);
             root.Add(_overlay);
             root.pickingMode = PickingMode.Ignore;
@@ -184,6 +192,9 @@ namespace PolyCar
         {
             _busy = true;
             _tip.text = Tips[Random.Range(0, Tips.Length)];
+            var map = MapCatalog.Instance ? MapCatalog.Instance.ByScene(scene) : null;
+            _art.style.backgroundImage = map != null && map.thumbnail ? new StyleBackground(map.thumbnail) : new StyleBackground(StyleKeyword.None);
+            _title.text = map != null ? map.displayName.ToUpper() : "LOADING";
             _overlay.style.display = DisplayStyle.Flex;
             _overlay.pickingMode = PickingMode.Position;
             yield return Fade(0f, 1f, 0.25f);

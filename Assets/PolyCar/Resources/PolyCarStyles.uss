@@ -123,8 +123,11 @@ Label { -unity-text-align: middle-left; white-space: normal; }
     justify-content: center;
     align-items: center;
 }
+.loader-art { position: absolute; left: 0; top: 0; right: 0; bottom: 0; -unity-background-scale-mode: scale-and-crop; }
+.loader-shade { position: absolute; left: 0; top: 0; right: 0; bottom: 0; background-color: rgba(8, 10, 18, 0.55); }
 .loader-title { -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 110px; color: rgb(255, 106, 26); -unity-text-align: middle-center; }
-.loader-tip { font-size: 28px; color: rgb(200, 206, 220); max-width: 1100px; -unity-text-align: middle-center; }
+.loader-tip { font-size: 30px; color: rgb(230, 234, 242); max-width: 1100px; -unity-text-align: middle-center; text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.7); }
+.loader-title { text-shadow: 5px 5px 0 rgba(0, 0, 0, 0.6); }
 
 /* ---------- Main menu ---------- */
 .menu { position: absolute; left: 0; top: 0; right: 0; bottom: 0; padding: 70px 100px; }
