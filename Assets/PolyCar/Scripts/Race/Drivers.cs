@@ -2,13 +2,35 @@ using UnityEngine;
 
 namespace PolyCar
 {
-    /// <summary>Feeds keyboard / gamepad input to the player's car.</summary>
+    /// <summary>Feeds keyboard / gamepad input to the player's car, and drives gamepad rumble.</summary>
     [DefaultExecutionOrder(-30)]
     public class PlayerDriver : MonoBehaviour
     {
         private PolyCarController _car;
-        private void Awake() => _car = GetComponent<PolyCarController>();
-        private void Update() => _car.Input = PolyInput.ReadDrive();
+        private float _kick;
+
+        private void Awake()
+        {
+            _car = GetComponent<PolyCarController>();
+            _car.Impact += s => _kick = Mathf.Max(_kick, Mathf.Clamp01(s / 10f));
+            _car.Landed += t => _kick = Mathf.Max(_kick, Mathf.Clamp01(t * 0.5f));
+        }
+
+        private void Update()
+        {
+            _car.Input = PolyInput.ReadDrive();
+            var pad = UnityEngine.InputSystem.Gamepad.current;
+            if (pad == null) return;
+            bool live = Time.timeScale > 0.01f && !_car.InputLocked;
+            float slide = _car.IsDrifting ? Mathf.Clamp01((Mathf.Abs(_car.LateralSpeed) - 2f) / 10f) * 0.25f : 0f;
+            float boost = _car.Boosting ? 0.15f : 0f;
+            _kick = Mathf.MoveTowards(_kick, 0f, Time.unscaledDeltaTime * 3f);
+            if (live) pad.SetMotorSpeeds(Mathf.Max(_kick, slide * 0.6f), Mathf.Max(_kick * 0.7f, Mathf.Max(slide, boost)));
+            else pad.SetMotorSpeeds(0f, 0f);
+        }
+
+        private void OnDisable() => UnityEngine.InputSystem.Gamepad.current?.SetMotorSpeeds(0f, 0f);
+        private void OnApplicationFocus(bool focus) { if (!focus) UnityEngine.InputSystem.Gamepad.current?.SetMotorSpeeds(0f, 0f); }
     }
 
     /// <summary>

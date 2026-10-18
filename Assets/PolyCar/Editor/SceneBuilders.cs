@@ -309,6 +309,8 @@ namespace PolyCar.Editor
         {
             PlayerSettings.productName = "Poly Car";
             PlayerSettings.SetApplicationIdentifier(UnityEditor.Build.NamedBuildTarget.Standalone, "com.harindulkgames.polycar");
+            var icon = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/PolyCar/Branding/Icon.png");
+            if (icon) PlayerSettings.SetIcons(UnityEditor.Build.NamedBuildTarget.Unknown, new[] { icon }, IconKind.Any);
             PlayerSettings.bundleVersion = "2.0.0";
             PlayerSettings.fullScreenMode = FullScreenMode.FullScreenWindow;
             PlayerSettings.resizableWindow = true;
