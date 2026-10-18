@@ -42,6 +42,8 @@ namespace PolyCar
     public class BotDriver : MonoBehaviour
     {
         [Range(0.5f, 1.2f)] public float skill = 0.9f;
+        /// <summary>Test aid: drive like a keyboard player (on/off keys, human steering smoothing, auto-drift).</summary>
+        public bool keyboardStyle;
         public float lateralGrip = 15f; // m/s² the bot is willing to corner at (scaled by skill)
 
         private PolyCarController _car;
@@ -61,6 +63,11 @@ namespace PolyCar
             _laneSeed = Random.value * 100f;
             _car.AutoDrift = false;
             _car.FastSteer = true;
+        }
+
+        private void Start()
+        {
+            if (keyboardStyle) { _car.AutoDrift = true; _car.FastSteer = false; }
         }
 
         private void Update()
@@ -129,6 +136,14 @@ namespace PolyCar
             else _stuckTimer = Mathf.Max(0f, _stuckTimer - Time.deltaTime * 2f);
 
             if (_racer.Finished) input = new DriveInput { Throttle = 0.25f, Steer = input.Steer };
+            if (keyboardStyle)
+            {
+                // Digital keys: a held key is +-1; small corrections become short taps (dither by time).
+                float st = input.Steer;
+                input.Steer = Mathf.Abs(st) < 0.12f ? 0f : (Mathf.Abs(st) > 0.6f || Mathf.Repeat(Time.time * 8f, 1f) < Mathf.Abs(st) / 0.6f ? Mathf.Sign(st) : 0f);
+                input.Throttle = input.Throttle > 0.3f ? 1f : 0f;
+                input.Brake = input.Brake > 0.15f ? 1f : 0f;
+            }
             _car.Input = input;
         }
 

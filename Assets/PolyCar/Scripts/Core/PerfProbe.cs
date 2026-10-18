@@ -54,7 +54,7 @@ namespace PolyCar
             foreach (var a in FindObjectsByType<AudioSource>()) if (a.isPlaying) playing++;
             string text = $"scene={UnityEngine.SceneManagement.SceneManager.GetActiveScene().name} frames={_frames.Count} avgFps={1000f / avg:0.0} avgMs={avg:0.00} p99Ms={p99:0.00} maxMs={max:0.00} over33ms={over33} " +
                           $"res={Screen.width}x{Screen.height} quality={QualitySettings.names[QualitySettings.GetQualityLevel()]} gpu={SystemInfo.graphicsDeviceName} progress={(race && race.Player ? race.Player.TotalProgress : 0f):0}" +
-                          $" audioPlaying={playing}" + $"\nspikes/10s={string.Join(",", _spikesPer10s)} gen0GCs={System.GC.CollectionCount(0) - _gcAtStart} first={_firstSpikes}";
+                           $" audioPlaying={playing} respawns={(race && race.Player ? race.Player.Respawns : -1)}" + $"\nspikes/10s={string.Join(",", _spikesPer10s)} gen0GCs={System.GC.CollectionCount(0) - _gcAtStart} first={_firstSpikes}";
             Debug.Log("Poly Car benchmark: " + text);
             try
             {

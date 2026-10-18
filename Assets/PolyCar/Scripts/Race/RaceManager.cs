@@ -246,7 +246,7 @@ namespace PolyCar
             if (isPlayer)
             {
                 go.tag = "Player";
-                if (Autopilot) { var ap = go.AddComponent<BotDriver>(); ap.skill = 0.92f; }
+                if (Autopilot) { var ap = go.AddComponent<BotDriver>(); ap.skill = 0.92f; ap.keyboardStyle = PlayerPrefs.GetInt("polycar.dev.keyboardbot", 0) == 1 || GameFlow.HasArg("-keyboardbot"); }
                 else go.AddComponent<PlayerDriver>();
                 Drift = go.AddComponent<DriftScorer>();
                 _recorder = go.AddComponent<GhostRecorder>();
