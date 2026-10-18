@@ -1,0 +1,92 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 477a5290d8a4347eeacb563e37736830, type: 3}
+  m_Name: CarCatalog
+  m_EditorClassIdentifier: PolyCar.Runtime::PolyCar.CarCatalog
+  cars:
+  - id: muscle
+    displayName: Stallion GT
+    blurb: The original Poly Car. Big torque, a lazy rear end and happiest going sideways.
+    prefab: {fileID: 5734195105947489842, guid: e8040038af2514111a45c0d1234a8bff, type: 3}
+    unlockMedals: 0
+    topSpeedKmh: 182
+    acceleration: 10.5
+    grip: 6.6
+    driftGrip: 1.35
+    turnRate: 94
+    mass: 1350
+  - id: outlaw
+    displayName: Outlaw 01
+    blurb: A loud orange muscle car with a habit of jumping things. Loose, loud and forgiving.
+    prefab: {fileID: 3501063234055763263, guid: abcc0d26ef1924f539f305e6ee9b960d, type: 3}
+    unlockMedals: 0
+    topSpeedKmh: 176
+    acceleration: 10
+    grip: 7
+    driftGrip: 1.3
+    turnRate: 100
+    mass: 1300
+  - id: scoop
+    displayName: Scoop Van
+    blurb: Channel 7's news van. Heavy, slow and somehow always first on the scene.
+    prefab: {fileID: 3613923926568377363, guid: c379a0068bdd94cc6891520f1ba91125, type: 3}
+    unlockMedals: 0
+    topSpeedKmh: 148
+    acceleration: 8
+    grip: 6.2
+    driftGrip: 1.25
+    turnRate: 84
+    mass: 1900
+  - id: interceptor
+    displayName: Interceptor
+    blurb: Retired from the force, not from chasing. Stable, quick and great on the brakes.
+    prefab: {fileID: 5614753985490354891, guid: 1c7d0f5eb4fbd406aad7d8261ca45bc9, type: 3}
+    unlockMedals: 2
+    topSpeedKmh: 186
+    acceleration: 10.6
+    grip: 7.8
+    driftGrip: 1.6
+    turnRate: 96
+    mass: 1500
+  - id: apex
+    displayName: Apex S
+    blurb: Mid-engined and glued to the road. The grip car - brake late, turn hard.
+    prefab: {fileID: 892641841900242451, guid: 8dc7e35b219864296bfd5029485b491c, type: 3}
+    unlockMedals: 3
+    topSpeedKmh: 196
+    acceleration: 12
+    grip: 9.2
+    driftGrip: 2.3
+    turnRate: 102
+    mass: 1220
+  - id: vortex
+    displayName: Vortex R
+    blurb: A twin-turbo missile. Huge top speed, needs a careful right foot in the bends.
+    prefab: {fileID: 3024506674305207918, guid: 6672fb00d80214d27a2f7ea00ed19a91, type: 3}
+    unlockMedals: 5
+    topSpeedKmh: 206
+    acceleration: 12.6
+    grip: 8.4
+    driftGrip: 1.9
+    turnRate: 96
+    mass: 1260
+  - id: zenith
+    displayName: Zenith X
+    blurb: The fastest thing in Poly Car. Earn it, then hold on.
+    prefab: {fileID: 6284402432295092395, guid: f5092b24f0555427f8f4bb8c91b9c8b8, type: 3}
+    unlockMedals: 7
+    topSpeedKmh: 214
+    acceleration: 13.5
+    grip: 8.9
+    driftGrip: 1.75
+    turnRate: 100
+    mass: 1180

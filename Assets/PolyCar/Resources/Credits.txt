@@ -1,0 +1,24 @@
+POLY CAR
+Created by Harindu Fonseka (StarFun Games) - originally for the Microsoft Virtual Hackathon 2022.
+Remastered for Unity 6 in 2026.
+
+PROGRAMMING, DESIGN
+Harindu Fonseka
+
+MODELS AND ART (Unity Asset Store packages included in the project)
+HyperCars, Low Poly Cars, News Truck - Stylized Vehicle, Stylized Grass Shader and Stylized Water (Staggart Creations / Alexander Ameye),
+Skybox Cubemap Extended (BOXOPHOBIC), Vegetation Spawner (Staggart Creations), Road Architect (open source, MIT).
+
+MUSIC
+Pixabay Content License tracks: Embrace, Energetic Funky Groove, Fashionable Deep House, Flashes, Once in Paris.
+Stargazer (original Poly Car soundtrack). Starting Line by LudoLoon Studio (royalty free).
+
+SOUND
+Rally car engine layers, gear change, backfire and landing: Pol, Foundation Sound Effects (Freesound, CC0).
+Tyre squeal: audible-edge (Freesound, CC0). Whoosh: BennettFilmTeacher (Freesound, CC0). Wind loop: SketchMan3 (OpenGameArt, CC0).
+Jingle: Kenney Music Jingles (CC0). UI sounds: ZapSplat.
+
+FONTS
+Teko, League Spartan, Fredoka One, Fira Sans (SIL Open Font License).
+
+Thanks for playing!

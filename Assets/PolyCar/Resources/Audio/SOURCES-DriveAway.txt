@@ -1,0 +1,15 @@
+Sound sources (all checked 2026-10-16; full table with links: docs/research/2026-10-16-audio-sources.md)
+
+Engine/Engine_Idle, Engine_Low, Engine_Mid, Engine_High, Gear_Change, Backfire
+    Pól, "Foundation Sound Effects" rally car (Freesound 385929, 385930, 385931, 385932, 385936, 385935). CC0.
+    Seam-crossfaded (40 ms) and peak-normalised for looping.
+Car/Tyre_Squeal_Loop      audible-edge, "Chrysler LHS tire squeal 04" (Freesound 71739). CC0. 3 s cut, 120 ms seam.
+Air/Ramp_Launch           BennettFilmTeacher, "Whoosh For Whip Zoom" (Freesound 486234). CC0.
+Air/Spring_Pop            Breviceps, "Video Game SFX - Springboard / Trampoline Jump" (Freesound 493161). CC0.
+Air/Land_Thump            Pól, "S019_Landing_Impact_Mono" (Freesound 385933). CC0.
+Air/Wing_Flap             ani_music, "Wing Flap (Flag Flapping) 5a" (Freesound 244982). CC0.
+Air/Wings_Unfold          Kinoton, "Umbrella Open, fast" (Freesound 351411). CC0.
+Air/Parachute_Open        2create, "Parachute Opening 2 Options" (Freesound 620310), first option. CC0.
+Air/Fly_Wind_Loop         SketchMan3, "wind whoosh loop" (OpenGameArt). CC0. 300 ms seam.
+Jingles/NewBest_Steel07   Kenney, "Music Jingles" (kenney.nl/assets/music-jingles). CC0.
+Music/*.mp3               Pixabay Content License, see Music/Pixabay-Music-LICENSE.txt.

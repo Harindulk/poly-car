@@ -1,0 +1,279 @@
+/* Poly Car UI - one stylesheet for menu, HUD, pause, results and the loader. Reference size 1920x1080. */
+
+.pc-root {
+    flex-grow: 1;
+    -unity-font-definition: url("/Assets/Fonts/ttf/FiraSansExtraCondensed-BoldItalic.ttf");
+    color: rgb(244, 246, 250);
+    font-size: 26px;
+}
+
+Label { -unity-text-align: middle-left; white-space: normal; }
+
+/* ---------- Buttons ---------- */
+.pc-button {
+    background-color: rgba(18, 21, 32, 0.78);
+    border-width: 0;
+    border-left-width: 6px;
+    border-left-color: rgba(255, 106, 26, 0);
+    border-radius: 6px;
+    color: rgb(236, 240, 248);
+    -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf");
+    font-size: 40px;
+    -unity-text-align: middle-left;
+    padding: 4px 26px 0 22px;
+    margin: 5px 0;
+    height: 62px;
+    min-width: 340px;
+    transition-property: background-color, border-left-color, translate, scale;
+    transition-duration: 0.12s;
+}
+.pc-button:hover, .pc-button:focus {
+    background-color: rgb(255, 106, 26);
+    border-left-color: rgb(255, 214, 80);
+    color: rgb(255, 255, 255);
+    translate: 10px 0;
+}
+.pc-button:active { scale: 0.97 0.97; }
+.pc-button:disabled { opacity: 0.45; }
+.pc-button-big { height: 78px; font-size: 52px; }
+.pc-button-dim { background-color: rgba(18, 21, 32, 0.5); color: rgb(170, 178, 196); }
+.pc-button-go { background-color: rgb(40, 170, 90); }
+.pc-button-go:hover, .pc-button-go:focus { background-color: rgb(60, 205, 110); }
+.pc-button-back { min-width: 0; width: 200px; height: 54px; font-size: 32px; margin-right: 26px; }
+.pc-step, .pc-step-big {
+    min-width: 0;
+    width: 56px;
+    -unity-text-align: middle-center;
+    padding: 4px 0 0 0;
+    border-left-width: 0;
+}
+.pc-step:hover, .pc-step:focus, .pc-step-big:hover, .pc-step-big:focus { translate: 0 0; }
+.pc-step-big { width: 84px; height: 84px; font-size: 60px; }
+
+/* ---------- Rows, steppers, sliders, stat bars ---------- */
+.pc-row {
+    flex-direction: row;
+    align-items: center;
+    height: 66px;
+    margin: 3px 0;
+    padding: 0 10px;
+    background-color: rgba(255, 255, 255, 0.04);
+    border-radius: 6px;
+}
+.pc-row-label { width: 420px; font-size: 26px; color: rgb(190, 198, 214); }
+.pc-row-value {
+    width: 380px;
+    -unity-text-align: middle-center;
+    -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf");
+    font-size: 38px;
+    padding-top: 4px;
+}
+.pc-row-value-small { width: 90px; -unity-text-align: middle-right; font-size: 24px; color: rgb(190, 198, 214); }
+.pc-row-keys { flex-grow: 1; font-size: 24px; color: rgb(255, 196, 120); }
+.pc-slider { flex-grow: 1; margin: 0 16px; }
+.pc-slider #unity-tracker { background-color: rgba(255, 255, 255, 0.15); border-width: 0; height: 8px; margin-top: -4px; border-radius: 4px; }
+.pc-slider #unity-dragger { background-color: rgb(255, 106, 26); border-width: 0; width: 26px; height: 26px; margin-top: -13px; border-radius: 13px; }
+.pc-slider:focus #unity-dragger { background-color: rgb(255, 214, 80); }
+
+.pc-stat { flex-direction: row; align-items: center; margin: 7px 0; }
+.pc-stat-label { width: 230px; font-size: 24px; color: rgb(190, 198, 214); }
+.pc-stat-track { flex-grow: 1; height: 16px; background-color: rgba(255, 255, 255, 0.12); border-radius: 8px; overflow: hidden; }
+.pc-stat-fill { height: 100%; background-color: rgb(255, 106, 26); border-radius: 8px; }
+.pc-stat-fill-drift { background-color: rgb(80, 200, 255); }
+
+/* ---------- Panels / overlays ---------- */
+.overlay {
+    position: absolute;
+    left: 0; top: 0; right: 0; bottom: 0;
+    background-color: rgba(6, 8, 14, 0.62);
+    align-items: center;
+    justify-content: center;
+}
+.overlay-results { background-color: rgba(6, 8, 14, 0.55); }
+.panel {
+    background-color: rgba(14, 17, 27, 0.9);
+    border-radius: 14px;
+    border-top-width: 6px;
+    border-top-color: rgb(255, 106, 26);
+    padding: 30px 44px 30px 44px;
+    min-width: 720px;
+}
+.panel-narrow { min-width: 560px; }
+.panel-wide { width: 1180px; max-height: 860px; }
+.panel-setup { width: 1000px; }
+.panel-results { width: 1240px; }
+.panel-title {
+    -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf");
+    font-size: 96px;
+    -unity-text-align: middle-left;
+    margin-bottom: -10px;
+}
+.panel-subtitle { font-size: 26px; color: rgb(255, 170, 110); margin-bottom: 18px; letter-spacing: 2px; }
+.panel-buttons { margin-top: 6px; }
+.panel-buttons-row { flex-direction: row; flex-wrap: wrap; margin-top: 22px; }
+.panel-buttons-row .pc-button { min-width: 0; margin-right: 14px; padding-right: 30px; }
+.panel-footer { margin-top: 18px; font-size: 20px; color: rgb(140, 148, 166); }
+
+
+/* ---------- Loader ---------- */
+.loader {
+    position: absolute;
+    left: 0; top: 0; right: 0; bottom: 0;
+    background-color: rgb(10, 12, 20);
+    justify-content: center;
+    align-items: center;
+}
+.loader-title { -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 110px; color: rgb(255, 106, 26); -unity-text-align: middle-center; }
+.loader-tip { font-size: 28px; color: rgb(200, 206, 220); max-width: 1100px; -unity-text-align: middle-center; }
+
+/* ---------- Main menu ---------- */
+.menu { position: absolute; left: 0; top: 0; right: 0; bottom: 0; padding: 70px 100px; }
+.menu-title-screen { flex-direction: row; justify-content: space-between; }
+.menu-left { width: 820px; }
+.menu-right { justify-content: flex-end; padding-bottom: 60px; }
+.logo { flex-direction: row; align-items: flex-end; margin-top: 10px; }
+.logo-a, .logo-b {
+    -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf");
+    font-size: 210px;
+    margin: 0 18px -40px 0;
+    color: rgb(255, 255, 255);
+    text-shadow: 6px 6px 0 rgba(0, 0, 0, 0.45);
+}
+.logo-b { color: rgb(255, 106, 26); }
+.logo-tag { font-size: 30px; letter-spacing: 9px; color: rgb(255, 214, 80); margin: 14px 0 40px 6px; text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.6); }
+.menu-buttons { width: 460px; }
+.menu-footer { position: absolute; left: 100px; bottom: 34px; font-size: 20px; color: rgba(255, 255, 255, 0.6); text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.7); }
+.info-card { background-color: rgba(14, 17, 27, 0.82); border-radius: 12px; border-left-width: 6px; border-left-color: rgb(255, 106, 26); padding: 20px 30px; width: 520px; }
+.info-key { font-size: 22px; color: rgb(170, 178, 196); letter-spacing: 2px; }
+.info-value { -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 64px; margin: -6px 0 -4px 0; }
+.info-small { font-size: 20px; color: rgb(170, 178, 196); margin-top: 10px; }
+
+.menu-header { flex-direction: row; align-items: center; margin-bottom: 30px; }
+.menu-header-title { -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 100px; text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.5); }
+
+.map-row { flex-direction: row; flex-wrap: wrap; }
+.map-card {
+    width: 540px;
+    margin: 0 26px 26px 0;
+    padding: 0 0 18px 0;
+    background-color: rgba(14, 17, 27, 0.88);
+    border-radius: 14px;
+    border-width: 4px;
+    border-color: rgba(255, 255, 255, 0);
+    overflow: hidden;
+    flex-direction: column;
+    align-items: stretch;
+    transition-property: border-color, scale, translate;
+    transition-duration: 0.12s;
+}
+.map-card:hover, .map-card:focus { border-color: rgb(255, 106, 26); scale: 1.03 1.03; }
+.map-thumb { height: 290px; background-color: rgb(40, 60, 50); -unity-background-scale-mode: scale-and-crop; border-bottom-width: 6px; border-bottom-color: rgb(255, 106, 26); }
+.map-name { -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 58px; margin: 10px 22px -8px 22px; }
+.map-meta { font-size: 20px; color: rgb(255, 170, 110); margin: 0 22px; letter-spacing: 2px; }
+.map-blurb { font-size: 21px; color: rgb(200, 206, 220); margin: 10px 22px; height: 70px; }
+.map-foot { flex-direction: row; justify-content: space-between; align-items: center; margin: 4px 22px 0 22px; }
+.map-best { -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 34px; }
+
+.par-row { flex-direction: row; margin: 6px 0 4px 0; }
+.par-gold, .par-silver, .par-bronze { -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 34px; margin-right: 34px; }
+.par-gold { color: rgb(255, 205, 60); }
+.par-silver { color: rgb(205, 214, 230); }
+.par-bronze { color: rgb(222, 140, 80); }
+
+.garage-panel { position: absolute; right: 90px; top: 220px; width: 720px; background-color: rgba(14, 17, 27, 0.86); border-radius: 14px; padding: 26px 36px; border-top-width: 6px; border-top-color: rgb(255, 106, 26); }
+.garage-nav { flex-direction: row; align-items: center; justify-content: space-between; }
+.garage-name-box { flex-grow: 1; align-items: center; }
+.garage-name { -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 76px; -unity-text-align: middle-center; margin-bottom: -14px; }
+.garage-count { font-size: 20px; color: rgb(170, 178, 196); -unity-text-align: middle-center; }
+.garage-blurb { font-size: 23px; color: rgb(205, 211, 225); margin: 14px 0 12px 0; height: 66px; }
+.garage-locked { color: rgb(255, 120, 100); font-size: 22px; margin: 8px 0; }
+
+.record-row { flex-direction: row; align-items: center; height: 70px; border-bottom-width: 1px; border-bottom-color: rgba(255, 255, 255, 0.08); }
+.record-map { width: 330px; -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 44px; }
+.record-time { width: 200px; -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 44px; color: rgb(255, 214, 80); }
+.record-lap { width: 210px; font-size: 22px; color: rgb(170, 178, 196); }
+.record-car { margin-left: 24px; font-size: 22px; color: rgb(170, 178, 196); }
+
+.settings-panel { padding-bottom: 24px; }
+.settings-scroll { max-height: 640px; margin-bottom: 14px; }
+.settings-section { -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 40px; color: rgb(255, 106, 26); margin: 16px 0 2px 4px; }
+.credits-text { font-size: 22px; color: rgb(214, 220, 232); }
+
+/* ---------- Medals ---------- */
+.medal { margin: 14px 0; padding: 6px 22px 2px 22px; border-radius: 30px; align-self: flex-start; }
+.medal-small { padding: 2px 14px 0 14px; border-radius: 16px; }
+.medal-text { -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 46px; color: rgb(20, 20, 26); }
+.medal-text-small { -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 28px; color: rgb(20, 20, 26); }
+.medal-gold { background-color: rgb(255, 205, 60); }
+.medal-silver { background-color: rgb(205, 214, 230); }
+.medal-bronze { background-color: rgb(222, 140, 80); }
+.medal-none { background-color: rgba(255, 255, 255, 0.12); }
+.medal-none .medal-text, .medal-none .medal-text-small { color: rgb(200, 206, 220); }
+
+/* ---------- Results ---------- */
+.results-title { font-size: 120px; }
+.results-win { color: rgb(255, 205, 60); }
+.results-cols { flex-direction: row; }
+.results-left { width: 560px; }
+.results-right { flex-grow: 1; margin-left: 40px; }
+.results-key { font-size: 24px; color: rgb(180, 188, 204); margin-top: 6px; letter-spacing: 1px; }
+.results-time { -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 110px; margin: -16px 0 -18px 0; }
+.results-record { -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 40px; color: rgb(80, 230, 140); }
+.results-par { font-size: 19px; color: rgb(150, 158, 176); }
+.results-unlock { -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 40px; color: rgb(80, 200, 255); margin-top: 10px; }
+.results-row { flex-direction: row; align-items: center; height: 52px; padding: 0 12px; border-radius: 6px; }
+.results-row-player { background-color: rgba(255, 106, 26, 0.35); }
+.results-row-pos { width: 50px; -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 36px; }
+.results-row-name { flex-grow: 1; font-size: 26px; }
+.results-row-time { -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 36px; color: rgb(255, 214, 80); }
+
+/* ---------- HUD ---------- */
+.hud { position: absolute; left: 0; top: 0; right: 0; bottom: 0; }
+.hud Label { text-shadow: 3px 3px 0 rgba(0, 0, 0, 0.55); }
+.hud-top-left { position: absolute; left: 50px; top: 34px; }
+.hud-pos-row { flex-direction: row; align-items: flex-end; }
+.hud-pos { -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 150px; margin-bottom: -46px; color: rgb(255, 255, 255); }
+.hud-pos-total { -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 64px; margin: 0 0 -12px 6px; color: rgb(255, 170, 110); }
+.hud-lap { -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 54px; margin-top: 4px; }
+.hud-laptime { font-size: 24px; color: rgb(220, 226, 236); margin-top: -8px; }
+.hud-standings { margin-top: 18px; }
+.hud-standing { font-size: 22px; color: rgb(220, 226, 236); height: 32px; padding: 2px 12px 0 12px; background-color: rgba(10, 12, 20, 0.5); margin-bottom: 3px; border-radius: 4px; width: 220px; }
+.hud-standing-player { background-color: rgba(255, 106, 26, 0.85); color: rgb(255, 255, 255); }
+
+.hud-top-center { position: absolute; left: 0; right: 0; top: 24px; align-items: center; }
+.hud-time { -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 92px; -unity-text-align: middle-center; margin-bottom: -18px; }
+.hud-best { font-size: 22px; color: rgb(220, 226, 236); -unity-text-align: middle-center; letter-spacing: 2px; }
+.hud-delta { -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 54px; -unity-text-align: middle-center; margin-top: 2px; }
+.hud-delta-good { color: rgb(80, 235, 140); }
+.hud-delta-bad { color: rgb(255, 90, 80); }
+
+.hud-minimap { position: absolute; right: 44px; top: 36px; width: 230px; height: 230px; background-color: rgba(10, 12, 20, 0.45); border-radius: 115px; overflow: hidden; border-width: 3px; border-color: rgba(255, 255, 255, 0.25); }
+.hud-minimap-path { position: absolute; left: 0; top: 0; width: 230px; height: 230px; }
+.hud-mini-dot { position: absolute; width: 10px; height: 10px; border-radius: 5px; background-color: rgb(120, 210, 255); border-width: 1px; border-color: rgb(10, 10, 20); }
+.hud-mini-dot-player { width: 14px; height: 14px; border-radius: 7px; background-color: rgb(255, 106, 26); border-width: 2px; border-color: rgb(255, 255, 255); }
+
+.hud-speedo { position: absolute; right: 60px; bottom: 44px; width: 340px; align-items: flex-end; }
+.hud-speed-row { flex-direction: row; align-items: flex-end; }
+.hud-speed { -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 150px; -unity-text-align: lower-right; margin-bottom: -44px; }
+.hud-unit-col { margin-left: 10px; align-items: flex-start; }
+.hud-gear { -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 64px; color: rgb(255, 170, 110); margin-bottom: -18px; }
+.hud-unit { font-size: 22px; color: rgb(220, 226, 236); letter-spacing: 2px; }
+.hud-boost-label { font-size: 18px; color: rgb(220, 226, 236); margin-top: 12px; letter-spacing: 2px; }
+.hud-boost-track { width: 320px; height: 18px; background-color: rgba(10, 12, 20, 0.55); border-radius: 9px; overflow: hidden; border-width: 2px; border-color: rgba(255, 255, 255, 0.3); margin-top: 4px; }
+.hud-boost-fill { height: 100%; background-color: rgb(80, 200, 255); }
+.hud-boost-full { background-color: rgb(120, 230, 255); }
+.hud-boost-active { background-color: rgb(255, 214, 80); }
+
+.hud-drift { position: absolute; left: 54px; bottom: 50px; }
+.hud-drift-row { flex-direction: row; align-items: flex-end; }
+.hud-drift-points { -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 76px; color: rgb(80, 200, 255); margin-bottom: -18px; }
+.hud-drift-mult { -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 54px; color: rgb(255, 214, 80); margin-left: 12px; margin-bottom: -10px; }
+.hud-drift-total { font-size: 22px; color: rgb(220, 226, 236); letter-spacing: 2px; }
+
+.hud-center { position: absolute; left: 0; right: 0; top: 300px; align-items: center; }
+.hud-center-msg { -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 170px; -unity-text-align: middle-center; color: rgb(255, 255, 255); transition-property: scale; transition-duration: 0.25s; transition-timing-function: ease-out-back; }
+.hud-center-msg.pop { scale: 1.5 1.5; transition-duration: 0s; }
+.hud-center-sub { font-size: 34px; -unity-text-align: middle-center; color: rgb(255, 214, 80); letter-spacing: 3px; margin-top: -24px; }
+.hud-wrongway { color: rgb(255, 80, 70); font-size: 120px; }
+.hud-hint { position: absolute; left: 0; right: 0; bottom: 14px; -unity-text-align: middle-center; font-size: 19px; color: rgba(255, 255, 255, 0.7); }
+.hud-fps { position: absolute; right: 300px; top: 40px; font-size: 22px; color: rgb(140, 255, 160); }
