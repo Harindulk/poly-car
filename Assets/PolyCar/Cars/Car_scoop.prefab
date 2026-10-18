@@ -210,7 +210,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1036099272381762885}
-  - {fileID: 1732619828949300561}
+  - {fileID: 4302362288434004774}
   - {fileID: 8792953879438433456}
   m_Father: {fileID: 4381086408649844907}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -239,7 +239,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 834949954270479919}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -0.77073866, y: 0.03, z: -1.1450661}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -295,11 +295,11 @@ TrailRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Time: 6
+  m_Time: 7
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.15
+    widthMultiplier: 0.32
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -310,15 +310,24 @@ TrailRenderer:
         outSlope: 0
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0, g: 0, b: 0, a: 1}
-      key1: {r: 0.18867922, g: 0.18867922, b: 0.18867922, a: 0.5882353}
+      key0: {r: 0.05882353, g: 0.05882353, b: 0.07058824, a: 0.7019608}
+      key1: {r: 0.05882353, g: 0.05882353, b: 0.07058824, a: 0.5882353}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -352,101 +361,10 @@ TrailRenderer:
     textureScale: {x: 1, y: 1}
     shadowBias: 1
     generateLightingData: 0
-  m_MinVertexDistance: 0.4
+  m_MinVertexDistance: 0.35
   m_Autodestruct: 0
   m_Emitting: 0
   m_ApplyActiveColorSpace: 0
---- !u!1 &1673195197129450571
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1732619828949300561}
-  - component: {fileID: 3436019070466580641}
-  - component: {fileID: 894842831392823985}
-  m_Layer: 0
-  m_Name: Body
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1732619828949300561
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1673195197129450571}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: -0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 8500618051817846256}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &3436019070466580641
-MeshFilter:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1673195197129450571}
-  m_Mesh: {fileID: 2959467708922500008, guid: 67d2b20153ec5ce418f358b026bb23d9, type: 3}
---- !u!23 &894842831392823985
-MeshRenderer:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1673195197129450571}
-  m_Enabled: 1
-  m_CastShadows: 1
-  m_ReceiveShadows: 1
-  m_DynamicOccludee: 1
-  m_StaticShadowCaster: 0
-  m_MotionVectors: 1
-  m_LightProbeUsage: 1
-  m_ReflectionProbeUsage: 1
-  m_RayTracingMode: 2
-  m_RayTraceProcedural: 0
-  m_RayTracingAccelStructBuildFlagsOverride: 0
-  m_RayTracingAccelStructBuildFlags: 1
-  m_SmallMeshCulling: 1
-  m_ForceMeshLod: -1
-  m_MeshLodSelectionBias: 0
-  m_RenderingLayerMask: 1
-  m_RendererPriority: 0
-  m_Materials:
-  - {fileID: 2100000, guid: b462469742c618546befd32ba3c437e4, type: 2}
-  - {fileID: 2100000, guid: 94a558dbdb950294196144082ece2376, type: 2}
-  m_StaticBatchInfo:
-    firstSubMesh: 0
-    subMeshCount: 0
-  m_StaticBatchRoot: {fileID: 0}
-  m_ProbeAnchor: {fileID: 0}
-  m_LightProbeVolumeOverride: {fileID: 0}
-  m_ScaleInLightmap: 1
-  m_ReceiveGI: 1
-  m_PreserveUVs: 0
-  m_IgnoreNormalsForChartDetection: 0
-  m_ImportantGI: 0
-  m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 3
-  m_MinimumChartSize: 4
-  m_AutoUVMaxDistance: 0.5
-  m_AutoUVMaxAngle: 89
-  m_LightmapParameters: {fileID: 0}
-  m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
-  m_MaskInteraction: 0
-  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &3309158603225143989
 GameObject:
   m_ObjectHideFlags: 0
@@ -597,9 +515,9 @@ MonoBehaviour:
   steerBuildUp: 4.5
   steerRelease: 9
   yawResponse: 8
-  driftYawResponse: 4.5
-  driftYawBoost: 1.35
-  driftMomentum: 0.3
+  driftYawResponse: 5
+  driftYawBoost: 1.05
+  driftMomentum: 0.45
   offRoadSpeed: 0.72
   offRoadGrip: 0.65
   downforce: 0.0016
@@ -838,7 +756,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.95, g: 0.95, b: 0.97, a: 0.5}
+      maxColor: {r: 0.95, g: 0.95, b: 0.97, a: 0.75}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -902,8 +820,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 3
       minMaxState: 3
-      scalar: 1.2
-      minScalar: 0.6
+      scalar: 1.6
+      minScalar: 0.8
       maxCurve:
         serializedVersion: 2
         m_Curve: []
@@ -1441,8 +1359,8 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 0.55}
-        key1: {r: 1, g: 1, b: 1, a: 0.25}
+        key0: {r: 1, g: 1, b: 1, a: 0.8}
+        key1: {r: 1, g: 1, b: 1, a: 0.4}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -3349,7 +3267,7 @@ ParticleSystemRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_RenderMode: 4
+  m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
@@ -3372,7 +3290,7 @@ ParticleSystemRenderer:
   m_VertexStreams: 0001030405y
   m_UseCustomTrailVertexStreams: 0
   m_TrailVertexStreams: 00010304y
-  m_Mesh: {fileID: 4711208715938537054, guid: 7f2eb32a90aace349adccd6efbc6bd9b, type: 3}
+  m_Mesh: {fileID: 0}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
@@ -3405,7 +3323,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 4531792691603345439}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0.7707386, y: 0.03, z: -1.1450659}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3461,11 +3379,11 @@ TrailRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Time: 6
+  m_Time: 7
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.15
+    widthMultiplier: 0.32
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -3476,15 +3394,24 @@ TrailRenderer:
         outSlope: 0
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0, g: 0, b: 0, a: 1}
-      key1: {r: 0.18867922, g: 0.18867922, b: 0.18867922, a: 0.5882353}
+      key0: {r: 0.05882353, g: 0.05882353, b: 0.07058824, a: 0.7019608}
+      key1: {r: 0.05882353, g: 0.05882353, b: 0.07058824, a: 0.5882353}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -3518,7 +3445,7 @@ TrailRenderer:
     textureScale: {x: 1, y: 1}
     shadowBias: 1
     generateLightingData: 0
-  m_MinVertexDistance: 0.4
+  m_MinVertexDistance: 0.35
   m_Autodestruct: 0
   m_Emitting: 0
   m_ApplyActiveColorSpace: 0
@@ -3765,6 +3692,97 @@ Transform:
   - {fileID: 1666703294928502450}
   m_Father: {fileID: 7933619119923094246}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6473402846304989829
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 4302362288434004774}
+  - component: {fileID: 3582401336221656417}
+  - component: {fileID: 7186368923807534932}
+  m_Layer: 0
+  m_Name: Body
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &4302362288434004774
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6473402846304989829}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8500618051817846256}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!33 &3582401336221656417
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6473402846304989829}
+  m_Mesh: {fileID: 2959467708922500008, guid: 67d2b20153ec5ce418f358b026bb23d9, type: 3}
+--- !u!23 &7186368923807534932
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6473402846304989829}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: b462469742c618546befd32ba3c437e4, type: 2}
+  - {fileID: 2100000, guid: 94a558dbdb950294196144082ece2376, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
 --- !u!1 &7398910155373187479
 GameObject:
   m_ObjectHideFlags: 0
@@ -3934,7 +3952,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.95, g: 0.95, b: 0.97, a: 0.5}
+      maxColor: {r: 0.95, g: 0.95, b: 0.97, a: 0.75}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -3998,8 +4016,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 3
       minMaxState: 3
-      scalar: 1.2
-      minScalar: 0.6
+      scalar: 1.6
+      minScalar: 0.8
       maxCurve:
         serializedVersion: 2
         m_Curve: []
@@ -4537,8 +4555,8 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 0.55}
-        key1: {r: 1, g: 1, b: 1, a: 0.25}
+        key0: {r: 1, g: 1, b: 1, a: 0.8}
+        key1: {r: 1, g: 1, b: 1, a: 0.4}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -6445,7 +6463,7 @@ ParticleSystemRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_RenderMode: 4
+  m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
@@ -6468,7 +6486,7 @@ ParticleSystemRenderer:
   m_VertexStreams: 0001030405y
   m_UseCustomTrailVertexStreams: 0
   m_TrailVertexStreams: 00010304y
-  m_Mesh: {fileID: 4711208715938537054, guid: 7f2eb32a90aace349adccd6efbc6bd9b, type: 3}
+  m_Mesh: {fileID: 0}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}

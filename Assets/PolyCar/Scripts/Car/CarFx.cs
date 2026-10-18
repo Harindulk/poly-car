@@ -43,7 +43,7 @@ namespace PolyCar
                 if (!p) continue;
                 bool on = car.IsDrifting && i < _rear.Length && _rear[i].grounded;
                 var em = p.emission;
-                em.rateOverTimeMultiplier = on ? Mathf.Lerp(8f, 40f, Mathf.Clamp01((Mathf.Abs(car.LateralSpeed) - 2.5f) / 7f)) : 0f;
+                em.rateOverTimeMultiplier = on ? Mathf.Lerp(14f, 60f, Mathf.Clamp01((Mathf.Abs(car.LateralSpeed) - 2.5f) / 7f)) : 0f;
                 if (on && !p.isPlaying) p.Play();
             }
             foreach (var p in boostFlames)

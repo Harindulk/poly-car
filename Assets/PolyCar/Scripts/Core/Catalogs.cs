@@ -17,7 +17,7 @@ namespace PolyCar
         public float topSpeedKmh = 175f;
         public float acceleration = 10f;   // m/s² at low speed
         public float grip = 7f;            // lateral slip decay per second
-        public float driftGrip = 1.6f;
+        public float driftGrip = 2.3f;
         public float turnRate = 95f;       // deg/s at full lock
         public float mass = 1200f;
 
@@ -25,7 +25,7 @@ namespace PolyCar
         public float SpeedRating => Mathf.InverseLerp(130f, 215f, topSpeedKmh);
         public float AccelRating => Mathf.InverseLerp(6f, 14f, acceleration);
         public float HandlingRating => Mathf.InverseLerp(4f, 10f, grip) * 0.6f + Mathf.InverseLerp(70f, 120f, turnRate) * 0.4f;
-        public float DriftRating => Mathf.InverseLerp(2.6f, 1.0f, driftGrip);
+        public float DriftRating => Mathf.InverseLerp(3.3f, 1.8f, driftGrip);
     }
 
     [Serializable]

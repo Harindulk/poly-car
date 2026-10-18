@@ -199,29 +199,29 @@ namespace PolyCar.Editor
             new CarSource { id = "muscle", name = "Stallion GT", source = "Assets/Prefabs/DriftCar.prefab",
                 wheels = new[] { "FrontLeftWheel", "FrontRightWheel", "RearLeftWheel", "RearRightWheel" },
                 blurb = "The original Poly Car. Big torque, a lazy rear end and happiest going sideways.",
-                top = 182, accel = 10.5f, grip = 6.6f, drift = 1.35f, turn = 94, mass = 1350, unlock = 0, enginePitch = 0.9f },
+                top = 182, accel = 10.5f, grip = 6.6f, drift = 2.1f, turn = 94, mass = 1350, unlock = 0, enginePitch = 0.9f },
             new CarSource { id = "outlaw", name = "Outlaw 01", source = "Assets/Low Poly Cars/Prefabs/car_1.prefab", yaw = -90f,
                 blurb = "A loud orange muscle car with a habit of jumping things. Loose, loud and forgiving.",
-                top = 176, accel = 10f, grip = 7f, drift = 1.3f, turn = 100, mass = 1300, unlock = 0, enginePitch = 0.85f },
+                top = 176, accel = 10f, grip = 7f, drift = 2.0f, turn = 100, mass = 1300, unlock = 0, enginePitch = 0.85f },
             new CarSource { id = "scoop", name = "Scoop Van", source = "Assets/News Truck - Stylized Vehicle/Prefabs/News_Truck.prefab",
                 wheels = new[] { "FLW", "FRW", "RLW", "RRW" },
                 blurb = "Channel 7's news van. Heavy, slow and somehow always first on the scene.",
-                top = 148, accel = 8f, grip = 6.2f, drift = 1.25f, turn = 84, mass = 1900, unlock = 0, enginePitch = 0.8f },
+                top = 148, accel = 8f, grip = 6.2f, drift = 2.0f, turn = 84, mass = 1900, unlock = 0, enginePitch = 0.8f },
             new CarSource { id = "interceptor", name = "Interceptor", source = "Assets/Low Poly Cars/Prefabs/car_2.prefab", yaw = -90f,
                 blurb = "Retired from the force, not from chasing. Stable, quick and great on the brakes.",
-                top = 186, accel = 10.6f, grip = 7.8f, drift = 1.6f, turn = 96, mass = 1500, unlock = 2, enginePitch = 0.95f },
+                top = 186, accel = 10.6f, grip = 7.8f, drift = 2.4f, turn = 96, mass = 1500, unlock = 2, enginePitch = 0.95f },
             new CarSource { id = "apex", name = "Apex S", source = "Assets/HyperCars/Prefabs/Hypercar2_Simple.prefab",
                 wheels = new[] { "WHEEL_FL", "WHEEL_FR", "WHEEL_RL", "WHEEL_RR" },
                 blurb = "Mid-engined and glued to the road. The grip car - brake late, turn hard.",
-                top = 196, accel = 12f, grip = 9.2f, drift = 2.3f, turn = 102, mass = 1220, unlock = 3, enginePitch = 1.05f },
+                top = 196, accel = 12f, grip = 9.2f, drift = 3.0f, turn = 102, mass = 1220, unlock = 3, enginePitch = 1.05f },
             new CarSource { id = "vortex", name = "Vortex R", source = "Assets/HyperCars/Prefabs/Hypercar1_Simple.prefab",
                 wheels = new[] { "WHEEL_FL", "WHEEL_FR", "WHEEL_RL", "WHEEL_RR" },
                 blurb = "A twin-turbo missile. Huge top speed, needs a careful right foot in the bends.",
-                top = 206, accel = 12.6f, grip = 8.4f, drift = 1.9f, turn = 96, mass = 1260, unlock = 5, enginePitch = 1f },
+                top = 206, accel = 12.6f, grip = 8.4f, drift = 2.6f, turn = 96, mass = 1260, unlock = 5, enginePitch = 1f },
             new CarSource { id = "zenith", name = "Zenith X", source = "Assets/HyperCars/Prefabs/Hypercar3_Simple.prefab",
                 wheels = new[] { "WHEEL_FL", "WHEEL_FR", "WHEEL_RL", "WHEEL_RR" },
                 blurb = "The fastest thing in Poly Car. Earn it, then hold on.",
-                top = 214, accel = 13.5f, grip = 8.9f, drift = 1.75f, turn = 100, mass = 1180, unlock = 7, enginePitch = 1.08f },
+                top = 214, accel = 13.5f, grip = 8.9f, drift = 2.5f, turn = 100, mass = 1180, unlock = 7, enginePitch = 1.08f },
         };
 
         [MenuItem("Poly Car/Setup/Build Cars")]
@@ -389,7 +389,15 @@ namespace PolyCar.Editor
                     s.transform.SetParent(root.transform, false);
                     s.transform.localPosition = p;
                     var tr = s.GetComponent<TrailRenderer>();
-                    if (tr) { tr.emitting = false; tr.time = 6f; tr.minVertexDistance = 0.4f; tr.shadowCastingMode = ShadowCastingMode.Off; tr.receiveShadows = false; skids.Add(tr); }
+                    if (tr)
+                    {
+                        tr.emitting = false; tr.time = 7f; tr.minVertexDistance = 0.35f;
+                        tr.widthMultiplier = 0.32f; tr.widthCurve = AnimationCurve.Constant(0f, 1f, 1f);
+                        tr.startColor = new Color(0.06f, 0.06f, 0.07f, 0.7f); tr.endColor = new Color(0.06f, 0.06f, 0.07f, 0f);
+                        tr.alignment = LineAlignment.TransformZ;
+                        s.transform.localRotation = Quaternion.Euler(90f, 0f, 0f); // lie flat on the road
+                        tr.shadowCastingMode = ShadowCastingMode.Off; tr.receiveShadows = false; skids.Add(tr);
+                    }
                 }
                 if (smokePrefab)
                 {
@@ -406,9 +414,9 @@ namespace PolyCar.Editor
                         main.simulationSpace = ParticleSystemSimulationSpace.World;
                         main.playOnAwake = false;
                         main.startLifetime = new ParticleSystem.MinMaxCurve(0.9f, 1.6f);
-                        main.startSize = new ParticleSystem.MinMaxCurve(0.6f, 1.2f);
+                        main.startSize = new ParticleSystem.MinMaxCurve(0.8f, 1.6f);
                         main.startSpeed = new ParticleSystem.MinMaxCurve(0.4f, 1.4f);
-                        main.startColor = new Color(0.95f, 0.95f, 0.97f, 0.5f);
+                        main.startColor = new Color(0.95f, 0.95f, 0.97f, 0.75f);
                         main.gravityModifier = -0.04f;
                         main.maxParticles = 160;
                         var em = ps.emission;
@@ -418,9 +426,11 @@ namespace PolyCar.Editor
                         var col = ps.colorOverLifetime; col.enabled = true;
                         var g = new Gradient();
                         g.SetKeys(new[] { new GradientColorKey(Color.white, 0f), new GradientColorKey(Color.white, 1f) },
-                                  new[] { new GradientAlphaKey(0.55f, 0f), new GradientAlphaKey(0.25f, 0.5f), new GradientAlphaKey(0f, 1f) });
+                                  new[] { new GradientAlphaKey(0.8f, 0f), new GradientAlphaKey(0.4f, 0.5f), new GradientAlphaKey(0f, 1f) });
                         col.color = g;
                         var pr = s.GetComponent<ParticleSystemRenderer>();
+                        pr.renderMode = ParticleSystemRenderMode.Billboard; // the 2022 prefab drew mesh particles
+                        pr.mesh = null;
                         pr.sharedMaterial = AssetDatabase.LoadAssetAtPath<Material>(MatDir + "/TyreSmoke.mat");
                         pr.shadowCastingMode = ShadowCastingMode.Off;
                         pr.receiveShadows = false;

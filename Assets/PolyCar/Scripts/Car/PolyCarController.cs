@@ -56,9 +56,9 @@ namespace PolyCar
         public float steerBuildUp = 4.5f;
         public float steerRelease = 9f;
         public float yawResponse = 8f;
-        public float driftYawResponse = 4.5f;
-        public float driftYawBoost = 1.35f;
-        public float driftMomentum = 0.3f;
+        public float driftYawResponse = 5f;
+        public float driftYawBoost = 1.05f;
+        public float driftMomentum = 0.45f;
         public float offRoadSpeed = 0.72f;
         public float offRoadGrip = 0.65f;
         public float downforce = 0.0016f;
@@ -301,8 +301,8 @@ namespace PolyCar
             vF += a * dt * groundFactor;
 
             // --- Drift state: handbrake, or holding full lock at speed for a moment.
-            _fullLockTime = AutoDrift && Mathf.Abs(_steer) > 0.85f && speedAbs > 17f ? _fullLockTime + dt : 0f;
-            if ((input.Handbrake && speedAbs > 9f) || _fullLockTime > 0.45f) _driftActive = true;
+            _fullLockTime = AutoDrift && Mathf.Abs(_steer) > 0.9f && speedAbs > 22f ? _fullLockTime + dt : 0f;
+            if ((input.Handbrake && speedAbs > 9f) || _fullLockTime > 0.7f) _driftActive = true;
             if (_driftActive && ((!input.Handbrake && Mathf.Abs(vR) < 1.6f && _fullLockTime <= 0f) || speedAbs < 5f)) _driftActive = false;
 
             float gripTarget = (_driftActive ? driftGrip : grip) * (OnRoad ? 1f : offRoadGrip);
@@ -322,9 +322,9 @@ namespace PolyCar
             Vector3 ang = Body.angularVelocity;
             float yawNow = Vector3.Dot(ang, up);
             float resp = _driftActive ? driftYawResponse : yawResponse;
-            // Stability: past ~50 degrees of slip, steer the nose back toward the travel direction (anti-spin).
+            // Stability: past ~38 degrees of slip, steer the nose back toward the travel direction (anti-spin).
             float slipDeg = speedAbs > 4f ? Mathf.Atan2(vR, Mathf.Abs(vF)) * Mathf.Rad2Deg : 0f;
-            if (Mathf.Abs(slipDeg) > 50f) yawTarget += Mathf.Sign(slipDeg) * (Mathf.Abs(slipDeg) - 50f) * 0.05f;
+            if (Mathf.Abs(slipDeg) > 38f) yawTarget += Mathf.Sign(slipDeg) * (Mathf.Abs(slipDeg) - 38f) * 0.09f;
             float yawNew = Mathf.Lerp(yawNow, yawTarget, 1f - Mathf.Exp(-resp * groundFactor * dt));
             Body.angularVelocity = ang + up * (yawNew - yawNow);
 

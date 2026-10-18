@@ -89,7 +89,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 807466317629110296}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: -0.8222373, y: 0.03, z: -1.3890258}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -145,11 +145,11 @@ TrailRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Time: 6
+  m_Time: 7
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.15
+    widthMultiplier: 0.32
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -160,15 +160,24 @@ TrailRenderer:
         outSlope: 0
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0, g: 0, b: 0, a: 1}
-      key1: {r: 0.18867922, g: 0.18867922, b: 0.18867922, a: 0.5882353}
+      key0: {r: 0.05882353, g: 0.05882353, b: 0.07058824, a: 0.7019608}
+      key1: {r: 0.05882353, g: 0.05882353, b: 0.07058824, a: 0.5882353}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -202,7 +211,7 @@ TrailRenderer:
     textureScale: {x: 1, y: 1}
     shadowBias: 1
     generateLightingData: 0
-  m_MinVertexDistance: 0.4
+  m_MinVertexDistance: 0.35
   m_Autodestruct: 0
   m_Emitting: 0
   m_ApplyActiveColorSpace: 0
@@ -324,9 +333,9 @@ MonoBehaviour:
   steerBuildUp: 4.5
   steerRelease: 9
   yawResponse: 8
-  driftYawResponse: 4.5
-  driftYawBoost: 1.35
-  driftMomentum: 0.3
+  driftYawResponse: 5
+  driftYawBoost: 1.05
+  driftMomentum: 0.45
   offRoadSpeed: 0.72
   offRoadGrip: 0.65
   downforce: 0.0016
@@ -660,7 +669,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.95, g: 0.95, b: 0.97, a: 0.5}
+      maxColor: {r: 0.95, g: 0.95, b: 0.97, a: 0.75}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -724,8 +733,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 3
       minMaxState: 3
-      scalar: 1.2
-      minScalar: 0.6
+      scalar: 1.6
+      minScalar: 0.8
       maxCurve:
         serializedVersion: 2
         m_Curve: []
@@ -1263,8 +1272,8 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 0.55}
-        key1: {r: 1, g: 1, b: 1, a: 0.25}
+        key0: {r: 1, g: 1, b: 1, a: 0.8}
+        key1: {r: 1, g: 1, b: 1, a: 0.4}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -3171,7 +3180,7 @@ ParticleSystemRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_RenderMode: 4
+  m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
@@ -3194,7 +3203,7 @@ ParticleSystemRenderer:
   m_VertexStreams: 0001030405y
   m_UseCustomTrailVertexStreams: 0
   m_TrailVertexStreams: 00010304y
-  m_Mesh: {fileID: 4711208715938537054, guid: 7f2eb32a90aace349adccd6efbc6bd9b, type: 3}
+  m_Mesh: {fileID: 0}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}
@@ -3227,7 +3236,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2589084861233800906}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0.7071068, y: 0, z: 0, w: 0.7071068}
   m_LocalPosition: {x: 0.8222373, y: 0.03, z: -1.3890258}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -3283,11 +3292,11 @@ TrailRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Time: 6
+  m_Time: 7
   m_PreviewTimeScale: 1
   m_Parameters:
     serializedVersion: 3
-    widthMultiplier: 0.15
+    widthMultiplier: 0.32
     widthCurve:
       serializedVersion: 2
       m_Curve:
@@ -3298,15 +3307,24 @@ TrailRenderer:
         outSlope: 0
         tangentMode: 0
         weightedMode: 0
-        inWeight: 0.33333334
-        outWeight: 0.33333334
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
       m_PreInfinity: 2
       m_PostInfinity: 2
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 0, g: 0, b: 0, a: 1}
-      key1: {r: 0.18867922, g: 0.18867922, b: 0.18867922, a: 0.5882353}
+      key0: {r: 0.05882353, g: 0.05882353, b: 0.07058824, a: 0.7019608}
+      key1: {r: 0.05882353, g: 0.05882353, b: 0.07058824, a: 0.5882353}
       key2: {r: 0, g: 0, b: 0, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
@@ -3340,7 +3358,7 @@ TrailRenderer:
     textureScale: {x: 1, y: 1}
     shadowBias: 1
     generateLightingData: 0
-  m_MinVertexDistance: 0.4
+  m_MinVertexDistance: 0.35
   m_Autodestruct: 0
   m_Emitting: 0
   m_ApplyActiveColorSpace: 0
@@ -3545,7 +3563,7 @@ ParticleSystem:
       serializedVersion: 2
       minMaxState: 0
       minColor: {r: 1, g: 1, b: 1, a: 1}
-      maxColor: {r: 0.95, g: 0.95, b: 0.97, a: 0.5}
+      maxColor: {r: 0.95, g: 0.95, b: 0.97, a: 0.75}
       maxGradient:
         serializedVersion: 2
         key0: {r: 1, g: 1, b: 1, a: 1}
@@ -3609,8 +3627,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 3
       minMaxState: 3
-      scalar: 1.2
-      minScalar: 0.6
+      scalar: 1.6
+      minScalar: 0.8
       maxCurve:
         serializedVersion: 2
         m_Curve: []
@@ -4148,8 +4166,8 @@ ParticleSystem:
       maxColor: {r: 1, g: 1, b: 1, a: 1}
       maxGradient:
         serializedVersion: 2
-        key0: {r: 1, g: 1, b: 1, a: 0.55}
-        key1: {r: 1, g: 1, b: 1, a: 0.25}
+        key0: {r: 1, g: 1, b: 1, a: 0.8}
+        key1: {r: 1, g: 1, b: 1, a: 0.4}
         key2: {r: 0, g: 0, b: 0, a: 0}
         key3: {r: 0, g: 0, b: 0, a: 0}
         key4: {r: 0, g: 0, b: 0, a: 0}
@@ -6056,7 +6074,7 @@ ParticleSystemRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_RenderMode: 4
+  m_RenderMode: 0
   m_MeshDistribution: 0
   m_SortMode: 0
   m_MinParticleSize: 0
@@ -6079,7 +6097,7 @@ ParticleSystemRenderer:
   m_VertexStreams: 0001030405y
   m_UseCustomTrailVertexStreams: 0
   m_TrailVertexStreams: 00010304y
-  m_Mesh: {fileID: 4711208715938537054, guid: 7f2eb32a90aace349adccd6efbc6bd9b, type: 3}
+  m_Mesh: {fileID: 0}
   m_Mesh1: {fileID: 0}
   m_Mesh2: {fileID: 0}
   m_Mesh3: {fileID: 0}

@@ -180,7 +180,7 @@ Label { -unity-text-align: middle-left; white-space: normal; }
 .par-silver { color: rgb(205, 214, 230); }
 .par-bronze { color: rgb(222, 140, 80); }
 
-.garage-panel { position: absolute; right: 90px; top: 220px; width: 720px; background-color: rgba(14, 17, 27, 0.86); border-radius: 14px; padding: 26px 36px; border-top-width: 6px; border-top-color: rgb(255, 106, 26); }
+.garage-panel { position: absolute; left: 100px; top: 200px; width: 700px; background-color: rgba(14, 17, 27, 0.86); border-radius: 14px; padding: 26px 36px; border-top-width: 6px; border-top-color: rgb(255, 106, 26); }
 .garage-nav { flex-direction: row; align-items: center; justify-content: space-between; }
 .garage-name-box { flex-grow: 1; align-items: center; }
 .garage-name { -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 76px; -unity-text-align: middle-center; margin-bottom: -14px; }
@@ -277,3 +277,10 @@ Label { -unity-text-align: middle-left; white-space: normal; }
 .hud-wrongway { color: rgb(255, 80, 70); font-size: 120px; }
 .hud-hint { position: absolute; left: 0; right: 0; bottom: 14px; -unity-text-align: middle-center; font-size: 19px; color: rgba(255, 255, 255, 0.7); }
 .hud-fps { position: absolute; right: 300px; top: 40px; font-size: 22px; color: rgb(140, 255, 160); }
+
+/* ---------- Scrollbars ---------- */
+.settings-scroll .unity-scroller--vertical { width: 10px; border-width: 0; background-color: rgba(0, 0, 0, 0); }
+.settings-scroll .unity-scroller__low-button, .settings-scroll .unity-scroller__high-button { display: none; }
+.settings-scroll .unity-scroller--vertical .unity-base-slider__tracker { background-color: rgba(255, 255, 255, 0.06); border-width: 0; border-radius: 5px; }
+.settings-scroll .unity-scroller--vertical .unity-base-slider__dragger { background-color: rgb(255, 106, 26); border-width: 0; border-radius: 5px; }
+.settings-scroll .unity-scroller--horizontal { display: none; }

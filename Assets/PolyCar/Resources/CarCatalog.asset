@@ -21,7 +21,7 @@ MonoBehaviour:
     topSpeedKmh: 182
     acceleration: 10.5
     grip: 6.6
-    driftGrip: 1.35
+    driftGrip: 2.1
     turnRate: 94
     mass: 1350
   - id: outlaw
@@ -32,7 +32,7 @@ MonoBehaviour:
     topSpeedKmh: 176
     acceleration: 10
     grip: 7
-    driftGrip: 1.3
+    driftGrip: 2
     turnRate: 100
     mass: 1300
   - id: scoop
@@ -43,7 +43,7 @@ MonoBehaviour:
     topSpeedKmh: 148
     acceleration: 8
     grip: 6.2
-    driftGrip: 1.25
+    driftGrip: 2
     turnRate: 84
     mass: 1900
   - id: interceptor
@@ -54,7 +54,7 @@ MonoBehaviour:
     topSpeedKmh: 186
     acceleration: 10.6
     grip: 7.8
-    driftGrip: 1.6
+    driftGrip: 2.4
     turnRate: 96
     mass: 1500
   - id: apex
@@ -65,7 +65,7 @@ MonoBehaviour:
     topSpeedKmh: 196
     acceleration: 12
     grip: 9.2
-    driftGrip: 2.3
+    driftGrip: 3
     turnRate: 102
     mass: 1220
   - id: vortex
@@ -76,7 +76,7 @@ MonoBehaviour:
     topSpeedKmh: 206
     acceleration: 12.6
     grip: 8.4
-    driftGrip: 1.9
+    driftGrip: 2.6
     turnRate: 96
     mass: 1260
   - id: zenith
@@ -87,6 +87,6 @@ MonoBehaviour:
     topSpeedKmh: 214
     acceleration: 13.5
     grip: 8.9
-    driftGrip: 1.75
+    driftGrip: 2.5
     turnRate: 100
     mass: 1180
