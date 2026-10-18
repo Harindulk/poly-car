@@ -63,7 +63,7 @@ namespace PolyCar
             if (quality >= 0 && quality < QualitySettings.names.Length && QualitySettings.GetQualityLevel() != quality)
                 QualitySettings.SetQualityLevel(quality, true);
 
-            QualitySettings.vSyncCount = vSync ? 1 : 0;
+            QualitySettings.vSyncCount = vSync && fpsLimit <= 0 ? 1 : 0;
             Application.targetFrameRate = fpsLimit > 0 ? fpsLimit : (vSync ? -1 : 300);
 
             // Render scale lives on the pipeline asset; never dirty the project asset from the Editor.

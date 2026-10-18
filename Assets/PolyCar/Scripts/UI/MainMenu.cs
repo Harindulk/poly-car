@@ -342,10 +342,25 @@ namespace PolyCar
             scroll.Add(UiKit.Stepper("RESOLUTION", () => resList[ri].x + " x " + resList[ri].y, d => { ri = Mathf.Clamp(ri + d, 0, resList.Count - 1); st.resolutionWidth = resList[ri].x; st.resolutionHeight = resList[ri].y; st.Apply(); }, out _));
             string[] modes = { "BORDERLESS", "FULLSCREEN", "WINDOWED" };
             scroll.Add(UiKit.Stepper("WINDOW MODE", () => modes[st.windowMode], d => { st.windowMode = (st.windowMode + d + 3) % 3; st.Apply(); }, out _));
-            scroll.Add(UiKit.Stepper("VSYNC", () => st.vSync ? "ON" : "OFF", _ => { st.vSync = !st.vSync; st.Apply(false); }, out _));
+            // VSync and an FPS cap are exclusive (Unity ignores the cap while VSync is on).
             int[] fps = { 0, 30, 60, 120, 144, 165, 240 };
             int fi = Mathf.Max(0, System.Array.IndexOf(fps, st.fpsLimit));
-            scroll.Add(UiKit.Stepper("FPS LIMIT", () => fps[fi] == 0 ? "UNLIMITED" : fps[fi].ToString(), d => { fi = Mathf.Clamp(fi + d, 0, fps.Length - 1); st.fpsLimit = fps[fi]; st.Apply(false); }, out _));
+            System.Action refreshVsync = null, refreshFps = null;
+            scroll.Add(UiKit.Stepper("VSYNC", () => st.vSync ? "ON" : "OFF", _ =>
+            {
+                st.vSync = !st.vSync;
+                if (st.vSync) { st.fpsLimit = 0; fi = 0; }
+                st.Apply(false);
+                refreshFps?.Invoke();
+            }, out refreshVsync));
+            scroll.Add(UiKit.Stepper("FPS LIMIT", () => fps[fi] == 0 ? (st.vSync ? "VSYNC" : "UNLIMITED") : fps[fi].ToString(), d =>
+            {
+                fi = Mathf.Clamp(fi + d, 0, fps.Length - 1);
+                st.fpsLimit = fps[fi];
+                if (st.fpsLimit > 0) st.vSync = false;
+                st.Apply(false);
+                refreshVsync?.Invoke();
+            }, out refreshFps));
             var qNames = QualitySettings.names;
             scroll.Add(UiKit.Stepper("GRAPHICS", () => qNames[Mathf.Clamp(st.quality < 0 ? QualitySettings.GetQualityLevel() : st.quality, 0, qNames.Length - 1)].ToUpper(), d =>
             {
