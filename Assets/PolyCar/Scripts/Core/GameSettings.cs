@@ -4,7 +4,7 @@ using UnityEngine;
 namespace PolyCar
 {
     public enum Difficulty { Easy = 0, Normal = 1, Hard = 2 }
-    public enum CameraMode { Chase = 0, Near = 1, Hood = 2 }
+    public enum CameraMode { Rally = 0, RallyFar = 1, Chase = 2, Hood = 3 }
 
     /// <summary>Player options, persisted as JSON in PlayerPrefs and applied at boot and on change.</summary>
     [Serializable]

@@ -73,10 +73,32 @@ namespace PolyCar.Editor
             // Finish arch stays as scenery; make sure no trigger or collider blocks the road under it.
             if (end) foreach (var c in end.GetComponentsInChildren<Collider>()) if (c.isTrigger) Object.DestroyImmediate(c);
 
+            ConformTerrainToRoad(road);
+            FixStaticConvexColliders(scene);
             int stripped = StripMissingScripts(scene);
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
             Debug.Log($"Poly Car: Green Forest converted. Track length {path.Length:0} m, {path.points.Count} points, {stripped} missing scripts removed.");
+        }
+
+        /// <summary>Static scenery doesn't need convex colliders (the cliff exceeded the 255-triangle convex limit).</summary>
+        public static int FixStaticConvexColliders(UnityEngine.SceneManagement.Scene scene)
+        {
+            int n = 0;
+            foreach (var root in scene.GetRootGameObjects())
+                foreach (var mc in root.GetComponentsInChildren<MeshCollider>(true))
+                    if (mc.convex && !mc.isTrigger && mc.attachedRigidbody == null && mc.sharedMesh != null && mc.sharedMesh.triangles.Length / 3 > 255) { mc.convex = false; n++; }
+            return n;
+        }
+
+        [MenuItem("Poly Car/Setup/Fix Green Forest Colliders")]
+        public static void FixGreenForestColliders()
+        {
+            var scene = EditorSceneManager.OpenScene(GreenForestPath, OpenSceneMode.Single);
+            int n = FixStaticConvexColliders(scene);
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
+            Debug.Log($"Poly Car: {n} static convex colliders made non-convex.");
         }
 
         /// <summary>Removes components whose script no longer exists (the 2022 ReSpawner triggers, the old camera script).</summary>
@@ -99,6 +121,100 @@ namespace PolyCar.Editor
                 if (n > 0) { EditorSceneManager.MarkSceneDirty(scene); EditorSceneManager.SaveScene(scene); }
                 Debug.Log($"Poly Car: {s.path}: removed {n} missing script component(s).");
             }
+        }
+
+        /// <summary>
+        /// Conforms every terrain tile to the road (what EasyRoads3D does for art of rally): heightmap samples
+        /// within the road half-width + 1 m go to just under the road surface, then blend back to the
+        /// original ground over 12 m. Trees are re-seated on the new surface. Removes the raised-road lip.
+        /// </summary>
+        [MenuItem("Poly Car/Setup/Conform Green Forest Terrain To Road")]
+        public static void ConformGreenForestTerrainMenu()
+        {
+            var scene = EditorSceneManager.OpenScene(GreenForestPath, OpenSceneMode.Single);
+            int changed = ConformTerrainToRoad(Object.FindAnyObjectByType<RoadArchitect.Road>());
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
+            Debug.Log($"Poly Car: conformed {changed} terrain samples to the Green Forest road.");
+        }
+
+        public static int ConformTerrainToRoad(RoadArchitect.Road road)
+        {
+            if (road == null) return 0;
+            var pts = SampleRoad(road, 2f);
+            // Road Architect smooths heights when it builds the mesh, so take the real surface from the mesh.
+            for (int i = 0; i < pts.Count; i++)
+            {
+                var hits = Physics.RaycastAll(pts[i] + Vector3.up * 6f, Vector3.down, 14f, ~0, QueryTriggerInteraction.Ignore);
+                float bestY = float.NaN, bestGap = float.MaxValue;
+                foreach (var h in hits)
+                {
+                    if (!h.collider.transform.IsChildOf(road.transform)) continue;
+                    float gap = Mathf.Abs(h.point.y - pts[i].y);
+                    if (gap < bestGap) { bestGap = gap; bestY = h.point.y; }
+                }
+                if (!float.IsNaN(bestY)) pts[i] = new Vector3(pts[i].x, bestY, pts[i].z);
+            }
+            float hw = road.RoadWidth() * 0.5f + (road.isShouldersEnabled ? road.shoulderWidth : 0f);
+            const float edge = 1f, blend = 12f;
+            float reach = hw + edge + blend;
+            int changed = 0;
+            foreach (var terrain in Object.FindObjectsByType<Terrain>())
+            {
+                var data = terrain.terrainData;
+                Vector3 origin = terrain.transform.position, size = data.size;
+                int res = data.heightmapResolution;
+                float cell = size.x / (res - 1);
+                var heights = data.GetHeights(0, 0, res, res);
+                var bestDist = new float[res, res];
+                var bestY = new float[res, res];
+                for (int z = 0; z < res; z++) for (int x = 0; x < res; x++) bestDist[z, x] = float.MaxValue;
+                bool any = false;
+                for (int i = 0; i < pts.Count - 1; i++)
+                {
+                    Vector3 a = pts[i], b = pts[i + 1];
+                    float minX = Mathf.Min(a.x, b.x) - reach, maxX = Mathf.Max(a.x, b.x) + reach;
+                    float minZ = Mathf.Min(a.z, b.z) - reach, maxZ = Mathf.Max(a.z, b.z) + reach;
+                    int x0 = Mathf.Max(0, Mathf.FloorToInt((minX - origin.x) / cell)), x1 = Mathf.Min(res - 1, Mathf.CeilToInt((maxX - origin.x) / cell));
+                    int z0 = Mathf.Max(0, Mathf.FloorToInt((minZ - origin.z) / cell)), z1 = Mathf.Min(res - 1, Mathf.CeilToInt((maxZ - origin.z) / cell));
+                    if (x0 > x1 || z0 > z1) continue;
+                    float abx = b.x - a.x, abz = b.z - a.z, len2 = abx * abx + abz * abz;
+                    for (int z = z0; z <= z1; z++)
+                        for (int x = x0; x <= x1; x++)
+                        {
+                            float wx = origin.x + x * cell, wz = origin.z + z * cell;
+                            float t = len2 > 1e-6f ? Mathf.Clamp01(((wx - a.x) * abx + (wz - a.z) * abz) / len2) : 0f;
+                            float dx = a.x + abx * t - wx, dz = a.z + abz * t - wz;
+                            float d = Mathf.Sqrt(dx * dx + dz * dz);
+                            if (d < bestDist[z, x]) { bestDist[z, x] = d; bestY[z, x] = Mathf.Lerp(a.y, b.y, t); any = true; }
+                        }
+                }
+                if (!any) continue;
+                for (int z = 0; z < res; z++)
+                    for (int x = 0; x < res; x++)
+                    {
+                        float d = bestDist[z, x];
+                        if (d >= reach) continue;
+                        float original = origin.y + heights[z, x] * size.y;
+                        float roadLevel = bestY[z, x] - 0.06f;
+                        float k = d <= hw + edge ? 1f : 1f - Mathf.SmoothStep(0f, 1f, (d - hw - edge) / blend);
+                        float h = Mathf.Lerp(original, roadLevel, k);
+                        heights[z, x] = Mathf.Clamp01((h - origin.y) / size.y);
+                        changed++;
+                    }
+                data.SetHeights(0, 0, heights);
+                // Re-seat trees on the new ground.
+                var trees = data.treeInstances;
+                for (int i = 0; i < trees.Length; i++)
+                {
+                    var tp = trees[i].position;
+                    trees[i].position = new Vector3(tp.x, data.GetInterpolatedHeight(tp.x, tp.z) / size.y, tp.z);
+                }
+                data.treeInstances = trees;
+                EditorUtility.SetDirty(data);
+            }
+            AssetDatabase.SaveAssets();
+            return changed;
         }
 
         private static int Nearest(List<Vector3> pts, Vector3 p)

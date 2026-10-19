@@ -378,8 +378,8 @@ namespace PolyCar
 
             scroll.Add(UiKit.Label("GAMEPLAY", "settings-section"));
             scroll.Add(UiKit.Stepper("UNITS", () => st.useMph ? "MPH" : "KM/H", _ => st.useMph = !st.useMph, out _));
-            string[] cams = { "CHASE", "NEAR", "HOOD" };
-            scroll.Add(UiKit.Stepper("CAMERA", () => cams[Mathf.Clamp(st.cameraMode, 0, 2)], d => st.cameraMode = (st.cameraMode + d + 3) % 3, out _));
+            string[] cams = { "RALLY", "RALLY FAR", "CHASE", "HOOD" };
+            scroll.Add(UiKit.Stepper("CAMERA", () => cams[Mathf.Clamp(st.cameraMode, 0, 3)], d => st.cameraMode = (st.cameraMode + d + 4) % 4, out _));
             scroll.Add(UiKit.Stepper("CAMERA SHAKE", () => st.cameraShake ? "ON" : "OFF", _ => st.cameraShake = !st.cameraShake, out _));
             scroll.Add(UiKit.Stepper("SHOW FPS", () => st.showFps ? "ON" : "OFF", _ => st.showFps = !st.showFps, out _));
 

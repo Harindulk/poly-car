@@ -185,6 +185,7 @@ namespace PolyCar.Editor
             CreateMaterials(c);
             BuildTerrain(c);
             BuildRoad(c);
+            BuildVerges(c);
             BuildKerbsAndWalls(c);
             BuildStart(c);
             if (track.lakeRadius > 0f) BuildLake(c);
@@ -262,18 +263,34 @@ namespace PolyCar.Editor
             return d.sqrMagnitude > 1e-6f ? d.normalized : Vector3.forward;
         }
 
-        /// <summary>Distance (XZ) to the nearest centre point and that point's height.</summary>
+        /// <summary>
+        /// Exact XZ distance to the road centreline and the road height at the nearest point (coarse search
+        /// over every 3rd point, then projection onto the 2 m segments around it, height interpolated).
+        /// </summary>
         private static float NearestRoad(Ctx c, float x, float z, out float roadY)
         {
-            float best = float.MaxValue; roadY = 0f;
             var pts = c.coarse;
-            for (int i = 0; i < pts.Length; i++)
+            float best = float.MaxValue; int bestK = 0;
+            for (int k = 0; k < pts.Length; k++)
             {
-                float dx = pts[i].x - x, dz = pts[i].z - z;
+                float dx = pts[k].x - x, dz = pts[k].z - z;
                 float d = dx * dx + dz * dz;
-                if (d < best) { best = d; roadY = pts[i].y; }
+                if (d < best) { best = d; bestK = k; }
             }
-            return Mathf.Sqrt(best);
+            int m = c.center.Count;
+            int fi = bestK * 3;
+            float bestD = float.MaxValue; roadY = pts[bestK].y;
+            for (int o = -5; o <= 5; o++)
+            {
+                Vector3 a = c.center[(fi + o + m) % m], b = c.center[(fi + o + 1 + m) % m];
+                float abx = b.x - a.x, abz = b.z - a.z;
+                float len2 = abx * abx + abz * abz;
+                float t = len2 > 1e-6f ? Mathf.Clamp01(((x - a.x) * abx + (z - a.z) * abz) / len2) : 0f;
+                float px = a.x + abx * t - x, pz = a.z + abz * t - z;
+                float d2 = px * px + pz * pz;
+                if (d2 < bestD) { bestD = d2; roadY = Mathf.Lerp(a.y, b.y, t); }
+            }
+            return Mathf.Sqrt(bestD);
         }
 
         // ------------------------------------------------------------------ materials
@@ -381,8 +398,10 @@ namespace PolyCar.Editor
             int nx = Mathf.CeilToInt((x1 - x0) / Cell), nz = Mathf.CeilToInt((z1 - z0) / Cell);
             var heights = new float[nx + 1, nz + 1];
             var dists = new float[nx + 1, nz + 1];
-            float flat = c.track.halfWidth + Cell * 1.6f;
-            float blend = 26f;
+            // Ground meets the road edge almost flush (art of rally / EasyRoads-style terrain conform),
+            // then eases into the natural hills; verge strips cover the last few metres.
+            float flat = c.track.halfWidth + 0.8f;
+            float blend = 30f;
             var tr = c.track;
             for (int i = 0; i <= nx; i++)
                 for (int j = 0; j <= nz; j++)
@@ -391,15 +410,15 @@ namespace PolyCar.Editor
                     float d = NearestRoad(c, x, z, out float ry);
                     float nat = NaturalHeight(c, x, z, d, ry);
                     float h;
-                    if (d < flat) h = ry - 0.25f;
-                    else h = Mathf.Lerp(ry - 0.25f, nat, Mathf.SmoothStep(0f, 1f, (d - flat) / blend));
+                    if (d < flat) h = ry - 0.1f;
+                    else h = Mathf.Lerp(ry - 0.1f, nat, Mathf.SmoothStep(0f, 1f, (d - flat) / blend));
                     if (tr.lakeRadius > 0f)
                     {
                         float ld = Vector2.Distance(new Vector2(x, z), tr.lakeCenter);
-                        if (ld < tr.lakeRadius && d > flat + 4f)
+                        if (ld < tr.lakeRadius && d > flat + 8f)
                         {
                             float depth = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01((tr.lakeRadius - ld) / 35f));
-                            h = Mathf.Lerp(h, tr.waterY - 4f, depth * Mathf.Clamp01((d - flat - 4f) / 12f));
+                            h = Mathf.Lerp(h, tr.waterY - 4f, depth * Mathf.Clamp01((d - flat - 8f) / 12f));
                         }
                     }
                     heights[i, j] = h;
@@ -463,7 +482,7 @@ namespace PolyCar.Editor
             int sub;
             if (h > c.theme.snowLine) sub = 4;
             else if (n.y < 0.8f) sub = 2;
-            else if (distToRoad < c.track.halfWidth + 4.5f) sub = 3;
+            else if (distToRoad < c.track.halfWidth + 2.5f) sub = 3;
             else
             {
                 Vector3 m = (a + b + d) / 3f;
@@ -528,6 +547,57 @@ namespace PolyCar.Editor
                 go.AddComponent<MeshFilter>().sharedMesh = mesh;
                 go.AddComponent<MeshRenderer>().sharedMaterial = c.mats["road"];
                 go.AddComponent<MeshCollider>().sharedMesh = col;
+                GameObjectUtility.SetStaticEditorFlags(go, StaticEditorFlags.BatchingStatic | StaticEditorFlags.OccludeeStatic);
+            }
+        }
+
+        /// <summary>
+        /// Gravel verges: from the asphalt edge (road height) out 3.2 m to the terrain surface, so there is
+        /// no step or gap when a car leaves the road. Collider included; chunked like the road.
+        /// </summary>
+        private static void BuildVerges(Ctx c)
+        {
+            var parent = new GameObject("Verges").transform;
+            parent.SetParent(c.root, false);
+            var mat = Mat(c, "verge", Color.Lerp(c.theme.dirt, c.theme.grassA, 0.25f), 0.05f);
+            int m = c.center.Count;
+            float hw = c.track.halfWidth;
+            const float width = 3.2f;
+            const int segLen = 100;
+            for (int s0 = 0; s0 < m; s0 += segLen)
+            {
+                var verts = new List<Vector3>(); var tris = new List<int>();
+                int end = Mathf.Min(s0 + segLen, m);
+                for (int i = s0; i <= end; i++)
+                {
+                    int k = i % m;
+                    Vector3 p = c.center[k];
+                    Vector3 right = Vector3.Cross(Vector3.up, Heading(c, k));
+                    foreach (int side in new[] { -1, 1 })
+                    {
+                        Vector3 inner = p + right * side * (hw - 0.05f) + Vector3.down * 0.01f;
+                        Vector3 outer = p + right * side * (hw + width);
+                        outer.y = Mathf.Min(c.heightAt(outer.x, outer.z) - 0.03f, p.y + 2.5f);
+                        outer.y = Mathf.Max(outer.y, p.y - 2.5f);
+                        verts.Add(inner); verts.Add(outer);
+                    }
+                    if (i > s0)
+                    {
+                        int b = verts.Count - 4, a = b - 4;
+                        // left verge (a, a+1) -> (b, b+1); right verge (a+2, a+3) -> (b+2, b+3)
+                        tris.AddRange(new[] { a, a + 1, b, b, a + 1, b + 1 });
+                        tris.AddRange(new[] { a + 2, b + 2, a + 3, a + 3, b + 2, b + 3 });
+                    }
+                }
+                var mesh = new Mesh { name = $"Verge_{s0}" };
+                mesh.SetVertices(verts); mesh.SetTriangles(tris, 0);
+                mesh.RecalculateNormals(); mesh.RecalculateBounds();
+                AssetDatabase.CreateAsset(mesh, $"{Dir}/{c.track.sceneName}_Meshes/{mesh.name}.asset");
+                var go = new GameObject(mesh.name);
+                go.transform.SetParent(parent, false);
+                go.AddComponent<MeshFilter>().sharedMesh = mesh;
+                go.AddComponent<MeshRenderer>().sharedMaterial = mat;
+                go.AddComponent<MeshCollider>().sharedMesh = mesh;
                 GameObjectUtility.SetStaticEditorFlags(go, StaticEditorFlags.BatchingStatic | StaticEditorFlags.OccludeeStatic);
             }
         }
