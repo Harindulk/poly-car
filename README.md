@@ -1,7 +1,8 @@
 # Poly Car
 
-A low-poly arcade drift racer for Windows PC. Originally made for the Microsoft Virtual Hackathon (2022);
-remastered for Unity 6 in 2026 with a new driving model, AI rivals, ghosts, three tracks and a full menu.
+A low-poly rally game for Windows PC. Originally made for the Microsoft Virtual Hackathon (2022);
+remastered for Unity 6 in 2026 with a rally driving model, rivals on the clock, ghosts, three new tracks and a
+diorama main menu. Handling, rivals, camera and menu follow techniques studied in art of rally (our own code).
 
 ## Play
 
@@ -12,7 +13,7 @@ remastered for Unity 6 in 2026 with a new driving model, AI rivals, ghosts, thre
 | Handbrake (drift) | Space | A / RB |
 | Boost | Shift (or N) | X / LB |
 | Respawn on track | R | Y |
-| Camera (chase / near / hood), look back | C, Q | Back, R3 |
+| Camera (rally / rally far / chase / hood), look back | C, Q | Back, R3 |
 | Pause | Esc or P | Start |
 | Quick restart | T | |
 
@@ -21,9 +22,12 @@ Medals (bronze, silver, gold) on each track earn stars, and stars unlock cars in
 
 ## Modes
 
-- **Race**: any track, 0-5 rivals (0 = time trial against your ghost), laps, difficulty.
-- **Championship**: all four tracks back to back against the same three rivals; points 10-7-5-3 per race.
-  Rivals run at your car's top speed (then difficulty), so every car is competitive.
+- **Race**: any track, 0-7 rivals (0 = time trial against your ghost), laps, difficulty.
+- **Championship**: a rally over all four tracks against five rivals; the lowest total time wins.
+
+Rivals don't drive on the road (as in art of rally): each rival's stage time is a baseline just under the gold
+time x (1 + a deviation drawn from their difficulty band and talent), plus the odd mistake (spin, puncture...).
+The HUD shows your live position against their pace and the gap to the rival ahead at every split.
 
 ## Tracks
 
@@ -39,12 +43,17 @@ Vortex R (5) and Zenith X (7) unlock with medals. Each has its own top speed, ac
 
 ## Features
 
-- Arcade raycast-suspension car: speed eases toward a target, the yaw rate follows the steering, and sideways
-  slip decays with grip. Handbrake or full lock at speed drops into drift grip. Speed-scaled steering,
-  quick counter-steer, a slide that holds when you let go, anti-spin assist, a landing "stick" and
-  self-levelling in the air.
-- Up to 5 AI rivals that drive from a precomputed corner and braking speed profile, with mild catch-up,
-  three difficulties and stuck recovery.
+- Rally car on raycast wheels: spring + two-stage damper suspension with anti-roll bars; Magic-Formula-style tyres
+  whose side grip stays flat past the peak (slides can be held), slip that lags over a relaxation length, and a
+  friction circle (throttle steers the rear); rear-biased four-wheel drive with a viscous coupling, rear-only
+  handbrake, ABS, five-speed automatic. Arcade helpers on top: yaw from the raw steering input, a stability torque
+  against big slides, a brake helper, air levelling and a landing stick. Speed-scaled steering with a counter-steer
+  boost; on keyboard the wheels return slowly while sliding so a drift holds.
+- `Poly Car > Debug > Handling Lab` runs scripted launch / braking / cornering / drift / lane-change tests on every car.
+- Rally camera: high telephoto view that turns with the car, fades its follow out in spins, pulls in when terrain
+  blocks the view and widens the lens slightly with speed.
+- Main menu: a floating diorama of the selected track with your car on its road, seen through a long lens with
+  tilt-shift depth of field; the camera glides between a shot per screen.
 - Best-run ghosts, checkpoint split times against your record, lap and race records, medals and car unlocks.
 - Auto-respawn when you are lost (off the map, on your roof, stuck on a bank), wrong-way warning.
 - Layered engine audio (four RPM layers, gear shifts, backfires), tyre squeal, wind, music.
@@ -74,19 +83,23 @@ Batch mode:
 Unity -batchmode -quit -projectPath <path> -executeMethod PolyCar.Editor.SceneBuilders.BuildWindows -logFile build.log
 ```
 
-Launch options: `-map <green_forest|sakura_ring|dust_canyon>` (skip the menu), `-car <id>`,
+Launch options: `-map <green_forest|sakura_ring|frost_peak|dust_canyon>` (skip the menu), `-car <id>`,
 `-autopilot` (the AI drives your car), `-benchmark` (60 s autopilot run, writes `benchmark.txt` to the save
-folder and quits), `-benchmarkSeconds <n>`, `-mute`, `-keyboardbot` (AI with keyboard-style inputs).
+folder and quits), `-benchmarkSeconds <n>`, `-mute`, `-keyboardbot` (AI with keyboard-style inputs),
+`-smoketest -autopilot` (clicks through the real menus, races every track and a championship, writes
+`smoketest.txt` and quits).
 
 ## Project layout
 
 - `Assets/PolyCar/Scripts`: runtime code (`PolyCar.Runtime` assembly): `Car/`, `Race/`, `UI/`, `Core/`.
 - `Assets/PolyCar/Editor`: setup tools under the **Poly Car** menu: car factory, map catalog, Green Forest
-  conversion, menu scene, the procedural `MapBuilder` for the circuits, Windows build.
+  conversion, menu scene and its dioramas (`DioramaBuilder`), the procedural `MapBuilder` for the circuits,
+  the Handling Lab, Windows build.
 - `Assets/PolyCar/Resources`: catalogs, UI stylesheet and panel, audio, credits.
 - `Assets/PolyCar/Maps`: generated circuit scenes and their meshes.
 - `Assets/_Scenes`: `Menu` and `Green Forest`.
-- `Assets/PolyCar/Tests/EditMode`: core logic tests (medals, records, track maths, ghosts, catalogs).
+- `Assets/PolyCar/Tests/EditMode`: core logic tests (medals, records, track maths, ghosts, catalogs, rival times,
+  championship standings) and scene integrity tests.
 
 ## Credits
 
