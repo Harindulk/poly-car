@@ -349,22 +349,23 @@ namespace PolyCar
             scroll.Add(UiKit.Stepper("RESOLUTION", () => resList[ri].x + " x " + resList[ri].y, d => { ri = Mathf.Clamp(ri + d, 0, resList.Count - 1); st.resolutionWidth = resList[ri].x; st.resolutionHeight = resList[ri].y; st.Apply(); }, out _));
             string[] modes = { "BORDERLESS", "FULLSCREEN", "WINDOWED" };
             scroll.Add(UiKit.Stepper("WINDOW MODE", () => modes[st.windowMode], d => { st.windowMode = (st.windowMode + d + 3) % 3; st.Apply(); }, out _));
-            // VSync and an FPS cap are exclusive (Unity ignores the cap while VSync is on).
-            int[] fps = { 0, 30, 60, 120, 144, 165, 240 };
-            int fi = Mathf.Max(0, System.Array.IndexOf(fps, st.fpsLimit));
+            // VSync and an FPS cap are exclusive (Unity ignores the cap while VSync is on), so the frame-rate row
+            // lists VSYNC and UNLIMITED as its first two options and the VSYNC toggle stays in step with it.
+            int[] fps = { 0, 0, 30, 60, 120, 144, 165, 240 };   // index 0 = VSYNC, 1 = UNLIMITED
+            int FpsIndex() => st.vSync ? 0 : st.fpsLimit <= 0 ? 1 : Mathf.Max(2, System.Array.IndexOf(fps, st.fpsLimit));
             System.Action refreshVsync = null, refreshFps = null;
             scroll.Add(UiKit.Stepper("VSYNC", () => st.vSync ? "ON" : "OFF", _ =>
             {
                 st.vSync = !st.vSync;
-                if (st.vSync) { st.fpsLimit = 0; fi = 0; }
+                if (st.vSync) st.fpsLimit = 0;
                 st.Apply(false);
                 refreshFps?.Invoke();
             }, out refreshVsync));
-            scroll.Add(UiKit.Stepper("FPS LIMIT", () => fps[fi] == 0 ? (st.vSync ? "VSYNC" : "UNLIMITED") : fps[fi].ToString(), d =>
+            scroll.Add(UiKit.Stepper("FPS LIMIT", () => FpsIndex() == 0 ? "VSYNC" : FpsIndex() == 1 ? "UNLIMITED" : fps[FpsIndex()].ToString(), d =>
             {
-                fi = Mathf.Clamp(fi + d, 0, fps.Length - 1);
-                st.fpsLimit = fps[fi];
-                if (st.fpsLimit > 0) st.vSync = false;
+                int i = Mathf.Clamp(FpsIndex() + d, 0, fps.Length - 1);
+                st.vSync = i == 0;
+                st.fpsLimit = fps[i];
                 st.Apply(false);
                 refreshVsync?.Invoke();
             }, out refreshFps));

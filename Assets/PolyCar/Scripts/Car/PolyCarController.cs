@@ -102,8 +102,8 @@ namespace PolyCar
         public float highSpeedSteerAngle = 15f;
         public float steerTime = 0.12f, veloSteerTime = 0.025f;
         public float releaseTime = 0.07f, veloReleaseTime = 0.02f;
-        [Tooltip("Keyboard, while sliding: the speed-scaled return is this much slower, so the slide holds after the key is released.")]
-        public float keyboardReleaseScale = 3f;
+        [Tooltip("Keyboard: the speed-scaled return is this much slower (art of rally uses 4), so taps add up and a slide holds after the key is released.")]
+        public float keyboardReleaseScale = 2.5f;
         public float counterSteerBoost = 1.5f;
         [Tooltip("Keyboard: steering angle a held key reaches at 30 m/s and above (counter-steer can still go further).")]
         public float keyboardSteerAngle = 14f;
@@ -356,8 +356,7 @@ namespace PolyCar
             {
                 float vel = Mathf.Abs(ForwardSpeed);
                 float build = 1f / (steerTime + veloSteerTime * vel);
-                bool holdSlide = keyboard && Mathf.Abs(DriftAngle) > 8f;
-                float release = 1f / (releaseTime + veloReleaseTime * vel * (holdSlide ? keyboardReleaseScale : 1f));
+                float release = 1f / (releaseTime + veloReleaseTime * vel * (keyboard ? keyboardReleaseScale : 1f));
                 if (raw < _steer)
                 {
                     float rate = _steer > 0f ? release : build;

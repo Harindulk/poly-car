@@ -13,7 +13,7 @@ permissions:
 jobs:
   smoke:
     runs-on: windows-latest
-    timeout-minutes: 75
+    timeout-minutes: 90
     steps:
       - name: Download the build
         shell: pwsh
@@ -36,6 +36,17 @@ jobs:
           if (-not $p.WaitForExit(4200000)) { Stop-Process -Id $p.Id -Force; Write-Host "timed out" }
           if (Test-Path $out) { Get-Content $out } else { Write-Host "no smoke result"; if (Test-Path $log) { Get-Content $log -Tail 120 }; exit 1 }
           if (-not (Select-String -Path $out -Pattern "SMOKE TEST PASSED" -Quiet)) { exit 1 }
+      - name: CPU cost per frame (headless, every stage)
+        if: always()
+        shell: pwsh
+        run: |
+          foreach ($m in "green_forest", "sakura_ring", "frost_peak", "dust_canyon") {
+            $out = "$env:GITHUB_WORKSPACE\bench_$m.txt"
+            $args = @("-map", $m, "-benchmark", "-benchmarkSeconds", "30", "-nographics", "-batchmode", "-mute", "-benchmarkOut", $out, "-logFile", "$env:GITHUB_WORKSPACE\bench_$m.log")
+            $p = Start-Process -FilePath "game\Windows\PolyCar.exe" -ArgumentList $args -PassThru
+            if (-not $p.WaitForExit(180000)) { Stop-Process -Id $p.Id -Force }
+            if (Test-Path $out) { Write-Host "$m"; Get-Content $out } else { Write-Host "${m}: no result" }
+          }
       - name: Upload results
         if: always()
         uses: actions/upload-artifact@v4
@@ -44,3 +55,4 @@ jobs:
           path: |
             smoke.txt
             player.log
+            bench_*.txt

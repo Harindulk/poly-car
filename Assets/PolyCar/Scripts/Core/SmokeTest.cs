@@ -9,8 +9,9 @@ namespace PolyCar
 {
     /// <summary>
     /// End-to-end test of a player build (launch with -smoketest -autopilot): clicks the real menu buttons,
-    /// races every track to the finish (with pause/resume and a respawn), runs a full championship,
-    /// returns to the menu, and counts every error or exception logged. Writes smoketest.txt and quits.
+    /// races every track to the finish (pause, pause options, respawn, restart), runs a full championship,
+    /// steps every safe setting up and back, visits records, credits and the garage, quits a race to the menu,
+    /// and counts every error or exception logged. Writes smoketest.txt and quits.
     /// </summary>
     public class SmokeTest : MonoBehaviour
     {
@@ -84,6 +85,26 @@ namespace PolyCar
             yield return Wait(() => FindButton("SELECTED") != null || FindButton("SELECT") != null, 5f, "garage shown");
             yield return Click("<  BACK");
 
+            // Settings: every safe option up and back (graphics preset switching included), then records and credits.
+            yield return Click("SETTINGS");
+            yield return Wait(() => RowValue("GRAPHICS") != null, 5f, "settings shown");
+            foreach (var label in new[] { "VSYNC", "FPS LIMIT", "GRAPHICS", "RENDER SCALE", "MOTION BLUR", "UNITS", "CAMERA", "CAMERA SHAKE", "SHOW FPS" })
+            {
+                string before = RowValue(label);
+                yield return StepRow(label, 1);
+                string after = RowValue(label);
+                if (after != before) yield return StepRow(label, -1);
+                string back = RowValue(label);
+                Step(back == before && !string.IsNullOrEmpty(before), $"setting {label}: {before} -> {after} -> {back}");
+            }
+            yield return Click("BACK");
+            yield return Click("RECORDS");
+            yield return Wait(() => FindLabelStarting("RECORDS") != null, 5f, "records shown");
+            yield return Click("BACK");
+            yield return Click("CREDITS");
+            yield return Wait(() => FindLabelStarting("CREDITS") != null, 5f, "credits shown");
+            yield return Click("BACK");
+
             // Full championship.
             yield return Click("CHAMPIONSHIP");
             yield return Click("START CUP");
@@ -99,6 +120,17 @@ namespace PolyCar
             yield return Click("MAIN MENU");
             yield return Wait(() => FindAnyObjectByType<MainMenu>() != null && FindButton("RACE") != null, 30f, "menu after championship");
             Step(GameFlow.Cup == null, "championship cleared on return to menu");
+
+            // Quit a race to the menu from the pause menu.
+            yield return Click("RACE");
+            yield return Click(maps[1]);
+            yield return Click("START RACE");
+            yield return Wait(() => RaceManager.Current != null && RaceManager.Current.State == RaceState.Racing, 40f, "race for quit test started");
+            yield return new WaitForSecondsRealtime(1.5f);
+            RaceManager.Current?.SetPaused(true);
+            yield return Click("QUIT TO MENU");
+            yield return Wait(() => FindAnyObjectByType<MainMenu>() != null && FindButton("RACE") != null, 30f, "quit to menu from pause");
+            Step(Time.timeScale == 1f, "time scale restored after quitting");
 
             Finish();
         }
@@ -121,7 +153,17 @@ namespace PolyCar
                 var before = race.Player.Respawns;
                 race.Player.Respawn();
                 Step(race.Player.Respawns == before + 1, $"{name}: respawn");
+
+                // Pause options and back, then restart the race from the pause menu.
+                race.SetPaused(true);
+                yield return Click("OPTIONS");
+                yield return Click("BACK");
+                yield return Click("RESTART");
+                yield return Wait(() => RaceManager.Current != null && RaceManager.Current != race && RaceManager.Current.State == RaceState.Racing, 40f, $"{name}: restarted from pause");
+                race = RaceManager.Current;
+                if (race == null) yield break;
             }
+            if (name.StartsWith("CUP 1") && GameSettings.Current.ghost) Step(race.HasGhost, $"{name}: best-run ghost on track");
             yield return Wait(() => ResultsScreen.Visible, 420f * 3f / _speed, name + ": finished and results shown");
             var r = race.Result;
             if (r != null)
@@ -156,6 +198,38 @@ namespace PolyCar
             using (var e = NavigationSubmitEvent.GetPooled()) { e.target = b; b.SendEvent(e); }
             Step(true, $"click '{text}'");
             yield return new WaitForSecondsRealtime(0.5f);
+        }
+
+        /// <summary>Current value text of a settings row (label, value, arrows), or null.</summary>
+        private static string RowValue(string label)
+        {
+            foreach (var doc in FindObjectsByType<UIDocument>())
+            {
+                string found = null;
+                doc.rootVisualElement?.Query<VisualElement>(className: "pc-row").ForEach(row =>
+                {
+                    if (found != null) return;
+                    var l = row.Q<Label>(className: "pc-row-label");
+                    if (l != null && l.text == label) found = row.Q<Label>(className: "pc-row-value")?.text;
+                });
+                if (found != null) return found;
+            }
+            return null;
+        }
+
+        private IEnumerator StepRow(string label, int dir)
+        {
+            Button arrow = null;
+            foreach (var doc in FindObjectsByType<UIDocument>())
+                doc.rootVisualElement?.Query<VisualElement>(className: "pc-row").ForEach(row =>
+                {
+                    var l = row.Q<Label>(className: "pc-row-label");
+                    if (arrow == null && l != null && l.text == label)
+                        row.Query<Button>().ForEach(b => { if (b.text == (dir > 0 ? ">" : "<")) arrow = b; });
+                });
+            if (arrow == null) { Step(false, $"setting {label}: arrow not found"); yield break; }
+            using (var e = NavigationSubmitEvent.GetPooled()) { e.target = arrow; arrow.SendEvent(e); }
+            yield return new WaitForSecondsRealtime(0.3f);
         }
 
         private static Button FindButton(string text)

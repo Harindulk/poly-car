@@ -97,7 +97,7 @@ namespace PolyCar
             // Loose surfaces (gravel, snow) mean earlier braking and slower corners.
             float aLat = lateralGrip * skill * _car.SurfaceGrip;
             float corner = path.SpeedLimitAt(d + Mathf.Max(0f, speed) * 0.25f, aLat, 11f * skill * _car.SurfaceGrip);
-            float desired = Mathf.Min(_car.TopSpeed * _car.SpeedMultiplier, corner);
+            float desired = Mathf.Min(_car.TopSpeed * _car.SpeedMultiplier, corner) * (keyboardStyle ? 0.95f : 1f);
             if (_racer.Finished) desired = Mathf.Min(desired, 16f); // cool-down lap after the line
             float maxCurv = path.CurvatureAhead(d, 40f);
 
@@ -108,7 +108,7 @@ namespace PolyCar
 
             // PD steering: heading error minus a yaw-rate damping term stops the left-right weave.
             float yawRate = Vector3.Dot(_car.Body.angularVelocity, Vector3.up) * Mathf.Rad2Deg;
-            float steerCmd = (angle - yawRate * 0.18f) / 24f;
+            float steerCmd = (angle - yawRate * (keyboardStyle ? 0.28f : 0.18f)) / 24f;
             var input = new DriveInput { Steer = Mathf.Clamp(steerCmd, -1f, 1f) };
             if (speed > desired + 1.5f)
             {
@@ -139,9 +139,10 @@ namespace PolyCar
 
             if (keyboardStyle)
             {
-                // Digital keys: a held key is +-1; small corrections become short taps (dither by time).
+                // Digital keys, played like a person: corrections are taps whose length follows how much steering is
+                // wanted (5 taps a second), and only a big correction holds the key down.
                 float st = input.Steer;
-                input.Steer = Mathf.Abs(st) < 0.12f ? 0f : (Mathf.Abs(st) > 0.6f || Mathf.Repeat(Time.time * 8f, 1f) < Mathf.Abs(st) / 0.6f ? Mathf.Sign(st) : 0f);
+                input.Steer = Mathf.Abs(st) < 0.1f ? 0f : (Mathf.Abs(st) > 0.85f || Mathf.Repeat(Time.time * 5f, 1f) < Mathf.Abs(st) ? Mathf.Sign(st) : 0f);
                 input.Throttle = input.Throttle > 0.3f ? 1f : 0f;
                 input.Brake = input.Brake > 0.15f ? 1f : 0f;
             }
