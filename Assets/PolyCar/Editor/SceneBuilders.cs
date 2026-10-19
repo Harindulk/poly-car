@@ -15,7 +15,6 @@ namespace PolyCar.Editor
     {
         public const string GreenForestPath = "Assets/_Scenes/Green Forest.unity";
         public const string MenuPath = "Assets/_Scenes/Menu.unity";
-        private const string SkyboxGuid = "0390510663f4d494ab4f3b949c7a01b8"; // Green Forest's sky
 
         // ------------------------------------------------------------ Green Forest
 
@@ -263,144 +262,88 @@ namespace PolyCar.Editor
         public static void BuildMenuScene()
         {
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
-
-            var sky = AssetDatabase.LoadAssetAtPath<Material>(AssetDatabase.GUIDToAssetPath(SkyboxGuid));
-            if (sky) RenderSettings.skybox = sky;
-            RenderSettings.ambientMode = AmbientMode.Skybox;
+            RenderSettings.skybox = null;
             RenderSettings.fog = true;
             RenderSettings.fogMode = FogMode.Linear;
-            RenderSettings.fogColor = new Color(0.62f, 0.76f, 0.86f);
-            RenderSettings.fogStartDistance = 30f;
-            RenderSettings.fogEndDistance = 140f;
+            RenderSettings.fogStartDistance = 130f;
+            RenderSettings.fogEndDistance = 320f;
 
             var sun = new GameObject("Sun").AddComponent<Light>();
             sun.type = LightType.Directional;
-            sun.color = new Color(1f, 0.93f, 0.82f);
-            sun.intensity = 1.25f;
             sun.shadows = LightShadows.Soft;
-            sun.transform.rotation = Quaternion.Euler(38f, -140f, 0f);
+            sun.shadowStrength = 0.85f;
             RenderSettings.sun = sun;
 
-
-            // Showroom: ground, a turntable plinth with an accent ring, trees and track props behind.
-            var groundMat = MakeLit("Assets/PolyCar/Materials/MenuGround.mat", new Color(0.33f, 0.52f, 0.28f), 0.1f);
-            var plinthMat = MakeLit("Assets/PolyCar/Materials/MenuPlinth.mat", new Color(0.14f, 0.15f, 0.18f), 0.55f);
-            var accentMat = MakeLit("Assets/PolyCar/Materials/MenuAccent.mat", new Color(1f, 0.42f, 0.1f), 0.4f, new Color(1f, 0.35f, 0.05f) * 1.6f);
-            var asphaltMat = MakeLit("Assets/PolyCar/Materials/MenuAsphalt.mat", new Color(0.2f, 0.21f, 0.24f), 0.2f);
-
-            var ground = GameObject.CreatePrimitive(PrimitiveType.Plane);
-            ground.name = "Ground";
-            ground.transform.localScale = new Vector3(40f, 1f, 40f);
-            ground.GetComponent<Renderer>().sharedMaterial = groundMat;
-
-            var road = GameObject.CreatePrimitive(PrimitiveType.Cube);
-            road.name = "Road";
-            road.transform.position = new Vector3(0f, 0.01f, 6f);
-            road.transform.localScale = new Vector3(9f, 0.02f, 200f);
-            road.transform.rotation = Quaternion.Euler(0f, 62f, 0f);
-            road.GetComponent<Renderer>().sharedMaterial = asphaltMat;
-
-            var plinth = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-            plinth.name = "Plinth";
-            plinth.transform.position = new Vector3(0f, 0.12f, 0f);
-            plinth.transform.localScale = new Vector3(7.2f, 0.12f, 7.2f);
-            plinth.GetComponent<Renderer>().sharedMaterial = plinthMat;
-            var ring = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
-            ring.name = "Ring";
-            ring.transform.position = new Vector3(0f, 0.06f, 0f);
-            ring.transform.localScale = new Vector3(7.7f, 0.06f, 7.7f);
-            ring.GetComponent<Renderer>().sharedMaterial = accentMat;
-            foreach (var g in new[] { ground, road, plinth, ring }) Object.DestroyImmediate(g.GetComponent<Collider>());
-
-            var turntable = new GameObject("Turntable").transform;
-            turntable.position = new Vector3(0f, 0.245f, 0f);
-            turntable.rotation = Quaternion.Euler(0f, -35f, 0f);
-
-            Scatter("Assets/Prefabs/LowPoly - FirTree A.prefab", 30, 24f, 70f, 0.8f, 1.4f, 11);
-            Scatter("Assets/Prefabs/LowPoly - FirTree B.prefab", 26, 26f, 75f, 0.7f, 1.3f, 23);
-            Scatter("Assets/Prefabs/LowPoly - Rock A.prefab", 8, 14f, 40f, 0.5f, 1.0f, 37);
-            PlaceProp("Assets/Prefabs/TrafficConeStatic.prefab", new Vector3(4.6f, 0f, 2.2f), 20f);
-            PlaceProp("Assets/Prefabs/TrafficConeStatic.prefab", new Vector3(5.4f, 0f, 0.6f), 70f);
-            PlaceProp("Assets/Prefabs/TrafficConeStatic.prefab", new Vector3(-4.8f, 0f, 3.6f), 10f);
-            PlaceProp("Assets/Prefabs/BarrierKRail.prefab", new Vector3(-6.5f, 0f, 6.5f), 40f);
+            // One floating diorama per track theme; the menu shows the selected track's.
+            var root = new GameObject("Dioramas");
+            var diorama = root.AddComponent<MenuDiorama>();
+            var variants = new List<MenuDiorama.Variant>();
+            foreach (var look in DioramaBuilder.Looks())
+            {
+                var t = DioramaBuilder.Build(look, root.transform);
+                variants.Add(new MenuDiorama.Variant
+                {
+                    mapId = look.mapId, root = t.gameObject, carAnchor = t.Find("CarAnchor"),
+                    background = look.background, sunColor = look.sun, sunEuler = look.sunEuler, sunIntensity = look.sunIntensity,
+                    ambientSky = look.ambientSky, ambientEquator = look.ambientEquator, ambientGround = look.ambientGround,
+                });
+                t.gameObject.SetActive(variants.Count == 1);
+            }
+            diorama.variants = variants.ToArray();
+            var first = variants[0];
+            RenderSettings.ambientMode = AmbientMode.Trilight;
+            RenderSettings.ambientSkyColor = first.ambientSky;
+            RenderSettings.ambientEquatorColor = first.ambientEquator;
+            RenderSettings.ambientGroundColor = first.ambientGround;
+            RenderSettings.fogColor = first.background;
+            sun.transform.rotation = Quaternion.Euler(first.sunEuler);
+            sun.color = first.sunColor;
+            sun.intensity = first.sunIntensity;
 
             var camGo = new GameObject("Main Camera") { tag = "MainCamera" };
             var cam = camGo.AddComponent<Camera>();
             camGo.AddComponent<AudioListener>();
-            cam.fieldOfView = 28f;
-            cam.nearClipPlane = 0.1f;
-            cam.farClipPlane = 400f;
-            camGo.transform.position = new Vector3(0.6f, 3.1f, -15.5f);
-            camGo.transform.rotation = Quaternion.LookRotation(new Vector3(-2.9f, 0.2f, 0f) - camGo.transform.position);
+            cam.clearFlags = CameraClearFlags.SolidColor;
+            cam.backgroundColor = first.background;
+            cam.fieldOfView = 24f;
+            cam.nearClipPlane = 1f;
+            cam.farClipPlane = 600f;
+            camGo.transform.position = new Vector3(-60f, 50f, -60f);
+            camGo.transform.LookAt(Vector3.zero);
             var camData = camGo.AddComponent<UniversalAdditionalCameraData>();
             camData.renderPostProcessing = true;
             camData.antialiasing = AntialiasingMode.SubpixelMorphologicalAntiAliasing;
 
-            var volGo = new GameObject("Post FX");
-            var vol = volGo.AddComponent<Volume>();
+            var vol = new GameObject("Post FX").AddComponent<Volume>();
             vol.isGlobal = true;
             vol.sharedProfile = MenuProfile();
 
+            diorama.cam = cam;
+            diorama.sun = sun;
+            diorama.volume = vol;
             var menu = new GameObject("Menu").AddComponent<MainMenu>();
-            menu.turntable = turntable;
+            menu.diorama = diorama;
 
             EditorSceneManager.SaveScene(scene, MenuPath);
             Debug.Log("Poly Car: menu scene built.");
         }
 
-        private static Material MakeLit(string path, Color c, float smooth, Color? emission = null)
-        {
-            var m = AssetDatabase.LoadAssetAtPath<Material>(path);
-            if (m == null) { m = new Material(Shader.Find("Universal Render Pipeline/Lit")); AssetDatabase.CreateAsset(m, path); }
-            m.SetColor("_BaseColor", c);
-            m.SetFloat("_Smoothness", smooth);
-            if (emission.HasValue) { m.EnableKeyword("_EMISSION"); m.SetColor("_EmissionColor", emission.Value); m.globalIlluminationFlags = MaterialGlobalIlluminationFlags.None; }
-            EditorUtility.SetDirty(m);
-            return m;
-        }
-
-        private static void Scatter(string prefabPath, int count, float minR, float maxR, float minS, float maxS, int seed)
-        {
-            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
-            if (!prefab) return;
-            var rnd = new System.Random(seed);
-            var parent = GameObject.Find("Scenery") ?? new GameObject("Scenery");
-            for (int i = 0; i < count; i++)
-            {
-                // Keep the camera's view of the car clear: only place in the back half-ring.
-                float a = Mathf.Lerp(-30f, 210f, (float)rnd.NextDouble()) * Mathf.Deg2Rad;
-                float r = Mathf.Lerp(minR, maxR, (float)rnd.NextDouble());
-                var p = new Vector3(Mathf.Cos(a) * r, 0f, Mathf.Sin(a) * r + 4f);
-                var go = (GameObject)PrefabUtility.InstantiatePrefab(prefab, parent.transform);
-                go.transform.position = p;
-                go.transform.rotation = Quaternion.Euler(0f, (float)rnd.NextDouble() * 360f, 0f);
-                go.transform.localScale = Vector3.one * Mathf.Lerp(minS, maxS, (float)rnd.NextDouble());
-                go.isStatic = true;
-            }
-        }
-
-        private static void PlaceProp(string prefabPath, Vector3 pos, float yaw)
-        {
-            var prefab = AssetDatabase.LoadAssetAtPath<GameObject>(prefabPath);
-            if (!prefab) return;
-            var parent = GameObject.Find("Scenery") ?? new GameObject("Scenery");
-            var go = (GameObject)PrefabUtility.InstantiatePrefab(prefab, parent.transform);
-            go.transform.SetPositionAndRotation(pos, Quaternion.Euler(0f, yaw, 0f));
-            foreach (var rb in go.GetComponentsInChildren<Rigidbody>()) Object.DestroyImmediate(rb);
-        }
-
+        /// <summary>Soft, slightly warm grade with a long-lens bokeh depth of field (the miniature look).</summary>
         private static VolumeProfile MenuProfile()
         {
-            const string path = "Assets/PolyCar/Materials/MenuPostFX.asset";
-            var p = AssetDatabase.LoadAssetAtPath<VolumeProfile>(path);
-            if (p != null) return p;
-            p = ScriptableObject.CreateInstance<VolumeProfile>();
+            const string path = "Assets/PolyCar/Materials/MenuDioramaPostFX.asset";
+            AssetDatabase.DeleteAsset(path);
+            var p = ScriptableObject.CreateInstance<VolumeProfile>();
             AssetDatabase.CreateAsset(p, path);
-            var tm = p.Add<Tonemapping>(true); tm.mode.Override(TonemappingMode.ACES);
-            var bloom = p.Add<Bloom>(true); bloom.intensity.Override(0.6f); bloom.threshold.Override(1f);
-            var vig = p.Add<Vignette>(true); vig.intensity.Override(0.3f); vig.smoothness.Override(0.45f);
-            var ca = p.Add<ColorAdjustments>(true); ca.postExposure.Override(0.15f); ca.contrast.Override(12f); ca.saturation.Override(12f);
-            var dof = p.Add<DepthOfField>(true); dof.mode.Override(DepthOfFieldMode.Gaussian); dof.gaussianStart.Override(18f); dof.gaussianEnd.Override(60f);
+            var tm = p.Add<Tonemapping>(true); tm.mode.Override(TonemappingMode.Neutral);
+            var bloom = p.Add<Bloom>(true); bloom.intensity.Override(0.35f); bloom.threshold.Override(1.1f);
+            var vig = p.Add<Vignette>(true); vig.intensity.Override(0.22f); vig.smoothness.Override(0.5f);
+            var ca = p.Add<ColorAdjustments>(true); ca.postExposure.Override(0.1f); ca.contrast.Override(8f); ca.saturation.Override(8f);
+            var dof = p.Add<DepthOfField>(true);
+            dof.mode.Override(DepthOfFieldMode.Bokeh);
+            dof.focusDistance.Override(90f);
+            dof.focalLength.Override(260f);
+            dof.aperture.Override(1.4f);
             foreach (var c in p.components) { c.hideFlags = HideFlags.HideInInspector | HideFlags.HideInHierarchy; AssetDatabase.AddObjectToAsset(c, p); }
             EditorUtility.SetDirty(p);
             AssetDatabase.SaveAssets();

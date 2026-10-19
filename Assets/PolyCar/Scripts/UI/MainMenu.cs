@@ -5,14 +5,13 @@ using UnityEngine.UIElements;
 namespace PolyCar
 {
     /// <summary>
-    /// Main menu (UI Toolkit, built in code) over a 3D showroom: Play (track, laps, rivals, difficulty),
-    /// Garage (car select with stats and unlocks), Settings, Records, Credits, Quit.
+    /// Main menu (UI Toolkit, built in code) over a floating diorama of the selected track with your car on its
+    /// road: Race (track, laps, rivals, difficulty), Championship, Garage (car select with stats and unlocks),
+    /// Records, Settings, Credits, Quit. Each screen has its own camera shot on the diorama.
     /// </summary>
     public class MainMenu : MonoBehaviour
     {
-        [Tooltip("Where the selected car is shown.")]
-        public Transform turntable;
-        public float spinSpeed = 18f;
+        public MenuDiorama diorama;
 
         private UIDocument _doc;
         private VisualElement _root, _screenHost;
@@ -49,13 +48,13 @@ namespace PolyCar
                 return;
             }
             GameAudio.PlayMenuMusic();
+            ShowMap(Maps.maps[Mathf.Max(0, _mapIndex)].id);
             ShowCar(Cars.cars[_carIndex]);
             ShowTitle();
         }
 
         private void Update()
         {
-            if (turntable) turntable.Rotate(0f, spinSpeed * Time.deltaTime, 0f, Space.World);
             if (PolyInput.BackPressed() && _back.Count > 0)
             {
                 GameAudio.Click();
@@ -86,21 +85,22 @@ namespace PolyCar
         private void ShowTitle()
         {
             var s = NewScreen("menu-title-screen", null);
+            Shot(MenuDiorama.Shot.Title);
             var left = UiKit.Box("menu-left");
             var logo = UiKit.Box("logo");
             logo.Add(UiKit.Label("POLY", "logo-a"));
             logo.Add(UiKit.Label("CAR", "logo-b"));
             left.Add(logo);
-            left.Add(UiKit.Label("LOW-POLY DRIFT RACING", "logo-tag"));
+            left.Add(UiKit.Label("LOW-POLY RALLY", "logo-tag"));
 
             var buttons = UiKit.Box("menu-buttons");
-            buttons.Add(UiKit.Button("RACE", ShowPlay, "pc-button-big"));
-            buttons.Add(UiKit.Button("CHAMPIONSHIP", ShowCupSetup));
-            buttons.Add(UiKit.Button("GARAGE", ShowGarage));
-            buttons.Add(UiKit.Button("RECORDS", ShowRecords));
-            buttons.Add(UiKit.Button("SETTINGS", () => ShowSettings(ShowTitle)));
-            buttons.Add(UiKit.Button("CREDITS", ShowCredits));
-            buttons.Add(UiKit.Button("QUIT", Quit, "pc-button-dim"));
+            buttons.Add(UiKit.Button("RACE", ShowPlay, "menu-link"));
+            buttons.Add(UiKit.Button("CHAMPIONSHIP", ShowCupSetup, "menu-link"));
+            buttons.Add(UiKit.Button("GARAGE", ShowGarage, "menu-link"));
+            buttons.Add(UiKit.Button("RECORDS", ShowRecords, "menu-link"));
+            buttons.Add(UiKit.Button("SETTINGS", () => ShowSettings(ShowTitle), "menu-link"));
+            buttons.Add(UiKit.Button("CREDITS", ShowCredits, "menu-link"));
+            buttons.Add(UiKit.Button("QUIT", Quit, "menu-link"));
             left.Add(buttons);
             s.Add(left);
 
@@ -122,6 +122,7 @@ namespace PolyCar
         private void ShowPlay()
         {
             var s = NewScreen("menu-play", ShowTitle);
+            Shot(MenuDiorama.Shot.Tracks);
             s.Add(Header("CHOOSE TRACK", ShowTitle));
             var row = UiKit.Box("map-row");
             Button firstCard = null;
@@ -132,7 +133,7 @@ namespace PolyCar
                 var card = new Button(() => { GameAudio.Confirm(); _mapIndex = idx; ShowRaceSetup(); });
                 card.AddToClassList("map-card");
                 card.RegisterCallback<MouseEnterEvent>(_ => card.Focus());
-                card.RegisterCallback<FocusInEvent>(_ => GameAudio.Hover());
+                card.RegisterCallback<FocusInEvent>(_ => { GameAudio.Hover(); ShowMap(m.id); });
                 var thumb = UiKit.Box("map-thumb");
                 if (m.thumbnail) thumb.style.backgroundImage = m.thumbnail;
                 thumb.style.borderBottomColor = m.accent;
@@ -163,6 +164,8 @@ namespace PolyCar
             if (GameFlow.MapId != map.id) { GameFlow.MapId = map.id; GameFlow.Laps = map.laps; }
             if (GameFlow.Laps <= 0) GameFlow.Laps = map.laps;
             var s = NewScreen("menu-setup", ShowPlay);
+            ShowMap(map.id);
+            Shot(MenuDiorama.Shot.Setup);
             s.Add(Header(map.displayName.ToUpper(), ShowPlay));
             var panel = UiKit.Box("panel", "panel-setup");
             var car = Cars.cars[_carIndex];
@@ -201,6 +204,7 @@ namespace PolyCar
         {
             var st = GameSettings.Current;
             var s = NewScreen("menu-setup", ShowTitle);
+            Shot(MenuDiorama.Shot.Setup);
             s.Add(Header("CHAMPIONSHIP", ShowTitle));
             var panel = UiKit.Box("panel", "panel-setup");
             var car = Cars.cars[_carIndex];
@@ -238,6 +242,7 @@ namespace PolyCar
                 back();
             };
             var s = NewScreen("menu-garage", leave);
+            Shot(MenuDiorama.Shot.Garage);
             s.Add(Header("GARAGE", leave));
             var panel = UiKit.Box("garage-panel");
             var car = Cars.cars[_carIndex];
@@ -301,6 +306,7 @@ namespace PolyCar
         private void ShowRecords()
         {
             var s = NewScreen("menu-records", ShowTitle);
+            Shot(MenuDiorama.Shot.Info);
             s.Add(Header("RECORDS", ShowTitle));
             var panel = UiKit.Box("panel", "panel-wide");
             foreach (var m in Maps.maps)
@@ -327,6 +333,7 @@ namespace PolyCar
         private void ShowSettings(System.Action back)
         {
             var s = NewScreen("menu-settings", back);
+            Shot(MenuDiorama.Shot.Info);
             s.Add(Header("SETTINGS", back));
             var st = GameSettings.Current;
             var panel = UiKit.Box("panel", "panel-wide", "settings-panel");
@@ -425,6 +432,7 @@ namespace PolyCar
         private void ShowCredits()
         {
             var s = NewScreen("menu-credits", ShowTitle);
+            Shot(MenuDiorama.Shot.Info);
             s.Add(Header("CREDITS", ShowTitle));
             var panel = UiKit.Box("panel", "panel-wide");
             var scroll = new ScrollView(ScrollViewMode.Vertical);
@@ -458,14 +466,23 @@ namespace PolyCar
 #endif
         }
 
-        // ---------- Showroom ----------
+        // ---------- Diorama ----------
+
+        private void Shot(MenuDiorama.Shot shot) { if (diorama) diorama.SetShot(shot); }
+
+        private void ShowMap(string mapId)
+        {
+            if (!diorama) return;
+            diorama.ShowMap(mapId);
+            if (_showCar) _showCar.transform.SetParent(diorama.CarAnchor, false);
+        }
 
         private void ShowCar(CarSpec spec)
         {
-            if (spec == null || spec.prefab == null || _shownCarId == spec.id || turntable == null) return;
+            if (spec == null || spec.prefab == null || _shownCarId == spec.id || diorama == null) return;
             if (_showCar) Destroy(_showCar);
             _shownCarId = spec.id;
-            _showCar = Instantiate(spec.prefab, turntable.position, turntable.rotation, turntable);
+            _showCar = Instantiate(spec.prefab, diorama.CarAnchor, false);
             // Display only: no physics, sound or driving in the showroom.
             foreach (var mb in _showCar.GetComponentsInChildren<MonoBehaviour>()) mb.enabled = false;
             foreach (var a in _showCar.GetComponentsInChildren<AudioSource>()) a.enabled = false;

@@ -77,7 +77,7 @@ namespace PolyCar.Editor
             lakeCenter = new Vector2(60f, 160f), lakeRadius = 95f, waterY = 1.2f,
         };
 
-        private static Theme SakuraTheme() => new Theme
+        internal static Theme SakuraTheme() => new Theme
         {
             key = "sakura",
             grassA = new Color(0.44f, 0.62f, 0.27f), grassB = new Color(0.52f, 0.68f, 0.31f), rock = new Color(0.47f, 0.45f, 0.47f),
@@ -109,7 +109,7 @@ namespace PolyCar.Editor
             },
         };
 
-        private static Theme CanyonTheme() => new Theme
+        internal static Theme CanyonTheme() => new Theme
         {
             key = "canyon",
             grassA = new Color(0.86f, 0.62f, 0.38f), grassB = new Color(0.82f, 0.56f, 0.33f), rock = new Color(0.66f, 0.33f, 0.2f),
@@ -138,7 +138,7 @@ namespace PolyCar.Editor
             },
         };
 
-        private static Theme FrostTheme() => new Theme
+        internal static Theme FrostTheme() => new Theme
         {
             key = "frost",
             grassA = new Color(0.9f, 0.93f, 0.98f), grassB = new Color(0.83f, 0.87f, 0.95f), rock = new Color(0.42f, 0.45f, 0.52f),

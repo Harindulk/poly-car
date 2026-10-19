@@ -137,22 +137,38 @@ Label { -unity-text-align: middle-left; white-space: normal; }
 .logo { flex-direction: row; align-items: flex-end; margin-top: 10px; }
 .logo-a, .logo-b {
     -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf");
-    font-size: 210px;
-    margin: 0 18px -40px 0;
-    color: rgb(255, 255, 255);
-    text-shadow: 6px 6px 0 rgba(0, 0, 0, 0.45);
+    font-size: 160px;
+    margin: 0 14px -30px 0;
+    color: rgb(30, 34, 46);
+    text-shadow: 3px 3px 0 rgba(255, 255, 255, 0.35);
 }
 .logo-b { color: rgb(255, 106, 26); }
-.logo-tag { font-size: 30px; letter-spacing: 9px; color: rgb(255, 214, 80); margin: 14px 0 40px 6px; text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.6); }
+.logo-tag { font-size: 26px; letter-spacing: 10px; color: rgba(30, 34, 46, 0.75); margin: 10px 0 46px 6px; }
 .menu-buttons { width: 460px; }
-.menu-footer { position: absolute; left: 100px; bottom: 34px; font-size: 20px; color: rgba(255, 255, 255, 0.6); text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.7); }
-.info-card { background-color: rgba(14, 17, 27, 0.82); border-radius: 12px; border-left-width: 6px; border-left-color: rgb(255, 106, 26); padding: 20px 30px; width: 520px; }
+.menu-footer { position: absolute; left: 100px; bottom: 34px; font-size: 20px; color: rgba(30, 34, 46, 0.65); }
+.info-card { background-color: rgba(14, 17, 27, 0.55); border-radius: 8px; border-left-width: 4px; border-left-color: rgb(255, 106, 26); padding: 10px 20px; width: 360px; }
+.info-card .info-value { font-size: 46px; }
+/* Title screen: plain text links over the diorama, art of rally style; the focused one gets the accent pill. */
+.menu-link {
+    background-color: rgba(0, 0, 0, 0);
+    border-radius: 0;
+    border-left-width: 5px;
+    border-left-color: rgba(255, 106, 26, 0);
+    color: rgb(30, 34, 46);
+    height: 56px;
+    font-size: 40px;
+    padding-left: 16px;
+    padding-right: 34px;
+    align-self: flex-start;
+    margin-bottom: 2px;
+}
+.menu-link:hover, .menu-link:focus { background-color: rgb(255, 106, 26); border-left-color: rgb(255, 214, 80); color: rgb(255, 255, 255); translate: 10px 0; }
 .info-key { font-size: 22px; color: rgb(170, 178, 196); letter-spacing: 2px; }
 .info-value { -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 64px; margin: -6px 0 -4px 0; }
 .info-small { font-size: 20px; color: rgb(170, 178, 196); margin-top: 10px; }
 
 .menu-header { flex-direction: row; align-items: center; margin-bottom: 30px; }
-.menu-header-title { -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 100px; text-shadow: 4px 4px 0 rgba(0, 0, 0, 0.5); }
+.menu-header-title { -unity-font-definition: url("/Assets/Fonts/ttf/Teko-Bold.ttf"); font-size: 100px; color: rgb(30, 34, 46); text-shadow: 3px 3px 0 rgba(255, 255, 255, 0.35); }
 
 .map-row { flex-direction: row; flex-wrap: wrap; margin-top: 6px; }
 .map-card {
