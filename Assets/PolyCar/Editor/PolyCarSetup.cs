@@ -24,7 +24,7 @@ namespace PolyCar.Editor
         public static void RunAll()
         {
             EnsureFolders();
-            PlayerSettings.bundleVersion = "2.2.0";
+            PlayerSettings.bundleVersion = "2.3.0";
             CreatePanelSettings();
             CreateMaterials();
             BuildCars();

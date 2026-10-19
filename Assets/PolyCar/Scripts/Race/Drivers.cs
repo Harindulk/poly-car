@@ -116,6 +116,7 @@ namespace PolyCar
                 input.Throttle = 0f;
             }
             else input.Throttle = speed < desired - 3f ? 1f : 0.6f;
+            if (Mathf.Abs(_car.DriftAngle) > 18f) input.Throttle = Mathf.Min(input.Throttle, 0.35f); // lift in a big slide
             input.Boost = _car.Boost > 0.4f && maxCurv < 0.004f && speed > 15f && Mathf.Abs(angle) < 8f && desired > speed + 5f;
 
             // Unstick: reverse out with opposite lock, respawn if that fails.

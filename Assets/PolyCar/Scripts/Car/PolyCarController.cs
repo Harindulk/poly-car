@@ -105,6 +105,8 @@ namespace PolyCar
         [Tooltip("Keyboard, while sliding: the speed-scaled return is this much slower, so the slide holds after the key is released.")]
         public float keyboardReleaseScale = 3f;
         public float counterSteerBoost = 1.5f;
+        [Tooltip("Keyboard: steering angle a held key reaches at 30 m/s and above (counter-steer can still go further).")]
+        public float keyboardSteerAngle = 14f;
 
         [Header("Assists")]
         [Tooltip("Yaw acceleration (rad/s²) from the raw steering input at 45 m/s.")]
@@ -177,6 +179,7 @@ namespace PolyCar
         private bool _clutchIn;
         private float _rpmSmoothed;
         private float _keyboardTimer;
+        private float _yawInput;
         private float _levelRamp;
         private float _landingWindow;
         private float _lastImpactTime;
@@ -345,6 +348,8 @@ namespace PolyCar
             float a = Mathf.Abs(raw);
             if (a > 0.001f && a < 0.999f) _keyboardTimer = 0f; else _keyboardTimer += dt;
             bool keyboard = _keyboardTimer > 1f;
+            // Yaw help follows the raw input (instant, as in art of rally); on/off keys get a short ramp so a tap isn't a jolt.
+            _yawInput = keyboard && !FastSteer ? Mathf.MoveTowards(_yawInput, raw, dt / 0.08f) : raw;
 
             if (FastSteer) _steer = raw;
             else
@@ -369,6 +374,8 @@ namespace PolyCar
 
             // Lock narrows with speed, but counter-steer may follow the slide so the fronts can point down the road.
             float limit = Mathf.Lerp(_steerMax, highSpeedSteerAngle, Mathf.Abs(ForwardSpeed) / 45f);
+            // A held key means "turn", not "full lock": at speed, keyboard steering tops out near the tyres' best angle.
+            if (keyboard && !FastSteer) limit = Mathf.Min(limit, Mathf.Lerp(_steerMax, keyboardSteerAngle, Mathf.Abs(ForwardSpeed) / 30f));
             if (Mathf.Abs(DriftAngle) > 3f && Mathf.Sign(_steer) == Mathf.Sign(DriftAngle))
                 limit = Mathf.Max(limit, Mathf.Min(Mathf.Abs(DriftAngle) + 6f, 40f));
             SteerAngle = _steer * limit;
@@ -597,8 +604,10 @@ namespace PolyCar
             if (allDown && Mathf.Abs(vF) > 35f / 3.6f && !InputLocked)
             {
                 // Yaw from the raw steering input: rotation answers at once even though the wheels turn slowly.
-                float steer = Mathf.Clamp(input.Steer, -1f, 1f);
-                float yaw = steer * Mathf.Clamp01(Mathf.Abs(vF) / 45f) * yawAssist * _yawStrength * Mathf.Sign(vF);
+                // Steering further into a slide that is already rotating the car gets less help (no over-rotation).
+                float steer = _yawInput;
+                float into = Mathf.Sign(steer) == -Mathf.Sign(DriftAngle) ? Mathf.Clamp01(1f - (Mathf.Abs(DriftAngle) - 10f) / 20f) : 1f;
+                float yaw = steer * into * Mathf.Clamp01(Mathf.Abs(vF) / 45f) * yawAssist * _yawStrength * Mathf.Sign(vF);
                 Body.AddTorque(up * yaw, ForceMode.Acceleration);
             }
 

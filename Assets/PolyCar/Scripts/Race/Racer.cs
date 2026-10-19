@@ -188,18 +188,21 @@ namespace PolyCar
             Vector3 centre = Path.PointAt(Progress);
             float pitch = Vector3.Angle(transform.up, Vector3.up);
             _steepTimer = pitch > 42f && Car.Body.linearVelocity.magnitude < 6f ? _steepTimer + dt : 0f;
-            if (StallTime > (isPlayer ? 12f : 5f) || _steepTimer > 2.5f) { Respawn(); return; }
+            if (StallTime > (isPlayer ? 12f : 5f) || _steepTimer > 2.5f) { Respawn(_steepTimer > 2.5f ? "stuck on a steep bank" : "stalled"); return; }
+            // Like art of rally's out-of-bounds reset: well off the route and going nowhere means back on the road.
+            if (Mathf.Abs(Lateral) > half + 12f && StallTime > 3f) { Respawn("stuck off the road"); return; }
             bool fell = transform.position.y < centre.y - 30f;
             bool farOff = Mathf.Abs(Lateral) > half + 30f;
             _upsideTimer = Car.IsUpsideDown && Car.Body.linearVelocity.magnitude < 4f ? _upsideTimer + dt : 0f;
             _lostTimer = farOff ? _lostTimer + dt : 0f;
-            if (fell || _upsideTimer > 2.2f || _lostTimer > 2.5f) Respawn();
+            if (fell || _upsideTimer > 2.2f || _lostTimer > 2.5f) Respawn(fell ? "fell" : _upsideTimer > 2.2f ? "upside down" : "far off the road");
         }
 
         /// <summary>Back on the road at the last safe spot, facing down the track.</summary>
-        public void Respawn()
+        public void Respawn(string why = "requested")
         {
             if (Path == null || Car == null) return;
+            Debug.Log($"Poly Car: respawn ({why}) at {Progress:0} m, lap {Lap}, {transform.position}");
             _respawnCooldown = 1.2f;
             Respawns++;
             _upsideTimer = 0f; _lostTimer = 0f; _wrongTimer = 0f; _steepTimer = 0f;
