@@ -73,9 +73,32 @@ namespace PolyCar.Editor
             // Finish arch stays as scenery; make sure no trigger or collider blocks the road under it.
             if (end) foreach (var c in end.GetComponentsInChildren<Collider>()) if (c.isTrigger) Object.DestroyImmediate(c);
 
+            int stripped = StripMissingScripts(scene);
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
-            Debug.Log($"Poly Car: Green Forest converted. Track length {path.Length:0} m, {path.points.Count} points.");
+            Debug.Log($"Poly Car: Green Forest converted. Track length {path.Length:0} m, {path.points.Count} points, {stripped} missing scripts removed.");
+        }
+
+        /// <summary>Removes components whose script no longer exists (the 2022 ReSpawner triggers, the old camera script).</summary>
+        public static int StripMissingScripts(UnityEngine.SceneManagement.Scene scene)
+        {
+            int removed = 0;
+            foreach (var root in scene.GetRootGameObjects())
+                foreach (var t in root.GetComponentsInChildren<Transform>(true))
+                    removed += GameObjectUtility.RemoveMonoBehavioursWithMissingScript(t.gameObject);
+            return removed;
+        }
+
+        [MenuItem("Poly Car/Setup/Strip Missing Scripts In Build Scenes")]
+        public static void StripMissingScriptsInBuildScenes()
+        {
+            foreach (var s in EditorBuildSettings.scenes)
+            {
+                var scene = EditorSceneManager.OpenScene(s.path, OpenSceneMode.Single);
+                int n = StripMissingScripts(scene);
+                if (n > 0) { EditorSceneManager.MarkSceneDirty(scene); EditorSceneManager.SaveScene(scene); }
+                Debug.Log($"Poly Car: {s.path}: removed {n} missing script component(s).");
+            }
         }
 
         private static int Nearest(List<Vector3> pts, Vector3 p)

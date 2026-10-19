@@ -542,7 +542,6 @@ GameObject:
   - component: {fileID: 5839497}
   - component: {fileID: 5839496}
   - component: {fileID: 5839495}
-  - component: {fileID: 5839499}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -644,22 +643,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2111934876}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5839499
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5839494}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!1 &8962490
 GameObject:
   m_ObjectHideFlags: 0
@@ -5986,7 +5969,6 @@ GameObject:
   - component: {fileID: 15077742}
   - component: {fileID: 15077741}
   - component: {fileID: 15077740}
-  - component: {fileID: 15077744}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -6088,22 +6070,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 165170421}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &15077744
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 15077739}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!1 &19570277
 GameObject:
   m_ObjectHideFlags: 0
@@ -8328,7 +8294,6 @@ GameObject:
   - component: {fileID: 47814085}
   - component: {fileID: 47814084}
   - component: {fileID: 47814083}
-  - component: {fileID: 47814087}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -8430,22 +8395,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1356840011}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &47814087
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 47814082}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!1 &49456654
 GameObject:
   m_ObjectHideFlags: 0
@@ -10012,7 +9961,6 @@ GameObject:
   - component: {fileID: 74945357}
   - component: {fileID: 74945356}
   - component: {fileID: 74945355}
-  - component: {fileID: 74945359}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -10114,22 +10062,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 761971154}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &74945359
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 74945354}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!1 &75768364
 GameObject:
   m_ObjectHideFlags: 0
@@ -11994,7 +11926,6 @@ GameObject:
   - component: {fileID: 102525818}
   - component: {fileID: 102525817}
   - component: {fileID: 102525816}
-  - component: {fileID: 102525820}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -12096,22 +12027,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 165170421}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &102525820
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 102525815}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!134 &103181221
 PhysicsMaterial:
   m_ObjectHideFlags: 0
@@ -14324,7 +14239,6 @@ GameObject:
   - component: {fileID: 143916494}
   - component: {fileID: 143916493}
   - component: {fileID: 143916492}
-  - component: {fileID: 143916496}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -14426,22 +14340,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1790350273}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &143916496
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 143916491}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!43 &144288380
 Mesh:
   m_ObjectHideFlags: 0
@@ -17096,7 +16994,6 @@ GameObject:
   - component: {fileID: 181374013}
   - component: {fileID: 181374012}
   - component: {fileID: 181374011}
-  - component: {fileID: 181374015}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -17198,22 +17095,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1468773784}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &181374015
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 181374010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!1 &181631221
 GameObject:
   m_ObjectHideFlags: 0
@@ -24018,7 +23899,6 @@ GameObject:
   - component: {fileID: 264975352}
   - component: {fileID: 264975351}
   - component: {fileID: 264975350}
-  - component: {fileID: 264975354}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -24120,22 +24000,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 575857806}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &264975354
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 264975349}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!43 &266461302
 Mesh:
   m_ObjectHideFlags: 0
@@ -27958,7 +27822,6 @@ GameObject:
   - component: {fileID: 311174790}
   - component: {fileID: 311174789}
   - component: {fileID: 311174788}
-  - component: {fileID: 311174792}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -28060,22 +27923,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 470726163}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &311174792
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 311174787}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!43 &311953818
 Mesh:
   m_ObjectHideFlags: 0
@@ -30299,7 +30146,6 @@ GameObject:
   - component: {fileID: 330111236}
   - component: {fileID: 330111235}
   - component: {fileID: 330111234}
-  - component: {fileID: 330111238}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -30401,22 +30247,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1485331340}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &330111238
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 330111233}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!43 &332070553
 Mesh:
   m_ObjectHideFlags: 0
@@ -30966,7 +30796,6 @@ GameObject:
   - component: {fileID: 340952259}
   - component: {fileID: 340952258}
   - component: {fileID: 340952257}
-  - component: {fileID: 340952261}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -31068,22 +30897,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 324806690}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &340952261
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 340952256}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!1 &342907990
 GameObject:
   m_ObjectHideFlags: 0
@@ -31712,7 +31525,6 @@ GameObject:
   - component: {fileID: 350590872}
   - component: {fileID: 350590871}
   - component: {fileID: 350590870}
-  - component: {fileID: 350590874}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -31814,22 +31626,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1534648047}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &350590874
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 350590869}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!43 &351254535
 Mesh:
   m_ObjectHideFlags: 0
@@ -32021,7 +31817,6 @@ GameObject:
   - component: {fileID: 354387134}
   - component: {fileID: 354387133}
   - component: {fileID: 354387132}
-  - component: {fileID: 354387136}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -32123,22 +31918,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 535529211}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &354387136
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 354387131}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!1 &355901585
 GameObject:
   m_ObjectHideFlags: 0
@@ -34644,7 +34423,6 @@ GameObject:
   - component: {fileID: 371871885}
   - component: {fileID: 371871884}
   - component: {fileID: 371871883}
-  - component: {fileID: 371871887}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -34746,22 +34524,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1990401550}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &371871887
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 371871882}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!1 &372708267
 GameObject:
   m_ObjectHideFlags: 0
@@ -37936,7 +37698,6 @@ GameObject:
   - component: {fileID: 403990678}
   - component: {fileID: 403990677}
   - component: {fileID: 403990676}
-  - component: {fileID: 403990680}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -38038,22 +37799,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 575857806}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &403990680
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 403990675}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!43 &404449350
 Mesh:
   m_ObjectHideFlags: 0
@@ -38245,7 +37990,6 @@ GameObject:
   - component: {fileID: 405367761}
   - component: {fileID: 405367760}
   - component: {fileID: 405367759}
-  - component: {fileID: 405367763}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -38347,22 +38091,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 49456656}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &405367763
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 405367758}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!1 &407485601
 GameObject:
   m_ObjectHideFlags: 0
@@ -38939,7 +38667,6 @@ GameObject:
   - component: {fileID: 413382588}
   - component: {fileID: 413382587}
   - component: {fileID: 413382586}
-  - component: {fileID: 413382590}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -39041,22 +38768,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1313060316}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &413382590
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 413382585}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!43 &414397748
 Mesh:
   m_ObjectHideFlags: 0
@@ -42243,7 +41954,6 @@ GameObject:
   - component: {fileID: 463532525}
   - component: {fileID: 463532524}
   - component: {fileID: 463532523}
-  - component: {fileID: 463532527}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -42345,22 +42055,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 49456656}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &463532527
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 463532522}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!134 &465307510
 PhysicsMaterial:
   m_ObjectHideFlags: 0
@@ -42565,7 +42259,6 @@ GameObject:
   - component: {fileID: 469398580}
   - component: {fileID: 469398579}
   - component: {fileID: 469398578}
-  - component: {fileID: 469398582}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -42667,22 +42360,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1026916655}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &469398582
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 469398577}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!1 &470726161
 GameObject:
   m_ObjectHideFlags: 0
@@ -43961,7 +43638,6 @@ GameObject:
   - component: {fileID: 475052923}
   - component: {fileID: 475052922}
   - component: {fileID: 475052921}
-  - component: {fileID: 475052925}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -44063,22 +43739,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2005871887}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &475052925
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 475052920}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!1 &478089985
 GameObject:
   m_ObjectHideFlags: 0
@@ -45700,7 +45360,6 @@ GameObject:
   - component: {fileID: 492353542}
   - component: {fileID: 492353541}
   - component: {fileID: 492353540}
-  - component: {fileID: 492353544}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -45802,22 +45461,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1731882567}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &492353544
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 492353539}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!1 &494941113
 GameObject:
   m_ObjectHideFlags: 0
@@ -45830,7 +45473,6 @@ GameObject:
   - component: {fileID: 494941116}
   - component: {fileID: 494941115}
   - component: {fileID: 494941114}
-  - component: {fileID: 494941118}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -45932,22 +45574,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 244274348}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &494941118
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 494941113}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!43 &495459820
 Mesh:
   m_ObjectHideFlags: 0
@@ -53065,7 +52691,6 @@ GameObject:
   - component: {fileID: 576710666}
   - component: {fileID: 576710665}
   - component: {fileID: 576710664}
-  - component: {fileID: 576710668}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -53167,22 +52792,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 471837731}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &576710668
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 576710663}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!1 &577046750
 GameObject:
   m_ObjectHideFlags: 0
@@ -54679,7 +54288,6 @@ GameObject:
   - component: {fileID: 589112941}
   - component: {fileID: 589112940}
   - component: {fileID: 589112939}
-  - component: {fileID: 589112943}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -54781,22 +54389,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2092178692}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &589112943
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 589112938}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!134 &591455830
 PhysicsMaterial:
   m_ObjectHideFlags: 0
@@ -56412,7 +56004,6 @@ GameObject:
   - component: {fileID: 619271958}
   - component: {fileID: 619271957}
   - component: {fileID: 619271956}
-  - component: {fileID: 619271960}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -56514,22 +56105,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1993366774}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &619271960
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 619271955}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!1 &620656173
 GameObject:
   m_ObjectHideFlags: 0
@@ -59819,7 +59394,6 @@ GameObject:
   - component: {fileID: 675244350}
   - component: {fileID: 675244349}
   - component: {fileID: 675244348}
-  - component: {fileID: 675244352}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -59921,22 +59495,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 538650793}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &675244352
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 675244347}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!134 &675333317
 PhysicsMaterial:
   m_ObjectHideFlags: 0
@@ -61221,7 +60779,6 @@ GameObject:
   - component: {fileID: 688728037}
   - component: {fileID: 688728036}
   - component: {fileID: 688728035}
-  - component: {fileID: 688728039}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -61323,22 +60880,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1922612401}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &688728039
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 688728034}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!134 &689128799
 PhysicsMaterial:
   m_ObjectHideFlags: 0
@@ -62155,7 +61696,6 @@ GameObject:
   - component: {fileID: 710987917}
   - component: {fileID: 710987916}
   - component: {fileID: 710987915}
-  - component: {fileID: 710987919}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -62257,22 +61797,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 324806690}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &710987919
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 710987914}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!134 &712726234
 PhysicsMaterial:
   m_ObjectHideFlags: 0
@@ -62298,7 +61822,6 @@ GameObject:
   - component: {fileID: 713131808}
   - component: {fileID: 713131807}
   - component: {fileID: 713131806}
-  - component: {fileID: 713131810}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -62400,22 +61923,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 19570278}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &713131810
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 713131805}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!1 &713947807
 GameObject:
   m_ObjectHideFlags: 0
@@ -64229,7 +63736,6 @@ GameObject:
   - component: {fileID: 728501713}
   - component: {fileID: 728501712}
   - component: {fileID: 728501711}
-  - component: {fileID: 728501715}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -64331,22 +63837,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1466946675}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &728501715
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 728501710}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!1 &731254886
 GameObject:
   m_ObjectHideFlags: 0
@@ -64359,7 +63849,6 @@ GameObject:
   - component: {fileID: 731254889}
   - component: {fileID: 731254888}
   - component: {fileID: 731254887}
-  - component: {fileID: 731254891}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -64461,22 +63950,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1418088963}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &731254891
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 731254886}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!134 &731778083
 PhysicsMaterial:
   m_ObjectHideFlags: 0
@@ -68509,7 +67982,6 @@ GameObject:
   - component: {fileID: 783552459}
   - component: {fileID: 783552458}
   - component: {fileID: 783552457}
-  - component: {fileID: 783552461}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -68611,22 +68083,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1356840011}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &783552461
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 783552456}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!43 &785270015
 Mesh:
   m_ObjectHideFlags: 0
@@ -69110,7 +68566,6 @@ GameObject:
   - component: {fileID: 791194305}
   - component: {fileID: 791194304}
   - component: {fileID: 791194303}
-  - component: {fileID: 791194307}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -69212,22 +68667,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1065631751}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &791194307
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 791194302}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!134 &791822951
 PhysicsMaterial:
   m_ObjectHideFlags: 0
@@ -73240,7 +72679,6 @@ GameObject:
   - component: {fileID: 855359538}
   - component: {fileID: 855359537}
   - component: {fileID: 855359536}
-  - component: {fileID: 855359540}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -73342,22 +72780,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1993366774}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &855359540
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 855359535}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!134 &859591792
 PhysicsMaterial:
   m_ObjectHideFlags: 0
@@ -73995,7 +73417,6 @@ GameObject:
   - component: {fileID: 868667722}
   - component: {fileID: 868667721}
   - component: {fileID: 868667720}
-  - component: {fileID: 868667724}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -74097,22 +73518,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 470726163}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &868667724
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 868667719}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!43 &869158604
 Mesh:
   m_ObjectHideFlags: 0
@@ -75072,7 +74477,6 @@ GameObject:
   - component: {fileID: 883268216}
   - component: {fileID: 883268215}
   - component: {fileID: 883268214}
-  - component: {fileID: 883268218}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -75174,22 +74578,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 170688306}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &883268218
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 883268213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!1 &883411611
 GameObject:
   m_ObjectHideFlags: 0
@@ -75202,7 +74590,6 @@ GameObject:
   - component: {fileID: 883411614}
   - component: {fileID: 883411613}
   - component: {fileID: 883411612}
-  - component: {fileID: 883411616}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -75304,22 +74691,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1990401550}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &883411616
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 883411611}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!134 &886917509
 PhysicsMaterial:
   m_ObjectHideFlags: 0
@@ -75767,7 +75138,6 @@ GameObject:
   - component: {fileID: 895690820}
   - component: {fileID: 895690819}
   - component: {fileID: 895690818}
-  - component: {fileID: 895690822}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -75869,22 +75239,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1731882567}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &895690822
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 895690817}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!134 &897026144
 PhysicsMaterial:
   m_ObjectHideFlags: 0
@@ -75923,7 +75277,6 @@ GameObject:
   - component: {fileID: 898956370}
   - component: {fileID: 898956369}
   - component: {fileID: 898956368}
-  - component: {fileID: 898956372}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -76025,22 +75378,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1313060316}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &898956372
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 898956367}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!43 &898966996
 Mesh:
   m_ObjectHideFlags: 0
@@ -77087,7 +76424,6 @@ GameObject:
   - component: {fileID: 914213601}
   - component: {fileID: 914213600}
   - component: {fileID: 914213599}
-  - component: {fileID: 914213603}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -77189,22 +76525,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1100715037}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &914213603
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 914213598}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!1 &916315163
 GameObject:
   m_ObjectHideFlags: 0
@@ -78505,7 +77825,6 @@ GameObject:
   - component: {fileID: 936554314}
   - component: {fileID: 936554313}
   - component: {fileID: 936554312}
-  - component: {fileID: 936554316}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -78607,22 +77926,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2111934876}
   m_LocalEulerAnglesHint: {x: 0.817, y: 39.849, z: 0.682}
---- !u!114 &936554316
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 936554311}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!134 &938741714
 PhysicsMaterial:
   m_ObjectHideFlags: 0
@@ -79622,7 +78925,6 @@ GameObject:
   - component: {fileID: 954580667}
   - component: {fileID: 954580666}
   - component: {fileID: 954580665}
-  - component: {fileID: 954580669}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -79724,22 +79026,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1485331340}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &954580669
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 954580664}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!1 &960414304
 GameObject:
   m_ObjectHideFlags: 0
@@ -82064,7 +81350,6 @@ GameObject:
   - component: {fileID: 996341862}
   - component: {fileID: 996341861}
   - component: {fileID: 996341860}
-  - component: {fileID: 996341864}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -82166,22 +81451,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 517851887}
   m_LocalEulerAnglesHint: {x: 0.324, y: -59.414, z: -0.548}
---- !u!114 &996341864
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 996341859}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!1 &996543018
 GameObject:
   m_ObjectHideFlags: 0
@@ -82322,7 +81591,6 @@ GameObject:
   - component: {fileID: 1007259092}
   - component: {fileID: 1007259091}
   - component: {fileID: 1007259090}
-  - component: {fileID: 1007259094}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -82424,22 +81692,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1418088963}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1007259094
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1007259089}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!134 &1011296514
 PhysicsMaterial:
   m_ObjectHideFlags: 0
@@ -87657,7 +86909,6 @@ GameObject:
   - component: {fileID: 1091705249}
   - component: {fileID: 1091705248}
   - component: {fileID: 1091705247}
-  - component: {fileID: 1091705251}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -87759,22 +87010,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 19570278}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1091705251
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1091705246}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!1 &1093615812
 GameObject:
   m_ObjectHideFlags: 0
@@ -91050,7 +90285,6 @@ GameObject:
   - component: {fileID: 1130592000}
   - component: {fileID: 1130591999}
   - component: {fileID: 1130591998}
-  - component: {fileID: 1130592002}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -91152,22 +90386,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2092178692}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1130592002
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1130591997}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!1 &1130808892
 GameObject:
   m_ObjectHideFlags: 0
@@ -91690,7 +90908,6 @@ GameObject:
   - component: {fileID: 1144342643}
   - component: {fileID: 1144342642}
   - component: {fileID: 1144342641}
-  - component: {fileID: 1144342645}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -91792,22 +91009,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 761971154}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1144342645
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1144342640}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!134 &1144714524
 PhysicsMaterial:
   m_ObjectHideFlags: 0
@@ -92392,7 +91593,6 @@ GameObject:
   - component: {fileID: 1161327987}
   - component: {fileID: 1161327986}
   - component: {fileID: 1161327985}
-  - component: {fileID: 1161327989}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -92494,22 +91694,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1480049120}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1161327989
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1161327984}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!43 &1164055148
 Mesh:
   m_ObjectHideFlags: 0
@@ -99611,7 +98795,6 @@ GameObject:
   - component: {fileID: 1255989882}
   - component: {fileID: 1255989881}
   - component: {fileID: 1255989880}
-  - component: {fileID: 1255989884}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -99713,22 +98896,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1922612401}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1255989884
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1255989879}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!43 &1258336896
 Mesh:
   m_ObjectHideFlags: 0
@@ -100711,7 +99878,6 @@ GameObject:
   - component: {fileID: 1267185113}
   - component: {fileID: 1267185112}
   - component: {fileID: 1267185111}
-  - component: {fileID: 1267185115}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -100813,22 +99979,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 535529211}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1267185115
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1267185110}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!134 &1273528702
 PhysicsMaterial:
   m_ObjectHideFlags: 0
@@ -101796,7 +100946,6 @@ GameObject:
   - component: {fileID: 1282834041}
   - component: {fileID: 1282834040}
   - component: {fileID: 1282834039}
-  - component: {fileID: 1282834043}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -101898,22 +101047,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 687300687}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1282834043
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1282834038}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!43 &1283487101
 Mesh:
   m_ObjectHideFlags: 0
@@ -102284,7 +101417,6 @@ GameObject:
   - component: {fileID: 1284888121}
   - component: {fileID: 1284888120}
   - component: {fileID: 1284888119}
-  - component: {fileID: 1284888123}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -102386,22 +101518,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1515542358}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1284888123
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1284888118}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!43 &1290003511
 Mesh:
   m_ObjectHideFlags: 0
@@ -106768,7 +105884,6 @@ GameObject:
   - component: {fileID: 1356339081}
   - component: {fileID: 1356339080}
   - component: {fileID: 1356339079}
-  - component: {fileID: 1356339083}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -106870,22 +105985,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 75768366}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1356339083
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1356339078}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!1 &1356840009
 GameObject:
   m_ObjectHideFlags: 0
@@ -110506,7 +109605,6 @@ GameObject:
   - component: {fileID: 1399487734}
   - component: {fileID: 1399487733}
   - component: {fileID: 1399487732}
-  - component: {fileID: 1399487736}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -110608,22 +109706,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 674327715}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1399487736
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1399487731}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!1 &1402379543
 GameObject:
   m_ObjectHideFlags: 0
@@ -110636,7 +109718,6 @@ GameObject:
   - component: {fileID: 1402379546}
   - component: {fileID: 1402379545}
   - component: {fileID: 1402379544}
-  - component: {fileID: 1402379548}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -110738,22 +109819,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 75768366}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1402379548
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1402379543}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!1 &1407020019
 GameObject:
   m_ObjectHideFlags: 0
@@ -112275,7 +111340,6 @@ GameObject:
   - component: {fileID: 1415805172}
   - component: {fileID: 1415805171}
   - component: {fileID: 1415805170}
-  - component: {fileID: 1415805174}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -112377,22 +111441,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 517851887}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1415805174
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1415805169}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!134 &1417214904
 PhysicsMaterial:
   m_ObjectHideFlags: 0
@@ -113157,7 +112205,6 @@ GameObject:
   - component: {fileID: 1434900314}
   - component: {fileID: 1434900313}
   - component: {fileID: 1434900312}
-  - component: {fileID: 1434900316}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -113259,22 +112306,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 674327715}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1434900316
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1434900311}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!1 &1439211815
 GameObject:
   m_ObjectHideFlags: 0
@@ -117338,7 +116369,6 @@ GameObject:
   - component: {fileID: 1485331340}
   - component: {fileID: 1485331339}
   - component: {fileID: 1485331341}
-  - component: {fileID: 1485331342}
   m_Layer: 0
   m_Name: Node3
   m_TagString: respawnPoint
@@ -117773,22 +116803,6 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 61.6, y: 15.75, z: 1}
   m_Center: {x: 0, y: 0.44, z: 0}
---- !u!114 &1485331342
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1485331338}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!1 &1485987999
 GameObject:
   m_ObjectHideFlags: 0
@@ -117801,7 +116815,6 @@ GameObject:
   - component: {fileID: 1485988002}
   - component: {fileID: 1485988001}
   - component: {fileID: 1485988000}
-  - component: {fileID: 1485988004}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -117903,22 +116916,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 538650793}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1485988004
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1485987999}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!1 &1486118688
 GameObject:
   m_ObjectHideFlags: 0
@@ -121415,7 +120412,6 @@ GameObject:
   - component: {fileID: 1545668944}
   - component: {fileID: 1545668943}
   - component: {fileID: 1545668942}
-  - component: {fileID: 1545668946}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -121517,22 +120513,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 471837731}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1545668946
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1545668941}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!134 &1548897186
 PhysicsMaterial:
   m_ObjectHideFlags: 0
@@ -121558,7 +120538,6 @@ GameObject:
   - component: {fileID: 1549654508}
   - component: {fileID: 1549654507}
   - component: {fileID: 1549654506}
-  - component: {fileID: 1549654510}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -121660,22 +120639,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1468773784}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1549654510
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1549654505}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!43 &1550582256
 Mesh:
   m_ObjectHideFlags: 0
@@ -121867,7 +120830,6 @@ GameObject:
   - component: {fileID: 1550583445}
   - component: {fileID: 1550583444}
   - component: {fileID: 1550583443}
-  - component: {fileID: 1550583447}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -121969,22 +120931,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1515542358}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1550583447
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1550583442}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!43 &1551379875
 Mesh:
   m_ObjectHideFlags: 0
@@ -123389,7 +122335,6 @@ GameObject:
   - component: {fileID: 1571079544}
   - component: {fileID: 1571079543}
   - component: {fileID: 1571079542}
-  - component: {fileID: 1571079546}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -123491,22 +122436,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 377803172}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1571079546
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1571079541}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!43 &1573284006
 Mesh:
   m_ObjectHideFlags: 0
@@ -126231,7 +125160,6 @@ GameObject:
   - component: {fileID: 1616090513}
   - component: {fileID: 1616090512}
   - component: {fileID: 1616090511}
-  - component: {fileID: 1616090515}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -126333,22 +125261,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2092050885}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1616090515
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1616090510}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!1 &1617651326
 GameObject:
   m_ObjectHideFlags: 0
@@ -127728,7 +126640,6 @@ GameObject:
   - component: {fileID: 1645117916}
   - component: {fileID: 1645117915}
   - component: {fileID: 1645117914}
-  - component: {fileID: 1645117918}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -127830,22 +126741,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1065631751}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1645117918
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1645117913}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!1 &1647236934
 GameObject:
   m_ObjectHideFlags: 0
@@ -127949,7 +126844,6 @@ GameObject:
   - component: {fileID: 1647715682}
   - component: {fileID: 1647715681}
   - component: {fileID: 1647715680}
-  - component: {fileID: 1647715684}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -128051,22 +126945,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1108804360}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1647715684
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1647715679}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!43 &1648170178
 Mesh:
   m_ObjectHideFlags: 0
@@ -128742,7 +127620,6 @@ GameObject:
   - component: {fileID: 1656369012}
   - component: {fileID: 1656369011}
   - component: {fileID: 1656369010}
-  - component: {fileID: 1656369014}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -128844,22 +127721,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1188743134}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1656369014
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1656369009}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!43 &1660053698
 Mesh:
   m_ObjectHideFlags: 0
@@ -129524,7 +128385,6 @@ GameObject:
   - component: {fileID: 1668765676}
   - component: {fileID: 1668765675}
   - component: {fileID: 1668765674}
-  - component: {fileID: 1668765678}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -129626,22 +128486,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1790350273}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1668765678
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1668765673}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!43 &1672306875
 Mesh:
   m_ObjectHideFlags: 0
@@ -130547,7 +129391,6 @@ GameObject:
   - component: {fileID: 1696065667}
   - component: {fileID: 1696065666}
   - component: {fileID: 1696065665}
-  - component: {fileID: 1696065669}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -130649,22 +129492,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1108804360}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1696065669
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1696065664}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!134 &1696162551
 PhysicsMaterial:
   m_ObjectHideFlags: 0
@@ -130690,7 +129517,6 @@ GameObject:
   - component: {fileID: 1698180574}
   - component: {fileID: 1698180573}
   - component: {fileID: 1698180572}
-  - component: {fileID: 1698180576}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -130792,22 +129618,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 364275776}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1698180576
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1698180571}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!1 &1704288067
 GameObject:
   m_ObjectHideFlags: 0
@@ -132140,7 +130950,6 @@ GameObject:
   - component: {fileID: 1740013773}
   - component: {fileID: 1740013772}
   - component: {fileID: 1740013771}
-  - component: {fileID: 1740013775}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -132242,22 +131051,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 170688306}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1740013775
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1740013770}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!43 &1741090043
 Mesh:
   m_ObjectHideFlags: 0
@@ -138826,7 +137619,6 @@ GameObject:
   - component: {fileID: 1820696429}
   - component: {fileID: 1820696428}
   - component: {fileID: 1820696427}
-  - component: {fileID: 1820696431}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -138928,22 +137720,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 377803172}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1820696431
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1820696426}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!134 &1824258803
 PhysicsMaterial:
   m_ObjectHideFlags: 0
@@ -138969,7 +137745,6 @@ GameObject:
   - component: {fileID: 1824623145}
   - component: {fileID: 1824623144}
   - component: {fileID: 1824623143}
-  - component: {fileID: 1824623147}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -139071,22 +137846,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 364275776}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1824623147
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1824623142}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!43 &1828958782
 Mesh:
   m_ObjectHideFlags: 0
@@ -139457,7 +138216,6 @@ GameObject:
   - component: {fileID: 1835001131}
   - component: {fileID: 1835001130}
   - component: {fileID: 1835001129}
-  - component: {fileID: 1835001133}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -139559,22 +138317,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 244274348}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1835001133
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1835001128}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!1 &1836239477
 GameObject:
   m_ObjectHideFlags: 0
@@ -139587,7 +138329,6 @@ GameObject:
   - component: {fileID: 1836239480}
   - component: {fileID: 1836239479}
   - component: {fileID: 1836239478}
-  - component: {fileID: 1836239482}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -139689,22 +138430,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1188743134}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1836239482
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1836239477}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!43 &1836270123
 Mesh:
   m_ObjectHideFlags: 0
@@ -140179,7 +138904,6 @@ GameObject:
   - component: {fileID: 1842514581}
   - component: {fileID: 1842514580}
   - component: {fileID: 1842514579}
-  - component: {fileID: 1842514583}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -140281,22 +139005,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 687300687}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1842514583
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1842514578}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!134 &1842964753
 PhysicsMaterial:
   m_ObjectHideFlags: 0
@@ -142211,7 +140919,6 @@ GameObject:
   - component: {fileID: 1886725183}
   - component: {fileID: 1886725182}
   - component: {fileID: 1886725181}
-  - component: {fileID: 1886725185}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -142313,22 +141020,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1534648047}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1886725185
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1886725180}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!134 &1887570569
 PhysicsMaterial:
   m_ObjectHideFlags: 0
@@ -145826,7 +144517,6 @@ GameObject:
   - component: {fileID: 1931752032}
   - component: {fileID: 1931752031}
   - component: {fileID: 1931752030}
-  - component: {fileID: 1931752034}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -145928,22 +144618,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2005871887}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1931752034
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1931752029}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!43 &1932019319
 Mesh:
   m_ObjectHideFlags: 0
@@ -146811,7 +145485,6 @@ GameObject:
   - component: {fileID: 1948329703}
   - component: {fileID: 1948329702}
   - component: {fileID: 1948329701}
-  - component: {fileID: 1948329705}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -146913,22 +145586,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1258879772}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1948329705
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1948329700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!134 &1948521673
 PhysicsMaterial:
   m_ObjectHideFlags: 0
@@ -153093,7 +151750,6 @@ GameObject:
   - component: {fileID: 1962784571}
   - component: {fileID: 1962784570}
   - component: {fileID: 1962784569}
-  - component: {fileID: 1962784573}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -153195,22 +151851,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2060267287}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1962784573
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1962784568}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!43 &1963476680
 Mesh:
   m_ObjectHideFlags: 0
@@ -153886,7 +152526,6 @@ GameObject:
   - component: {fileID: 1975332424}
   - component: {fileID: 1975332423}
   - component: {fileID: 1975332422}
-  - component: {fileID: 1975332426}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -153988,22 +152627,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1480049120}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1975332426
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1975332421}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!43 &1977189284
 Mesh:
   m_ObjectHideFlags: 0
@@ -154195,7 +152818,6 @@ GameObject:
   - component: {fileID: 1977309842}
   - component: {fileID: 1977309841}
   - component: {fileID: 1977309840}
-  - component: {fileID: 1977309844}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -154297,22 +152919,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1466946675}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1977309844
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1977309839}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!134 &1979718851
 PhysicsMaterial:
   m_ObjectHideFlags: 0
@@ -159362,7 +157968,6 @@ GameObject:
   - component: {fileID: 2035627295}
   - component: {fileID: 2035627294}
   - component: {fileID: 2035627293}
-  - component: {fileID: 2035627297}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -159464,22 +158069,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2060267287}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2035627297
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2035627292}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!43 &2035642706
 Mesh:
   m_ObjectHideFlags: 0
@@ -160270,7 +158859,6 @@ GameObject:
   - component: {fileID: 2049902617}
   - component: {fileID: 2049902616}
   - component: {fileID: 2049902615}
-  - component: {fileID: 2049902619}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -160372,22 +158960,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1258879772}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2049902619
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2049902614}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!43 &2050856813
 Mesh:
   m_ObjectHideFlags: 0
@@ -160579,7 +159151,6 @@ GameObject:
   - component: {fileID: 2052451949}
   - component: {fileID: 2052451948}
   - component: {fileID: 2052451947}
-  - component: {fileID: 2052451951}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -160681,22 +159252,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1026916655}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2052451951
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2052451946}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!134 &2052996628
 PhysicsMaterial:
   m_ObjectHideFlags: 0
@@ -163050,7 +161605,6 @@ GameObject:
   - component: {fileID: 2069973452}
   - component: {fileID: 2069973451}
   - component: {fileID: 2069973450}
-  - component: {fileID: 2069973454}
   m_Layer: 0
   m_Name: ExtrudedObject
   m_TagString: Untagged
@@ -163152,22 +161706,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1100715037}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2069973454
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2069973449}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!43 &2070529199
 Mesh:
   m_ObjectHideFlags: 0
@@ -173695,7 +172233,6 @@ GameObject:
   - component: {fileID: 2127846703}
   - component: {fileID: 2127846702}
   - component: {fileID: 2127846701}
-  - component: {fileID: 2127846705}
   m_Layer: 0
   m_Name: ExtrudedObject1
   m_TagString: Untagged
@@ -173797,22 +172334,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 2092050885}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2127846705
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2127846700}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f0ef0437d909cfd47b12ec1d541d9c86, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  player: {fileID: 0}
-  blackPanel: {fileID: 0}
-  AutoRespawner: {fileID: 0}
-  CarRb: {fileID: 0}
 --- !u!43 &2128536424
 Mesh:
   m_ObjectHideFlags: 0
@@ -175135,7 +173656,6 @@ GameObject:
   - component: {fileID: 6848609264830215967}
   - component: {fileID: 6848609264830215966}
   - component: {fileID: 6848609264830215954}
-  - component: {fileID: 6848609264830215968}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -175202,25 +173722,6 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!114 &6848609264830215968
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6848609264830215965}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 817d8daf59cac0e489d5b99522ab0436, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  car: {fileID: 0}
-  distance: 18.88
-  height: 9.3
-  rotationDamping: 3
-  heightDamping: 3
-  zoomRatio: 0.5
-  defaultFOV: 65
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
