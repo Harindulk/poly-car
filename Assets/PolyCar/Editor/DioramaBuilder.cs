@@ -38,13 +38,14 @@ namespace PolyCar.Editor
             {
                 new Look
                 {
-                    mapId = "green_forest", key = "forest", seed = 3,
-                    grassA = new Color(0.36f, 0.55f, 0.26f), grassB = new Color(0.42f, 0.6f, 0.29f), verge = new Color(0.6f, 0.52f, 0.4f),
-                    road = new Color(0.25f, 0.26f, 0.29f), roadLine = new Color(0.92f, 0.9f, 0.82f),
+                    mapId = "green_forest", key = "forest", seed = 3, lines = false,
+                    grassA = new Color(0.36f, 0.55f, 0.26f), grassB = new Color(0.42f, 0.6f, 0.29f), verge = new Color(0.5f, 0.47f, 0.32f),
+                    road = new Color(0.62f, 0.55f, 0.43f), roadLine = new Color(0.92f, 0.9f, 0.82f),
                     soil = new Color(0.42f, 0.3f, 0.2f), rockA = new Color(0.52f, 0.45f, 0.38f), rockB = new Color(0.4f, 0.36f, 0.33f),
                     background = new Color(0.78f, 0.86f, 0.84f), sun = new Color(1f, 0.93f, 0.82f), sunEuler = new Vector3(42f, -150f, 0f),
                     ambientSky = new Color(0.66f, 0.74f, 0.8f), ambientEquator = new Color(0.62f, 0.68f, 0.6f), ambientGround = new Color(0.3f, 0.32f, 0.26f),
-                    trees = new[] { ("Assets/Prefabs/LowPoly - FirTree A.prefab", 3f, 6f, 9.5f), ("Assets/Prefabs/LowPoly - FirTree B.prefab", 3f, 6f, 9.5f), ("Assets/Prefabs/LowPoly - Rock A.prefab", 0.8f, 0.8f, 1.6f) },
+                    trees = new[] { ("Assets/Prefabs/LowPoly - FirTree A.prefab", 3f, 4f, 6.5f), ("Assets/Prefabs/LowPoly - FirTree B.prefab", 3f, 4f, 6.5f), ("Assets/Prefabs/LowPoly - Rock A.prefab", 0.8f, 0.8f, 1.6f) },
+                    treeCount = 28,
                     extras = ForestExtras,
                 },
                 new Look
