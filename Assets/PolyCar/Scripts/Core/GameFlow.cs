@@ -179,6 +179,20 @@ namespace PolyCar
             _overlay.Add(_tip);
             root.Add(_overlay);
             root.pickingMode = PickingMode.Ignore;
+            // Draw every character once in both UI fonts so their glyph atlases are filled at boot, not mid-race
+            // (adding glyphs the first time a split message shows new text caused frame spikes).
+            const string glyphs = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+-:.,/%!?()'&_<>[]#*=x ";
+            foreach (var cls in new[] { "loader-tip", "hud-time" })
+            {
+                var warm = new Label(glyphs);
+                warm.AddToClassList(cls);
+                warm.style.position = Position.Absolute;
+                warm.style.left = 0; warm.style.top = 0;
+                warm.style.opacity = 0.01f;
+                warm.pickingMode = PickingMode.Ignore;
+                root.Add(warm);
+                warm.schedule.Execute(() => warm.RemoveFromHierarchy()).StartingIn(3000);
+            }
             _overlay.style.opacity = 0f;
             _overlay.style.display = DisplayStyle.None;
         }
@@ -201,9 +215,11 @@ namespace PolyCar
             yield return Fade(0f, 1f, 0.25f);
             var op = SceneManager.LoadSceneAsync(scene);
             while (op != null && !op.isDone) yield return null;
-            // Let the new scene settle (first frames do shader warm-up and spawning).
+            // Let the new scene settle: a race renders its warm-up frames under this overlay first.
+            float until = Time.realtimeSinceStartup + 5f;
             yield return null;
             yield return null;
+            while (RaceManager.Current != null && !RaceManager.Current.WarmedUp && Time.realtimeSinceStartup < until) yield return null;
             yield return Fade(1f, 0f, 0.35f);
             _overlay.pickingMode = PickingMode.Ignore;
             _overlay.style.display = DisplayStyle.None;

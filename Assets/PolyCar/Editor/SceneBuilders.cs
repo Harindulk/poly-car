@@ -103,6 +103,7 @@ namespace PolyCar.Editor
             if (old) Object.DestroyImmediate(old);
             var root = new GameObject("StageDressing");
             int cleared = StageDressing.ClearTerrainTreesNearRoad(path, 2.5f);
+            int thinned = StageDressing.ThinTerrainDetail(path, 110f, 500f);
             Physics.SyncTransforms();
             StageDressing.Dress(path, root.transform, 0.6f, 6, 8, 5, "Assets/PolyCar/Maps/Green Forest_Meshes");
             const string prof = "Assets/PolyCar/Maps/Materials/forest_PostFX.asset";
@@ -115,7 +116,7 @@ namespace PolyCar.Editor
             EditorSceneManager.MarkSceneDirty(scene);
             EditorSceneManager.SaveScene(scene);
             AssetDatabase.SaveAssets();
-            Debug.Log($"Poly Car: Green Forest dressed ({cleared} overhanging trees cleared).");
+            Debug.Log($"Poly Car: Green Forest dressed ({cleared} overhanging trees cleared, {thinned} far grass/flower instances dropped).");
         }
 
         [MenuItem("Poly Car/Setup/Fix Green Forest Colliders")]

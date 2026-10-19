@@ -209,6 +209,48 @@ namespace PolyCar.Editor
             return removed;
         }
 
+        /// <summary>
+        /// Art of rally spends detail only near the road: drops small "tree" instances (grass patches, flowers)
+        /// beyond <paramref name="smallReach"/> m of the road, where the high camera can't make them out, and caps
+        /// terrain tree distance. Returns instances removed.
+        /// </summary>
+        public static int ThinTerrainDetail(TrackPath path, float smallReach, float treeDistance)
+        {
+            path.Build();
+            const float cell = 16f;
+            var grid = new Dictionary<(int, int), List<Vector3>>();
+            foreach (var q in path.points)
+            {
+                var key = (Mathf.FloorToInt(q.x / cell), Mathf.FloorToInt(q.z / cell));
+                if (!grid.TryGetValue(key, out var list)) grid[key] = list = new List<Vector3>();
+                list.Add(q);
+            }
+            int removed = 0;
+            var done = new HashSet<TerrainData>();
+            foreach (var t in Object.FindObjectsByType<Terrain>())
+            {
+                t.treeDistance = treeDistance;
+                t.drawInstanced = true;
+                var data = t.terrainData;
+                if (data == null || !done.Add(data)) continue;
+                var small = new bool[data.treePrototypes.Length];
+                for (int i = 0; i < small.Length; i++)
+                {
+                    string n = data.treePrototypes[i].prefab ? data.treePrototypes[i].prefab.name.ToLower() : "";
+                    small[i] = n.Contains("grass") || n.Contains("flower");
+                }
+                Vector3 size = data.size, origin = t.transform.position;
+                var keep = new List<TreeInstance>(data.treeInstanceCount);
+                foreach (var tree in data.treeInstances)
+                {
+                    if (small[tree.prototypeIndex] && !NearAny(grid, cell, origin + Vector3.Scale(tree.position, size), smallReach)) { removed++; continue; }
+                    keep.Add(tree);
+                }
+                if (keep.Count != data.treeInstanceCount) { data.SetTreeInstances(keep.ToArray(), false); EditorUtility.SetDirty(data); }
+            }
+            return removed;
+        }
+
         private static bool NearAny(Dictionary<(int, int), List<Vector3>> grid, float cell, Vector3 p, float reach)
         {
             int r = Mathf.CeilToInt(reach / cell);

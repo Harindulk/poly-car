@@ -107,7 +107,6 @@ namespace PolyCar
             SetupCamera();
             SpawnField();
             if (GameSettings.Current.ghost) SpawnGhost(mapId);
-            WarmUp();
 
             RaceHud.Create(this);
             PauseMenu.Create(this);
@@ -119,29 +118,44 @@ namespace PolyCar
         /// <summary>Sprints are stored with laps = 0, circuits with the lap count raced.</summary>
         public int RecordLaps => Path.loop ? Laps : 0;
 
+        /// <summary>True once the warm-up frames have rendered (the loading screen waits for this).</summary>
+        public bool WarmedUp { get; private set; }
+
         /// <summary>
-        /// Renders a dozen small views along the track while the loading screen is still up, so shaders,
-        /// textures and meshes are uploaded before the race instead of hitching on the first lap.
+        /// While the loading screen still covers the view, renders real frames from the rally camera's height all
+        /// along the track, plus the car with its smoke, skid and boost effects live, so shaders and GPU pipeline
+        /// states are created now instead of hitching mid-race (offscreen renders don't cover the screen's formats).
         /// </summary>
-        private void WarmUp()
+        private IEnumerator WarmUp()
         {
-            var rt = RenderTexture.GetTemporary(640, 360, 24);
-            var prevTarget = _cam.targetTexture;
-            var prevPos = _cam.transform.position; var prevRot = _cam.transform.rotation;
-            _cam.targetTexture = rt;
-            const int views = 14;
+            Chase.enabled = false;
+            var fx = PlayerCar ? PlayerCar.GetComponent<CarFx>() : null;
+            if (fx)
+            {
+                foreach (var p in fx.smoke) if (p) p.Emit(4);
+                foreach (var p in fx.boostFlames) if (p) p.Emit(4);
+                foreach (var s in fx.skids) if (s) { s.emitting = true; s.AddPosition(s.transform.position + PlayerCar.transform.forward * 2f); }
+                var ct = PlayerCar.transform;
+                foreach (var offset in new[] { new Vector3(0f, 15.5f, -29.5f), new Vector3(0f, 2.6f, -7.2f), new Vector3(6f, 3f, 8f) })
+                {
+                    _cam.transform.position = ct.position + ct.rotation * offset;
+                    _cam.transform.LookAt(ct.position);
+                    yield return null;
+                }
+                foreach (var p in fx.smoke) if (p) p.Clear();
+                foreach (var p in fx.boostFlames) if (p) p.Clear();
+                fx.ResetTrails();
+            }
+            const int views = 28;
             for (int i = 0; i < views; i++)
             {
                 float d = Path.Length * i / views;
-                Vector3 p = Path.PointAt(d) + Vector3.up * 3f;
-                _cam.transform.SetPositionAndRotation(p, Quaternion.LookRotation(Path.DirectionAt(d)));
-                _cam.Render();
-                _cam.transform.rotation = Quaternion.LookRotation(-Path.DirectionAt(d));
-                _cam.Render();
+                Vector3 p = Path.PointAt(d), dir = Path.DirectionAt(d);
+                _cam.transform.position = p - dir * 29.5f + Vector3.up * 15.5f;
+                _cam.transform.LookAt(p + Vector3.up * 2f);
+                yield return null;
             }
-            _cam.targetTexture = prevTarget;
-            _cam.transform.SetPositionAndRotation(prevPos, prevRot);
-            RenderTexture.ReleaseTemporary(rt);
+            WarmedUp = true;
         }
 
         private void BuildCheckpoints()
@@ -297,6 +311,7 @@ namespace PolyCar
 
         private IEnumerator Sequence()
         {
+            yield return WarmUp();
             // Intro: swoop down from above the grid to the chase camera.
             SetState(RaceState.Intro);
             Chase.enabled = false;
