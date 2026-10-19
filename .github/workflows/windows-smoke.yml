@@ -1,6 +1,7 @@
 # Runs the real Windows player's end-to-end smoke test on a GitHub Windows runner (software D3D11, no GPU):
 # clicks through the menus, races every stage and a full championship, and fails on any logged error.
-# The build comes from the draft release "ci-windows-build" (upload PolyCar-Windows-*.zip there).
+# The build comes from the draft release "ci-windows-build" (keep one PolyCar-Windows-*.zip there; re-push
+# this file or run it manually to test a new upload).
 name: Windows smoke test
 on:
   workflow_dispatch:
