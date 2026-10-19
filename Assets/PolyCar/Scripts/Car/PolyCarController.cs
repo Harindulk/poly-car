@@ -13,6 +13,9 @@ namespace PolyCar
     /// helper, air levelling and a landing stick.
     /// Physics runs in FixedUpdate (tyres in 5 sub-steps) with an interpolated Rigidbody.
     /// </summary>
+    /// <summary>What a wheel is rolling on (from the ground collider's physics material name).</summary>
+    public enum SurfaceKind { Tarmac, Gravel, Snow, Verge, Grass, Sand, DeepSnow }
+
     [RequireComponent(typeof(Rigidbody))]
     [DefaultExecutionOrder(-20)]
     public class PolyCarController : MonoBehaviour
@@ -35,6 +38,7 @@ namespace PolyCar
             [NonSerialized] public float tanSlip;          // lagged tan(slip angle); + = sliding to the car's right
             [NonSerialized] public float load;             // N
             [NonSerialized] public float grip = 1f, rolling = 0.015f;
+            [NonSerialized] public SurfaceKind surface;
             [NonSerialized] public float longSlip, latSlip; // slip / peak slip (1 = top of the curve)
             [NonSerialized] public float slipSpeed;        // m/s of rubber sliding over the ground
             [NonSerialized] public float driveShare;
@@ -140,6 +144,8 @@ namespace PolyCar
         public bool IsDrifting { get; private set; }
         /// <summary>Body slip angle in degrees; + = moving to the car's right (nose pointing left of travel).</summary>
         public float DriftAngle { get; private set; }
+        /// <summary>Average grip of the grounded wheels' surfaces (1 = tarmac).</summary>
+        public float SurfaceGrip { get; private set; } = 1f;
         /// <summary>Fastest tyre sliding speed, m/s (skids, smoke, squeal).</summary>
         public float SlipSpeed { get; private set; }
         public float Boost { get; set; } = 0.35f;
@@ -413,15 +419,44 @@ namespace PolyCar
 
             GroundedWheels = grounded;
             OnRoad = grounded == 0 || onRoad * 2 >= grounded;
+            float gripSum = 0f;
+            foreach (var w in wheels) if (w.grounded) gripSum += w.grip;
+            SurfaceGrip = grounded > 0 ? gripSum / grounded : SurfaceGrip;
         }
 
-        /// <summary>Surface grip and rolling drag: road, gravel verges, open terrain.</summary>
+        /// <summary>
+        /// Surface grip and rolling drag, relative to tarmac, from art of rally's surface table (tarmac 1.08,
+        /// gravel 0.97, snow 0.96, snow off-road 0.78, grass 0.75). Loose surfaces mostly differ by rolling drag,
+        /// dust and sound rather than by huge grip gaps. The ground's physics material names the surface.
+        /// </summary>
+        private static readonly System.Collections.Generic.Dictionary<Collider, SurfaceKind> SurfaceOf = new System.Collections.Generic.Dictionary<Collider, SurfaceKind>();
+
         private static void Surface(Wheel w)
         {
             var c = w.hit.collider;
-            if (c is TerrainCollider) { w.onRoad = false; w.grip = 0.82f; w.rolling = 0.05f; }
-            else if (c.name.StartsWith("Verge")) { w.onRoad = true; w.grip = 0.92f; w.rolling = 0.035f; }
-            else { w.onRoad = true; w.grip = 1f; w.rolling = 0.015f; }
+            // Names allocate, so each collider's surface is worked out once.
+            if (!SurfaceOf.TryGetValue(c, out var k))
+            {
+                var pm = c.sharedMaterial;
+                string n = pm ? pm.name : "";
+                if (n.StartsWith("Surface_") && Enum.TryParse(n.Substring(8), out SurfaceKind parsed)) k = parsed;
+                else if (c is TerrainCollider || c.name.StartsWith("Terrain")) k = SurfaceKind.Grass;
+                else if (c.name.StartsWith("Verge")) k = SurfaceKind.Verge;
+                else k = SurfaceKind.Tarmac;
+                SurfaceOf[c] = k;
+            }
+            w.surface = k;
+            w.onRoad = k == SurfaceKind.Tarmac || k == SurfaceKind.Gravel || k == SurfaceKind.Snow || k == SurfaceKind.Verge;
+            switch (k)
+            {
+                case SurfaceKind.Gravel: w.grip = 0.9f; w.rolling = 0.035f; break;
+                case SurfaceKind.Snow: w.grip = 0.86f; w.rolling = 0.04f; break;
+                case SurfaceKind.Verge: w.grip = 0.86f; w.rolling = 0.045f; break;
+                case SurfaceKind.Grass: w.grip = 0.72f; w.rolling = 0.06f; break;
+                case SurfaceKind.Sand: w.grip = 0.74f; w.rolling = 0.07f; break;
+                case SurfaceKind.DeepSnow: w.grip = 0.72f; w.rolling = 0.065f; break;
+                default: w.grip = 1f; w.rolling = 0.015f; break;
+            }
         }
 
         private bool CastWheel(Vector3 origin, Vector3 dir, float dist, out RaycastHit best)

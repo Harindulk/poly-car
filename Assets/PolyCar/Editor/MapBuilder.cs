@@ -33,6 +33,8 @@ namespace PolyCar.Editor
             public int sceneryCount = 1200;
             public float mountainHeight = 70f, hillNoise = 8f;
             public float saturation = 15f;
+            /// <summary>Road and off-road surfaces (PolyCarController.SurfaceKind names).</summary>
+            public string road = "Tarmac", offroad = "Grass";
         }
 
         public class Track
@@ -96,6 +98,7 @@ namespace PolyCar.Editor
                 ("Assets/Prefabs/SGS_DemoRock.prefab", 0.8f, 0.4f, 1.1f, 6f),
             },
             sceneryCount = 1400, mountainHeight = 55f, hillNoise = 7f,
+            road = "Tarmac", offroad = "Grass",
         };
 
         private static Track CanyonTrack() => new Track
@@ -126,6 +129,7 @@ namespace PolyCar.Editor
                 ("Assets/Prefabs/Shrub.prefab", 1.2f, 0.4f, 0.8f, 6f),
             },
             sceneryCount = 500, mountainHeight = 95f, hillNoise = 5f, saturation = 10f,
+            road = "Gravel", offroad = "Sand",
         };
 
         private static Track FrostTrack() => new Track
@@ -155,6 +159,7 @@ namespace PolyCar.Editor
                 ("Assets/Prefabs/SGS_DemoRock.prefab", 1f, 0.5f, 1.4f, 7f),
             },
             sceneryCount = 1300, mountainHeight = 110f, hillNoise = 9f, saturation = 5f,
+            road = "Snow", offroad = "DeepSnow",
         };
 
         // ------------------------------------------------------------------ build
@@ -319,7 +324,7 @@ namespace PolyCar.Editor
         {
             var t = c.theme;
             Mat(c, "grassA", t.grassA); Mat(c, "grassB", t.grassB); Mat(c, "rock", t.rock); Mat(c, "dirt", t.dirt); Mat(c, "snow", t.snow, 0.3f);
-            Mat(c, "road", Color.white, 0.25f, RoadTexture());
+            Mat(c, "road", Color.white, t.road == "Tarmac" ? 0.25f : t.road == "Snow" ? 0.18f : 0.04f, RoadTexture(t.road, t.dirt, t.key));
             Mat(c, "checker", Color.white, 0.2f, CheckerTexture());
             Mat(c, "gantry", new Color(0.12f, 0.13f, 0.16f), 0.4f);
             Mat(c, "accent", new Color(1f, 0.42f, 0.1f), 0.3f);
@@ -339,26 +344,77 @@ namespace PolyCar.Editor
             return AssetDatabase.LoadAssetAtPath<Texture2D>(path);
         }
 
-        private static Texture2D RoadTexture()
+        /// <summary>
+        /// Road surface texture, 256 across the road x 512 along it. Tarmac: worn grey with faded edge lines and no
+        /// highway centre line. Gravel: stones over the theme's dirt with two darker compacted wheel tracks and a
+        /// loose centre ridge (art of rally's gravel stages). Snow: packed white with blue-grey tyre ruts.
+        /// </summary>
+        internal static Texture2D RoadTexture(string surface, Color dirt, string key, bool ruts = true)
         {
-            // 256 x 512: width of the road across u, two road-widths along v. Edge lines, dashed centre line, grain.
             const int W = 256, H = 512;
             var tex = new Texture2D(W, H, TextureFormat.RGBA32, true);
             var rnd = new System.Random(3);
+            // Perlin made tileable by blending four shifted copies, so repeats along (and across) the road show no seams.
+            float Tile(float x, float y, float fx, float fy, float ox)
+            {
+                float a = Mathf.PerlinNoise(x * fx + ox, y * fy), b = Mathf.PerlinNoise((x - W) * fx + ox, y * fy);
+                float c = Mathf.PerlinNoise(x * fx + ox, (y - H) * fy), d = Mathf.PerlinNoise((x - W) * fx + ox, (y - H) * fy);
+                float tx = x / W, ty = y / H;
+                return Mathf.Lerp(Mathf.Lerp(a, b, tx), Mathf.Lerp(c, d, tx), ty);
+            }
             for (int y = 0; y < H; y++)
                 for (int x = 0; x < W; x++)
                 {
                     float u = x / (float)W, v = y / (float)H;
-                    float grain = (float)rnd.NextDouble() * 0.035f + Mathf.PerlinNoise(x * 0.08f, y * 0.08f) * 0.03f;
-                    Color col = new Color(0.25f + grain, 0.26f + grain, 0.29f + grain);
-                    if ((u > 0.035f && u < 0.06f) || (u > 0.94f && u < 0.965f)) col = new Color(0.92f, 0.92f, 0.9f);
-                    if (u > 0.49f && u < 0.51f && (v % 0.5f) < 0.28f) col = new Color(0.95f, 0.82f, 0.25f);
-                    if (u < 0.02f || u > 0.98f) col *= 0.8f;
+                    float noise = Tile(x, y, 0.08f, 0.08f, 0f), big = Tile(x, y, 0.015f, 0.012f, 7f);
+                    float rut = ruts ? Mathf.Exp(-Mathf.Pow((u - 0.28f) / 0.07f, 2f)) + Mathf.Exp(-Mathf.Pow((u - 0.72f) / 0.07f, 2f)) : 0f;
+                    float edge = ruts ? Mathf.Clamp01(Mathf.Max(0.06f - u, u - 0.94f) / 0.06f) : 0f;
+                    double r = rnd.NextDouble();
+                    Color col;
+                    if (surface == "Gravel")
+                    {
+                        Color baseC = Color.Lerp(dirt, Color.white, 0.08f) * (0.92f + big * 0.16f);
+                        col = Color.Lerp(baseC, baseC * 0.82f, rut * 0.8f);                    // compacted wheel tracks
+                        float stones = (1f - rut * 0.7f) * 0.09f;
+                        if (r < stones) col *= 0.7f + (float)rnd.NextDouble() * 0.15f;       // dark stones
+                        else if (r < stones * 2f) col *= 1.12f;                              // light stones
+                        col *= 0.96f + noise * 0.08f;
+                        col = Color.Lerp(col, dirt * 1.05f, edge * 0.6f);
+                    }
+                    else if (surface == "Snow")
+                    {
+                        Color baseC = new Color(0.9f, 0.92f, 0.96f) * (0.97f + big * 0.05f);
+                        Color track = new Color(0.72f, 0.76f, 0.84f);
+                        float streak = Tile(x, y, 0.6f, 0.02f, 3f);
+                        col = Color.Lerp(baseC, track, rut * (0.55f + streak * 0.35f));
+                        col *= 0.98f + noise * 0.04f;
+                        col = Color.Lerp(col, Color.white, edge * 0.5f);
+                    }
+                    else
+                    {
+                        float grain = (float)r * 0.035f + noise * 0.03f;
+                        col = new Color(0.25f + grain, 0.26f + grain, 0.29f + grain) * (0.94f + big * 0.12f);
+                        col = Color.Lerp(col, col * 0.88f, rut * 0.35f);                    // polished tyre lines
+                        if (((u > 0.035f && u < 0.052f) || (u > 0.948f && u < 0.965f)) && Tile(x, y, 0.3f, 0.05f, 11f) > 0.25f)
+                            col = Color.Lerp(col, new Color(0.88f, 0.88f, 0.85f), 0.8f);
+                        if (u < 0.02f || u > 0.98f) col *= 0.85f;
+                    }
                     col.a = 1f;
                     tex.SetPixel(x, y, col);
                 }
             tex.Apply();
-            return SaveTexture("RoadAsphalt", tex, TextureWrapMode.Repeat);
+            return SaveTexture("Road_" + key, tex, TextureWrapMode.Repeat);
+        }
+
+        /// <summary>Physics material whose name tells the car what it is driving on (Surface_Gravel, ...).</summary>
+        internal static PhysicsMaterial SurfaceMaterial(string kind)
+        {
+            const string dir = "Assets/PolyCar/Maps/Shared";
+            if (!AssetDatabase.IsValidFolder(dir)) AssetDatabase.CreateFolder("Assets/PolyCar/Maps", "Shared");
+            string path = $"{dir}/Surface_{kind}.physicMaterial";
+            var m = AssetDatabase.LoadAssetAtPath<PhysicsMaterial>(path);
+            if (m == null) { m = new PhysicsMaterial("Surface_" + kind) { dynamicFriction = 0.6f, staticFriction = 0.6f }; AssetDatabase.CreateAsset(m, path); }
+            return m;
         }
 
         private static Texture2D CheckerTexture()
@@ -464,7 +520,9 @@ namespace PolyCar.Editor
                     go.AddComponent<MeshFilter>().sharedMesh = mesh;
                     var mr = go.AddComponent<MeshRenderer>();
                     mr.sharedMaterials = mats;
-                    go.AddComponent<MeshCollider>().sharedMesh = mesh;
+                    var tc = go.AddComponent<MeshCollider>();
+                    tc.sharedMesh = mesh;
+                    tc.sharedMaterial = SurfaceMaterial(c.theme.offroad);
                     GameObjectUtility.SetStaticEditorFlags(go, StaticEditorFlags.BatchingStatic | StaticEditorFlags.OccluderStatic | StaticEditorFlags.OccludeeStatic | StaticEditorFlags.ContributeGI);
                 }
             c.heightAt = (x, z) =>
@@ -548,7 +606,9 @@ namespace PolyCar.Editor
                 go.transform.SetParent(parent, false);
                 go.AddComponent<MeshFilter>().sharedMesh = mesh;
                 go.AddComponent<MeshRenderer>().sharedMaterial = c.mats["road"];
-                go.AddComponent<MeshCollider>().sharedMesh = col;
+                var rc = go.AddComponent<MeshCollider>();
+                rc.sharedMesh = col;
+                rc.sharedMaterial = SurfaceMaterial(c.theme.road);
                 GameObjectUtility.SetStaticEditorFlags(go, StaticEditorFlags.BatchingStatic | StaticEditorFlags.OccludeeStatic);
             }
         }
@@ -599,7 +659,9 @@ namespace PolyCar.Editor
                 go.transform.SetParent(parent, false);
                 go.AddComponent<MeshFilter>().sharedMesh = mesh;
                 go.AddComponent<MeshRenderer>().sharedMaterial = mat;
-                go.AddComponent<MeshCollider>().sharedMesh = mesh;
+                var vc = go.AddComponent<MeshCollider>();
+                vc.sharedMesh = mesh;
+                vc.sharedMaterial = SurfaceMaterial(c.theme.road == "Snow" ? "Snow" : "Verge");
                 GameObjectUtility.SetStaticEditorFlags(go, StaticEditorFlags.BatchingStatic | StaticEditorFlags.OccludeeStatic);
             }
         }

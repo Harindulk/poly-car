@@ -101,6 +101,7 @@ namespace PolyCar.Editor
             var path = Object.FindAnyObjectByType<TrackPath>();
             var old = GameObject.Find("StageDressing");
             if (old) Object.DestroyImmediate(old);
+            GravelRoad();
             var root = new GameObject("StageDressing");
             int cleared = StageDressing.ClearTerrainTreesNearRoad(path, 2.5f);
             int thinned = StageDressing.ThinTerrainDetail(path, 110f, 500f);
@@ -117,6 +118,98 @@ namespace PolyCar.Editor
             EditorSceneManager.SaveScene(scene);
             AssetDatabase.SaveAssets();
             Debug.Log($"Poly Car: Green Forest dressed ({cleared} overhanging trees cleared, {thinned} far grass/flower instances dropped).");
+        }
+
+        /// <summary>
+        /// Turns Green Forest's Road Architect tarmac into a gravel stage (art of rally's Finland look): gravel
+        /// texture on the road pieces, painted markings hidden, and surface physics materials on road and shoulders.
+        /// </summary>
+        private static void GravelRoad()
+        {
+            var forestDirt = new Color(0.6f, 0.52f, 0.4f);
+            var tex = MapBuilder.RoadTexture("Gravel", forestDirt, "forest", false);
+            const string matPath = "Assets/PolyCar/Maps/Materials/forest_gravel.mat";
+            var mat = AssetDatabase.LoadAssetAtPath<Material>(matPath);
+            if (mat == null) { mat = new Material(Shader.Find("Universal Render Pipeline/Lit")); AssetDatabase.CreateAsset(mat, matPath); }
+            mat.SetTexture("_BaseMap", tex);
+            mat.SetColor("_BaseColor", Color.white);
+            mat.SetFloat("_Smoothness", 0.04f);
+            mat.enableInstancing = true;
+            EditorUtility.SetDirty(mat);
+            const string shoulderPath = "Assets/PolyCar/Maps/Materials/forest_shoulder.mat";
+            var shoulder = AssetDatabase.LoadAssetAtPath<Material>(shoulderPath);
+            if (shoulder == null) { shoulder = new Material(Shader.Find("Universal Render Pipeline/Lit")); AssetDatabase.CreateAsset(shoulder, shoulderPath); }
+            shoulder.SetColor("_BaseColor", new Color(0.5f, 0.47f, 0.32f));
+            shoulder.SetFloat("_Smoothness", 0.03f);
+            shoulder.enableInstancing = true;
+            EditorUtility.SetDirty(shoulder);
+            var gravel = MapBuilder.SurfaceMaterial("Gravel");
+            var verge = MapBuilder.SurfaceMaterial("Verge");
+            foreach (var mc in Object.FindObjectsByType<MeshCollider>())
+            {
+                if (mc.name.StartsWith("RoadCut"))
+                {
+                    var mr = mc.GetComponent<MeshRenderer>();
+                    if (mr) { var mats = new Material[Mathf.Max(1, mc.sharedMesh ? mc.sharedMesh.subMeshCount : 1)]; for (int i = 0; i < mats.Length; i++) mats[i] = mat; mr.sharedMaterials = mats; }
+                    mc.sharedMaterial = gravel;
+                }
+                else if (mc.name.StartsWith("SCut"))
+                {
+                    mc.sharedMaterial = verge;
+                    var mr = mc.GetComponent<MeshRenderer>();
+                    if (mr) { var mats = new Material[Mathf.Max(1, mc.sharedMesh ? mc.sharedMesh.subMeshCount : 1)]; for (int i = 0; i < mats.Length; i++) mats[i] = shoulder; mr.sharedMaterials = mats; }
+                }
+            }
+            foreach (var t in Object.FindObjectsByType<Transform>(FindObjectsInactive.Include))
+                if (t.name.StartsWith("Markers")) t.gameObject.SetActive(false);
+        }
+
+        /// <summary>
+        /// Large-radius screen-space ambient occlusion on the High and Ultra renderers: art of rally's diorama look
+        /// comes largely from AO that darkens whole tree clumps, valleys and the ground under props.
+        /// Idempotent; Low and Medium stay without it.
+        /// </summary>
+        [MenuItem("Poly Car/Setup/Ambient Occlusion (High, Ultra)")]
+        public static void SetupAmbientOcclusion()
+        {
+            foreach (var path in new[] { "Assets/Settings/quality/3-High-Quality.asset", "Assets/Settings/quality/4-Ultra-Quality.asset" })
+            {
+                var data = AssetDatabase.LoadAssetAtPath<UniversalRendererData>(path);
+                if (data == null) { Debug.LogError("Poly Car: no renderer at " + path); continue; }
+                var feature = data.rendererFeatures.Find(f => f is ScreenSpaceAmbientOcclusion) as ScreenSpaceAmbientOcclusion;
+                if (feature == null)
+                {
+                    feature = ScriptableObject.CreateInstance<ScreenSpaceAmbientOcclusion>();
+                    feature.name = "SSAO";
+                    AssetDatabase.AddObjectToAsset(feature, data);
+                    AssetDatabase.TryGetGUIDAndLocalFileIdentifier(feature, out _, out long localId);
+                    var so = new SerializedObject(data);
+                    var list = so.FindProperty("m_RendererFeatures");
+                    list.InsertArrayElementAtIndex(list.arraySize);
+                    list.GetArrayElementAtIndex(list.arraySize - 1).objectReferenceValue = feature;
+                    var map = so.FindProperty("m_RendererFeatureMap");
+                    map.InsertArrayElementAtIndex(map.arraySize);
+                    map.GetArrayElementAtIndex(map.arraySize - 1).longValue = localId;
+                    so.ApplyModifiedPropertiesWithoutUndo();
+                }
+                feature.SetActive(true);
+                var fs = new SerializedObject(feature);
+                void Set(string name, System.Action<SerializedProperty> apply)
+                {
+                    var prop = fs.FindProperty("m_Settings." + name);
+                    if (prop != null) apply(prop); else Debug.LogWarning("Poly Car: SSAO setting not found: " + name);
+                }
+                Set("Intensity", p => p.floatValue = 1.3f);
+                Set("Radius", p => p.floatValue = 1.4f);
+                Set("DirectLightingStrength", p => p.floatValue = 0.3f);
+                Set("Falloff", p => p.floatValue = 220f);
+                Set("Downsample", p => p.boolValue = true);
+                Set("AfterOpaque", p => p.boolValue = false);
+                fs.ApplyModifiedPropertiesWithoutUndo();
+                EditorUtility.SetDirty(feature);
+                EditorUtility.SetDirty(data);
+            }
+            AssetDatabase.SaveAssets();
         }
 
         [MenuItem("Poly Car/Setup/Fix Green Forest Colliders")]

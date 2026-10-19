@@ -16,18 +16,18 @@ MonoBehaviour:
   - id: green_forest
     displayName: Green Forest
     sceneName: Green Forest
-    blurb: 'The original stage: a winding forest road past lakes and cliffs, start gate to finish arch.'
+    blurb: 'The original stage, now gravel: a winding forest road past lakes and cliffs, start gate to finish arch.'
     thumbnail: {fileID: 2800000, guid: f3e4f62839fc44f42b8d2d1df3ad73e5, type: 3}
     laps: 0
-    goldTime: 148
-    silverTime: 165
-    bronzeTime: 190
+    goldTime: 160
+    silverTime: 178
+    bronzeTime: 205
     lengthLabel: 4.1 KM
     accent: {r: 0.35, g: 0.8, b: 0.35, a: 1}
   - id: sakura_ring
     displayName: Sakura Ring
     sceneName: Sakura Ring
-    blurb: A lakeside circuit under cherry blossoms and torii gates, with Mount Fuji watching.
+    blurb: Tarmac. A lakeside circuit under cherry blossoms and torii gates, with Mount Fuji watching.
     thumbnail: {fileID: 2800000, guid: f5ba17bbaac254d00a8e7c623bbb7ec5, type: 3}
     laps: 3
     goldTime: 150
@@ -38,22 +38,22 @@ MonoBehaviour:
   - id: frost_peak
     displayName: Frost Peak
     sceneName: Frost Peak
-    blurb: A climbing loop through snowy spruce forest under frozen peaks. Mind the crests.
+    blurb: Packed snow. A climbing loop through spruce forest under frozen peaks; the banks are deep.
     thumbnail: {fileID: 2800000, guid: 6e1575399eecf401da4b4e554fbaae1c, type: 3}
     laps: 3
-    goldTime: 148
-    silverTime: 166
-    bronzeTime: 192
+    goldTime: 161
+    silverTime: 180
+    bronzeTime: 206
     lengthLabel: 1.7 KM
     accent: {r: 0.55, g: 0.8, b: 1, a: 1}
   - id: dust_canyon
     displayName: Dust Canyon
     sceneName: Dust Canyon
-    blurb: Fast sweepers through red-rock desert mesas. Flat out, if you dare.
+    blurb: Gravel. Fast sweepers through red-rock desert mesas, dust hanging in the air.
     thumbnail: {fileID: 2800000, guid: 63aad3c9895424e3d8d2b0ea1887190d, type: 3}
     laps: 2
-    goldTime: 158
-    silverTime: 178
-    bronzeTime: 205
+    goldTime: 166
+    silverTime: 185
+    bronzeTime: 213
     lengthLabel: 3.2 KM
     accent: {r: 1, g: 0.5, b: 0.2, a: 1}

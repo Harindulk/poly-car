@@ -77,9 +77,9 @@ namespace PolyCar.Editor
                 {
                     float d = Wrap(path, cd + o);
                     Vector3 p = Edge(path, d, outside, path.HalfWidthAt(d) + verge + 1.4f);
-                    if (!Ground(p, out Vector3 g) || TooCloseToRoad(path, g, path.HalfWidthAt(d) + verge + 0.6f)) continue;
-                    var rot = Quaternion.LookRotation(path.DirectionAt(d), Vector3.up);
-                    var go = Prop("HayBale", bales, bale, new[] { straw }, g + Vector3.up * 0.6f, rot);
+                    if (!Ground(p, out Vector3 g, out Vector3 n) || TooCloseToRoad(path, g, path.HalfWidthAt(d) + verge + 0.6f)) continue;
+                    var rot = Quaternion.LookRotation(Vector3.ProjectOnPlane(path.DirectionAt(d), n), n);
+                    var go = Prop("HayBale", bales, bale, new[] { straw }, g + n * 0.66f, rot);
                     var col = go.AddComponent<CapsuleCollider>(); col.radius = 0.6f; col.height = 1.3f; col.direction = 2;
                     Body(go, 90f);
                 }
@@ -139,24 +139,25 @@ namespace PolyCar.Editor
             mr.sharedMaterials = shirts;
             keep.Add(new KeepOut { center = centre, radius = 16f });
 
-            // Tape on two posts in front of the crowd.
-            Vector3 a = Edge(path, Wrap(path, cd - 11.5f), side, front), b = Edge(path, Wrap(path, cd + 11.5f), side, front);
-            if (Ground(a, out a) && Ground(b, out b))
+            // Tape on posts every ~3 m, following the bend in front of the crowd.
+            var tape = new GameObject("Tape"); tape.transform.SetParent(parent, false);
+            Vector3 prev = Vector3.zero; bool havePrev = false;
+            for (float o = -11.5f; o <= 11.6f; o += 2.875f)
             {
-                var tape = new GameObject("Tape"); tape.transform.SetParent(parent, false);
-                foreach (var p in new[] { a, b })
+                if (!Ground(Edge(path, Wrap(path, cd + o), side, front), out Vector3 q)) { havePrev = false; continue; }
+                var post = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                post.name = "TapePost"; post.transform.SetParent(tape.transform, false);
+                post.transform.position = q + Vector3.up * 0.5f; post.transform.localScale = new Vector3(0.06f, 1f, 0.06f);
+                post.GetComponent<Renderer>().sharedMaterial = wood; Object.DestroyImmediate(post.GetComponent<Collider>());
+                if (havePrev)
                 {
-                    var post = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                    post.name = "TapePost"; post.transform.SetParent(tape.transform, false);
-                    post.transform.position = p + Vector3.up * 0.5f; post.transform.localScale = new Vector3(0.08f, 1f, 0.08f);
-                    post.GetComponent<Renderer>().sharedMaterial = wood; Object.DestroyImmediate(post.GetComponent<Collider>());
+                    var line = GameObject.CreatePrimitive(PrimitiveType.Cube);
+                    line.name = "TapeLine"; line.transform.SetParent(tape.transform, false);
+                    line.transform.SetPositionAndRotation((prev + q) * 0.5f + Vector3.up * 0.85f, Quaternion.LookRotation(q - prev, Vector3.up));
+                    line.transform.localScale = new Vector3(0.02f, 0.06f, Vector3.Distance(prev, q));
+                    line.GetComponent<Renderer>().sharedMaterial = red; Object.DestroyImmediate(line.GetComponent<Collider>());
                 }
-                var line = GameObject.CreatePrimitive(PrimitiveType.Cube);
-                line.name = "TapeLine"; line.transform.SetParent(tape.transform, false);
-                Vector3 mid = (a + b) * 0.5f + Vector3.up * 0.85f;
-                line.transform.SetPositionAndRotation(mid, Quaternion.LookRotation(b - a, Vector3.up));
-                line.transform.localScale = new Vector3(0.02f, 0.06f, Vector3.Distance(a, b));
-                line.GetComponent<Renderer>().sharedMaterial = red; Object.DestroyImmediate(line.GetComponent<Collider>());
+                prev = q; havePrev = true;
             }
         }
 
@@ -294,12 +295,14 @@ namespace PolyCar.Editor
             return false;
         }
 
-        private static bool Ground(Vector3 p, out Vector3 g)
+        private static bool Ground(Vector3 p, out Vector3 g) => Ground(p, out g, out _);
+
+        private static bool Ground(Vector3 p, out Vector3 g, out Vector3 normal)
         {
-            g = p;
+            g = p; normal = Vector3.up;
             if (!Physics.Raycast(p + Vector3.up * 40f, Vector3.down, out var hit, 120f, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore)) return false;
             if (Vector3.Angle(hit.normal, Vector3.up) > 35f) return false;
-            g = hit.point;
+            g = hit.point; normal = hit.normal;
             return true;
         }
 
@@ -322,6 +325,7 @@ namespace PolyCar.Editor
             rb.linearDamping = 0.2f;
             rb.angularDamping = 0.6f;
             rb.sleepThreshold = 0.2f;
+            go.AddComponent<SleepingProp>();
         }
 
         private static void AddBox(List<Vector3> v, List<int> t, Vector3 c, Quaternion r, Vector3 size)

@@ -94,8 +94,9 @@ namespace PolyCar
             float angle = Mathf.Atan2(local.x, local.z) * Mathf.Rad2Deg;
 
             // Speed plan: precomputed corner + braking profile along the track.
-            float aLat = lateralGrip * skill;
-            float corner = path.SpeedLimitAt(d + Mathf.Max(0f, speed) * 0.25f, aLat, 11f * skill);
+            // Loose surfaces (gravel, snow) mean earlier braking and slower corners.
+            float aLat = lateralGrip * skill * _car.SurfaceGrip;
+            float corner = path.SpeedLimitAt(d + Mathf.Max(0f, speed) * 0.25f, aLat, 11f * skill * _car.SurfaceGrip);
             float desired = Mathf.Min(_car.TopSpeed * _car.SpeedMultiplier, corner);
             if (_racer.Finished) desired = Mathf.Min(desired, 16f); // cool-down lap after the line
             float maxCurv = path.CurvatureAhead(d, 40f);

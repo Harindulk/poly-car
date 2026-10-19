@@ -31,10 +31,14 @@ The HUD shows your live position against their pace and the gap to the rival ahe
 
 ## Tracks
 
-- **Green Forest**: the original 4.1 km point-to-point mountain stage.
-- **Sakura Ring**: 1.7 km lakeside circuit with cherry blossoms, torii gates and Mount Fuji (3 laps by default).
-- **Frost Peak**: 1.7 km snowy mountain loop with spruce forest and frozen peaks (3 laps by default).
-- **Dust Canyon**: 3.2 km desert circuit through mesas (2 laps by default).
+- **Green Forest** (gravel): the original 4.1 km point-to-point forest stage.
+- **Sakura Ring** (tarmac): 1.7 km lakeside circuit with cherry blossoms, torii gates and Mount Fuji (3 laps by default).
+- **Frost Peak** (packed snow): 1.7 km mountain loop through spruce forest (3 laps by default).
+- **Dust Canyon** (gravel): 3.2 km desert circuit through mesas (2 laps by default).
+
+Each surface has its own grip and rolling drag (art of rally's surface table: gravel ~10 % and snow ~14 % less grip
+than tarmac, off-road much less), and loose surfaces throw dust coloured by the ground. Stages are dressed like
+rally stages: knockable marker poles every 20 m, crowds behind tape and hay bales on the big corners.
 
 ## Cars
 
@@ -57,6 +61,8 @@ Vortex R (5) and Zenith X (7) unlock with medals. Each has its own top speed, ac
 - Best-run ghosts, checkpoint split times against your record, lap and race records, medals and car unlocks.
 - Auto-respawn when you are lost (off the map, on your roof, stuck on a bank), wrong-way warning.
 - Layered engine audio (four RPM layers, gear shifts, backfires), tyre squeal, wind, music.
+- Look: flat-colour palette, exponential fog fed into the sky, ACES grade with blue-lifted shadows, depth of
+  field focused on the car and large-radius ambient occlusion on High and Ultra.
 - Settings: resolution, window mode, vsync, FPS cap, quality preset, render scale, motion blur, volumes,
   units, camera, shake, FPS counter, progress reset.
 

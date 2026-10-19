@@ -507,9 +507,9 @@ namespace PolyCar.Editor
                 Keep("green_forest", new MapSpec
                 {
                     id = "green_forest", displayName = "Green Forest", sceneName = "Green Forest", laps = 0,
-                    blurb = "The original stage: a winding forest road past lakes and cliffs, start gate to finish arch.",
+                    blurb = "The original stage, now gravel: a winding forest road past lakes and cliffs, start gate to finish arch.",
                     thumbnail = AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/UI/thumbnails/car nature.png"),
-                    goldTime = 148f, silverTime = 165f, bronzeTime = 190f, lengthLabel = "4.1 KM", accent = new Color(0.35f, 0.8f, 0.35f),
+                    goldTime = 160f, silverTime = 178f, bronzeTime = 205f, lengthLabel = "4.1 KM", accent = new Color(0.35f, 0.8f, 0.35f),
                 }),
             };
             foreach (var extra in MapRegistry.Extra)
@@ -580,20 +580,20 @@ Thanks for playing!";
             new MapSpec
             {
                 id = "sakura_ring", displayName = "Sakura Ring", sceneName = "Sakura Ring", laps = 3,
-                blurb = "A lakeside circuit under cherry blossoms and torii gates, with Mount Fuji watching.",
+                blurb = "Tarmac. A lakeside circuit under cherry blossoms and torii gates, with Mount Fuji watching.",
                 goldTime = 150f, silverTime = 168f, bronzeTime = 195f, lengthLabel = "1.7 KM", accent = new Color(1f, 0.55f, 0.75f),
             },
             new MapSpec
             {
                 id = "frost_peak", displayName = "Frost Peak", sceneName = "Frost Peak", laps = 3,
-                blurb = "A climbing loop through snowy spruce forest under frozen peaks. Mind the crests.",
-                goldTime = 148f, silverTime = 166f, bronzeTime = 192f, lengthLabel = "1.7 KM", accent = new Color(0.55f, 0.8f, 1f),
+                blurb = "Packed snow. A climbing loop through spruce forest under frozen peaks; the banks are deep.",
+                goldTime = 161f, silverTime = 180f, bronzeTime = 206f, lengthLabel = "1.7 KM", accent = new Color(0.55f, 0.8f, 1f),
             },
             new MapSpec
             {
                 id = "dust_canyon", displayName = "Dust Canyon", sceneName = "Dust Canyon", laps = 2,
-                blurb = "Fast sweepers through red-rock desert mesas. Flat out, if you dare.",
-                goldTime = 158f, silverTime = 178f, bronzeTime = 205f, lengthLabel = "3.2 KM", accent = new Color(1f, 0.5f, 0.2f),
+                blurb = "Gravel. Fast sweepers through red-rock desert mesas, dust hanging in the air.",
+                goldTime = 166f, silverTime = 185f, bronzeTime = 213f, lengthLabel = "3.2 KM", accent = new Color(1f, 0.5f, 0.2f),
             },
         };
     }
