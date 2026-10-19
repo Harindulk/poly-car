@@ -30,7 +30,7 @@ namespace PolyCar
             for (int i = 0; i < skids.Length && i < _rear.Length; i++)
             {
                 var w = _rear[i];
-                bool mark = w.grounded && w.slipSpeed > 4f;
+                bool mark = w.grounded && w.slipSpeed > 5f;
                 var s = skids[i];
                 if (!s) continue;
                 if (w.grounded) s.transform.position = w.hit.point + w.hit.normal * 0.03f;
@@ -41,9 +41,9 @@ namespace PolyCar
                 var p = smoke[i];
                 if (!p) continue;
                 float slip = i < _rear.Length && _rear[i].grounded ? _rear[i].slipSpeed : 0f;
-                bool on = slip > 6f;
+                bool on = slip > 8.5f;
                 var em = p.emission;
-                em.rateOverTimeMultiplier = on ? Mathf.Lerp(14f, 60f, Mathf.Clamp01((slip - 6f) / 10f)) : 0f;
+                em.rateOverTimeMultiplier = on ? Mathf.Lerp(14f, 60f, Mathf.Clamp01((slip - 8.5f) / 10f)) : 0f;
                 if (on && !p.isPlaying) p.Play();
             }
             foreach (var p in boostFlames)

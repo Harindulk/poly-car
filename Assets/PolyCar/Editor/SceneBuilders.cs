@@ -90,6 +90,34 @@ namespace PolyCar.Editor
             return n;
         }
 
+        /// <summary>
+        /// Roadside dressing (marker poles, crowds, hay bales) and the stage grade for Green Forest, the same pass the
+        /// generated stages get. Re-runnable: replaces the previous dressing.
+        /// </summary>
+        [MenuItem("Poly Car/Setup/Dress Green Forest")]
+        public static void DressGreenForest()
+        {
+            var scene = EditorSceneManager.OpenScene(GreenForestPath, OpenSceneMode.Single);
+            var path = Object.FindAnyObjectByType<TrackPath>();
+            var old = GameObject.Find("StageDressing");
+            if (old) Object.DestroyImmediate(old);
+            var root = new GameObject("StageDressing");
+            int cleared = StageDressing.ClearTerrainTreesNearRoad(path, 2.5f);
+            Physics.SyncTransforms();
+            StageDressing.Dress(path, root.transform, 0.6f, 6, 8, 5, "Assets/PolyCar/Maps/Green Forest_Meshes");
+            const string prof = "Assets/PolyCar/Maps/Materials/forest_PostFX.asset";
+            AssetDatabase.DeleteAsset(prof);
+            var profile = MapBuilder.StageProfile(prof, 10f);
+            var volumes = Object.FindObjectsByType<Volume>();
+            var global = System.Array.Find(volumes, v => v.isGlobal);
+            if (global == null) { global = new GameObject("Post FX").AddComponent<Volume>(); global.isGlobal = true; }
+            global.sharedProfile = profile;
+            EditorSceneManager.MarkSceneDirty(scene);
+            EditorSceneManager.SaveScene(scene);
+            AssetDatabase.SaveAssets();
+            Debug.Log($"Poly Car: Green Forest dressed ({cleared} overhanging trees cleared).");
+        }
+
         [MenuItem("Poly Car/Setup/Fix Green Forest Colliders")]
         public static void FixGreenForestColliders()
         {

@@ -228,7 +228,7 @@ namespace PolyCar
             float half = Path.HalfWidthAt(dist);
             float lateral = slots == 1 ? 0f : (col == 0 ? -1f : 1f) * Mathf.Min(2.6f, half * 0.4f);
             pos = centre + right * lateral;
-            if (Physics.Raycast(pos + Vector3.up * 20f, Vector3.down, out var hit, 60f, ~0, QueryTriggerInteraction.Ignore)) pos = hit.point;
+            if (Physics.Raycast(pos + Vector3.up * 20f, Vector3.down, out var hit, 60f, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore)) pos = hit.point;
             rot = Path.RotationAt(dist);
         }
 
@@ -308,7 +308,7 @@ namespace PolyCar
             {
                 t += Time.deltaTime;
                 float k = Mathf.SmoothStep(0f, 1f, t / introTime);
-                Vector3 endPos = carT.position + carT.rotation * new Vector3(0f, 7.2f, -17f); // the Rally camera pose
+                Vector3 endPos = carT.position + carT.rotation * new Vector3(0f, 15.5f, -29.5f); // the Rally camera pose
                 Vector3 orbit = Quaternion.AngleAxis(Mathf.Lerp(-70f, 0f, k), Vector3.up) * (startPos - carT.position);
                 _cam.transform.position = Vector3.Lerp(carT.position + orbit, endPos, k);
                 _cam.transform.LookAt(carT.position + Vector3.up * 1f);

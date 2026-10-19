@@ -5653,7 +5653,7 @@ MonoBehaviour:
   launchRpm: 4200
   engineInertia: 0.2
   wheelInertia: 1.4
-  frontDriveWeight: 0.58
+  frontDriveWeight: 0.8
   diffLock: 85
   shiftTime: 0.16
   gearCount: 5
@@ -5667,7 +5667,7 @@ MonoBehaviour:
   keyboardReleaseScale: 3
   counterSteerBoost: 1.5
   yawAssist: 2.4
-  stabilityAssist: 1.6
+  stabilityAssist: 2.2
   brakeAssist: 0.4
   downforce: 0.0008
   airLevelRate: 30

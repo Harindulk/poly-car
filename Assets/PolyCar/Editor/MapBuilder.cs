@@ -10,9 +10,11 @@ using UnityEngine.Rendering.Universal;
 namespace PolyCar.Editor
 {
     /// <summary>
-    /// Generates a complete circuit scene from a closed spline: faceted low-poly terrain carved to the road,
-    /// road ribbon with markings and kerbs, tyre walls on tight corners, start gantry and grid, themed scenery,
-    /// lighting, fog, post FX, the race layer and a menu thumbnail. Deterministic per seed.
+    /// Generates a complete stage scene from a closed spline, following art of rally's split of work (the route
+    /// is placed by hand, tools generate everything along it, rules dress everything away from it): faceted
+    /// low-poly terrain conformed to a 10 m road, gravel verges, start gantry, roadside dressing (marker poles,
+    /// crowds, hay bales), themed scenery kept clear of road and crowds, exponential fog fed into the sky,
+    /// graded post FX, the race layer and a menu thumbnail. Deterministic per seed.
     /// </summary>
     public static class MapBuilder
     {
@@ -37,7 +39,7 @@ namespace PolyCar.Editor
         {
             public string sceneName;
             public Vector3[] control;
-            public float halfWidth = 7f;
+            public float halfWidth = 5f;
             public int seed = 1;
             public Vector2 lakeCenter; public float lakeRadius; public float waterY;
         }
@@ -66,7 +68,7 @@ namespace PolyCar.Editor
 
         private static Track SakuraTrack() => new Track
         {
-            sceneName = "Sakura Ring", seed = 7, halfWidth = 7f,
+            sceneName = "Sakura Ring", seed = 7, halfWidth = 5f,
             control = new[]
             {
                 new Vector3(0, 4, 0), new Vector3(170, 4, -6), new Vector3(300, 6, 30), new Vector3(372, 9, 130),
@@ -87,9 +89,9 @@ namespace PolyCar.Editor
             fogDensity = 0.0022f, sunEuler = new Vector3(36f, -125f, 0f), sunIntensity = 1.35f,
             scenery = new[]
             {
-                ("Assets/Prefabs/SGS_Tree.prefab", 5f, 0.9f, 1.4f, 9f),
-                ("Assets/Prefabs/DemoBroadleaf.prefab", 2f, 0.8f, 1.3f, 9f),
-                ("Assets/Prefabs/DemoSpruce.prefab", 2.5f, 0.9f, 1.5f, 9f),
+                ("Assets/Prefabs/SGS_Tree.prefab", 5f, 0.7f, 1.15f, 4f),
+                ("Assets/Prefabs/DemoBroadleaf.prefab", 2f, 0.8f, 1.3f, 4f),
+                ("Assets/Prefabs/DemoSpruce.prefab", 2.5f, 0.9f, 1.5f, 4f),
                 ("Assets/Prefabs/Shrub.prefab", 2f, 0.6f, 1.1f, 5f),
                 ("Assets/Prefabs/SGS_DemoRock.prefab", 0.8f, 0.4f, 1.1f, 6f),
             },
@@ -98,7 +100,7 @@ namespace PolyCar.Editor
 
         private static Track CanyonTrack() => new Track
         {
-            sceneName = "Dust Canyon", seed = 21, halfWidth = 7.5f,
+            sceneName = "Dust Canyon", seed = 21, halfWidth = 5.5f,
             control = new[]
             {
                 new Vector3(0, 10, 0), new Vector3(260, 10, -20), new Vector3(520, 12, 30), new Vector3(700, 16, 170),
@@ -128,7 +130,7 @@ namespace PolyCar.Editor
 
         private static Track FrostTrack() => new Track
         {
-            sceneName = "Frost Peak", seed = 33, halfWidth = 7f,
+            sceneName = "Frost Peak", seed = 33, halfWidth = 5f,
             control = new[]
             {
                 new Vector3(0, 20, 0), new Vector3(180, 22, 10), new Vector3(300, 28, 80), new Vector3(330, 34, 200),
@@ -148,8 +150,8 @@ namespace PolyCar.Editor
             fogDensity = 0.0026f, sunEuler = new Vector3(18f, -60f, 0f), sunIntensity = 1.25f, exposure = 1.15f,
             scenery = new[]
             {
-                ("Assets/Prefabs/SGS_SpruceTree.prefab", 6f, 0.9f, 1.6f, 9f),
-                ("Assets/Prefabs/DemoSpruce.prefab", 2f, 0.9f, 1.5f, 9f),
+                ("Assets/Prefabs/SGS_SpruceTree.prefab", 6f, 0.9f, 1.6f, 4f),
+                ("Assets/Prefabs/DemoSpruce.prefab", 2f, 0.9f, 1.5f, 4f),
                 ("Assets/Prefabs/SGS_DemoRock.prefab", 1f, 0.5f, 1.4f, 7f),
             },
             sceneryCount = 1300, mountainHeight = 110f, hillNoise = 9f, saturation = 5f,
@@ -169,6 +171,7 @@ namespace PolyCar.Editor
             public Dictionary<string, Material> mats = new Dictionary<string, Material>();
             public System.Func<float, float, float> heightAt;
             public Rect bounds;
+            public List<StageDressing.KeepOut> keepOut = new List<StageDressing.KeepOut>();
         }
 
         public static void Build(Track track, Theme theme, System.Action<Ctx> decorate)
@@ -178,6 +181,7 @@ namespace PolyCar.Editor
             AssetDatabase.Refresh();
 
             var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+            AssetDatabase.DeleteAsset($"{Dir}/{track.sceneName}_Meshes"); // no stale meshes from earlier builds
             var c = new Ctx { track = track, theme = theme, rnd = new System.Random(track.seed) };
             c.root = new GameObject("Map").transform;
 
@@ -186,13 +190,13 @@ namespace PolyCar.Editor
             BuildTerrain(c);
             BuildRoad(c);
             BuildVerges(c);
-            BuildKerbsAndWalls(c);
             BuildStart(c);
             if (track.lakeRadius > 0f) BuildLake(c);
             decorate?.Invoke(c);
+            var path = RaceLayer(c);
+            c.keepOut = StageDressing.Dress(path, c.root, 1.0f, 6, 8, track.seed, $"{Dir}/{track.sceneName}_Meshes");
             Scatter(c);
             Atmosphere(c);
-            RaceLayer(c);
             var cam = MakeCamera(c);
 
             string scenePath = $"{Dir}/{track.sceneName}.unity";
@@ -316,8 +320,6 @@ namespace PolyCar.Editor
             var t = c.theme;
             Mat(c, "grassA", t.grassA); Mat(c, "grassB", t.grassB); Mat(c, "rock", t.rock); Mat(c, "dirt", t.dirt); Mat(c, "snow", t.snow, 0.3f);
             Mat(c, "road", Color.white, 0.25f, RoadTexture());
-            Mat(c, "kerbRed", new Color(0.85f, 0.12f, 0.12f), 0.2f);
-            Mat(c, "kerbWhite", new Color(0.95f, 0.95f, 0.95f), 0.2f);
             Mat(c, "checker", Color.white, 0.2f, CheckerTexture());
             Mat(c, "gantry", new Color(0.12f, 0.13f, 0.16f), 0.4f);
             Mat(c, "accent", new Color(1f, 0.42f, 0.1f), 0.3f);
@@ -602,78 +604,6 @@ namespace PolyCar.Editor
             }
         }
 
-        private static void BuildKerbsAndWalls(Ctx c)
-        {
-            int m = c.center.Count;
-            float hw = c.track.halfWidth;
-            var kerbParent = new GameObject("Kerbs").transform; kerbParent.SetParent(c.root, false);
-            var wallParent = new GameObject("TyreWalls").transform; wallParent.SetParent(c.root, false);
-            var red = new List<Vector3>(); var white = new List<Vector3>();
-            var redT = new List<int>(); var whiteT = new List<int>();
-            int step = 1; // 2 m kerb blocks
-            for (int i = 0; i < m; i += step)
-            {
-                float k = c.curvature[i];
-                if (Mathf.Abs(k) < 0.011f) continue;
-                for (int side = -1; side <= 1; side += 2)
-                {
-                    Vector3 p0 = c.center[i], p1 = c.center[(i + step) % m];
-                    Vector3 r0 = Vector3.Cross(Vector3.up, Heading(c, i)), r1 = Vector3.Cross(Vector3.up, Heading(c, (i + step) % m));
-                    Vector3 a = p0 + r0 * side * (hw - 0.05f), b = p0 + r0 * side * (hw - 1.1f);
-                    Vector3 cc = p1 + r1 * side * (hw - 0.05f), d = p1 + r1 * side * (hw - 1.1f);
-                    Vector3 up = Vector3.up * 0.035f;
-                    var list = (i / step) % 2 == 0 ? red : white;
-                    var tl = list == red ? redT : whiteT;
-                    int bi = list.Count;
-                    list.Add(a + up); list.Add(b + up); list.Add(cc + up); list.Add(d + up);
-                    if (side > 0) tl.AddRange(new[] { bi, bi + 2, bi + 1, bi + 1, bi + 2, bi + 3 });
-                    else tl.AddRange(new[] { bi, bi + 1, bi + 2, bi + 1, bi + 3, bi + 2 });
-                }
-            }
-            MakeMesh(c, "Kerbs", kerbParent, new[] { red, white }, new[] { redT, whiteT }, new[] { c.mats["kerbRed"], c.mats["kerbWhite"] }, false);
-
-            // Tyre walls on the outside of tight corners.
-            var wr = new List<Vector3>(); var ww = new List<Vector3>(); var wrT = new List<int>(); var wwT = new List<int>();
-            var colV = new List<Vector3>(); var colT = new List<int>();
-            float off = hw + 5.5f;
-            for (int i = 0; i < m; i += 2)
-            {
-                float k = c.curvature[i];
-                if (Mathf.Abs(k) < 0.014f) continue;
-                float side = -Mathf.Sign(k); // outside of the turn
-                int j = (i + 2) % m;
-                Vector3 r0 = Vector3.Cross(Vector3.up, Heading(c, i)), r1 = Vector3.Cross(Vector3.up, Heading(c, j));
-                Vector3 a = c.center[i] + r0 * side * off, b = c.center[j] + r1 * side * off;
-                a.y = c.heightAt(a.x, a.z) - 0.2f; b.y = c.heightAt(b.x, b.z) - 0.2f;
-                var list = (i / 2) % 3 == 0 ? wr : ww;
-                var tl = list == wr ? wrT : wwT;
-                AddWallSegment(list, tl, a, b, 1.0f, 0.7f);
-                AddWallSegment(colV, colT, a, b, 1.6f, 0.7f);
-            }
-            var wallGo = MakeMesh(c, "TyreWall", wallParent, new[] { wr, ww }, new[] { wrT, wwT }, new[] { c.mats["kerbRed"], c.mats["kerbWhite"] }, false);
-            if (colV.Count > 0)
-            {
-                var col = new Mesh { name = "TyreWallCol" };
-                col.SetVertices(colV); col.SetTriangles(colT, 0); col.RecalculateNormals();
-                AssetDatabase.CreateAsset(col, $"{Dir}/{c.track.sceneName}_Meshes/TyreWallCol.asset");
-                var mc = wallGo.AddComponent<MeshCollider>(); mc.sharedMesh = col;
-                var pm = AssetDatabase.LoadAssetAtPath<PhysicsMaterial>("Assets/PolyCar/CarBody.physicMaterial");
-                if (pm) mc.sharedMaterial = pm;
-            }
-        }
-
-        private static void AddWallSegment(List<Vector3> v, List<int> t, Vector3 a, Vector3 b, float height, float thick)
-        {
-            Vector3 dir = (b - a); dir.y = 0f;
-            Vector3 n = Vector3.Cross(Vector3.up, dir.normalized) * (thick * 0.5f);
-            Vector3[] q = { a - n, a + n, b + n, b - n };
-            int bi = v.Count;
-            foreach (var p in q) v.Add(p);
-            foreach (var p in q) v.Add(p + Vector3.up * height);
-            int[] faces = { 0, 4, 1, 1, 4, 5, 1, 5, 2, 2, 5, 6, 2, 6, 3, 3, 6, 7, 3, 7, 0, 0, 7, 4, 4, 7, 5, 5, 7, 6 };
-            foreach (var f in faces) t.Add(bi + f);
-        }
-
         private static GameObject MakeMesh(Ctx c, string name, Transform parent, List<Vector3>[] verts, List<int>[] tris, Material[] mats, bool collider)
         {
             var all = new List<Vector3>();
@@ -793,11 +723,22 @@ namespace PolyCar.Editor
                 if (d < c.track.halfWidth + items[idx].clearance) continue;
                 if (c.track.lakeRadius > 0f && Vector2.Distance(new Vector2(p.x, p.z), c.track.lakeCenter) < c.track.lakeRadius + 4f) continue;
                 if (!c.bounds.Contains(new Vector2(p.x, p.z))) continue;
+                bool blocked = false;
+                foreach (var k in c.keepOut) if (Vector2.Distance(new Vector2(p.x, p.z), new Vector2(k.center.x, k.center.z)) < k.radius) blocked = true;
+                if (blocked) continue;
                 p.y = c.heightAt(p.x, p.z) - 0.1f;
                 var go = (GameObject)PrefabUtility.InstantiatePrefab(prefabs[idx], parent);
                 go.transform.position = p;
                 go.transform.rotation = Quaternion.Euler(0f, (float)c.rnd.NextDouble() * 360f, 0f);
                 go.transform.localScale *= Mathf.Lerp(items[idx].minScale, items[idx].maxScale, (float)c.rnd.NextDouble());
+                // Canopies must not overhang the road: the high rally camera would look through them.
+                var rs = go.GetComponentsInChildren<Renderer>();
+                if (rs.Length > 0)
+                {
+                    var b = rs[0].bounds;
+                    foreach (var r in rs) b.Encapsulate(r.bounds);
+                    if (d < c.track.halfWidth + 2.5f + Mathf.Max(b.extents.x, b.extents.z) * 0.9f) { Object.DestroyImmediate(go); continue; }
+                }
                 foreach (var t in go.GetComponentsInChildren<Transform>()) t.gameObject.isStatic = true;
                 foreach (var rb in go.GetComponentsInChildren<Rigidbody>()) Object.DestroyImmediate(rb);
                 placed++;
@@ -1018,7 +959,7 @@ namespace PolyCar.Editor
             var sky = AssetDatabase.LoadAssetAtPath<Material>(skyPath);
             if (sky == null) { sky = new Material(Shader.Find("Skybox/Procedural")); AssetDatabase.CreateAsset(sky, skyPath); }
             sky.SetColor("_SkyTint", t.skyTint);
-            sky.SetColor("_GroundColor", t.groundColor);
+            sky.SetColor("_GroundColor", t.fog);   // horizon blends into the fog (art of rally feeds fog colour to the sky)
             sky.SetFloat("_AtmosphereThickness", t.atmosphere);
             sky.SetFloat("_Exposure", t.exposure);
             sky.SetFloat("_SunSize", 0.045f);
@@ -1038,30 +979,40 @@ namespace PolyCar.Editor
             RenderSettings.ambientEquatorColor = t.ambientEquator;
             RenderSettings.ambientGroundColor = t.ambientGround;
             RenderSettings.fog = true;
-            RenderSettings.fogMode = FogMode.ExponentialSquared;
-            RenderSettings.fogDensity = t.fogDensity;
+            RenderSettings.fogMode = FogMode.Exponential;
+            RenderSettings.fogDensity = t.fogDensity * 0.6f;
             RenderSettings.fogColor = t.fog;
             RenderSettings.defaultReflectionMode = DefaultReflectionMode.Skybox;
 
             string profPath = $"{MatDir}/{t.key}_PostFX.asset";
-            var p = AssetDatabase.LoadAssetAtPath<VolumeProfile>(profPath);
-            if (p == null)
-            {
-                p = ScriptableObject.CreateInstance<VolumeProfile>();
-                AssetDatabase.CreateAsset(p, profPath);
-                var tm = p.Add<Tonemapping>(true); tm.mode.Override(TonemappingMode.Neutral);
-                var bloom = p.Add<Bloom>(true); bloom.intensity.Override(0.45f); bloom.threshold.Override(1.05f); bloom.scatter.Override(0.6f);
-                var vig = p.Add<Vignette>(true); vig.intensity.Override(0.22f);
-                var ca = p.Add<ColorAdjustments>(true); ca.saturation.Override(t.saturation); ca.contrast.Override(8f); ca.postExposure.Override(0.1f);
-                foreach (var comp in p.components) { comp.hideFlags = HideFlags.HideInInspector | HideFlags.HideInHierarchy; AssetDatabase.AddObjectToAsset(comp, p); }
-                EditorUtility.SetDirty(p);
-            }
+            AssetDatabase.DeleteAsset(profPath);
+            var p = StageProfile(profPath, t.saturation);
             var vol = new GameObject("Post FX").AddComponent<Volume>();
             vol.isGlobal = true;
             vol.sharedProfile = p;
         }
 
-        private static void RaceLayer(Ctx c)
+        /// <summary>
+        /// Art of rally style grade: ACES with extra contrast and slightly blue-lifted shadows, bloom, light grain
+        /// and vignette, and a bokeh depth of field the chase camera focuses on the car (tilt-shift look).
+        /// </summary>
+        public static VolumeProfile StageProfile(string path, float saturation)
+        {
+            var p = ScriptableObject.CreateInstance<VolumeProfile>();
+            AssetDatabase.CreateAsset(p, path);
+            var tm = p.Add<Tonemapping>(true); tm.mode.Override(TonemappingMode.ACES);
+            var ca = p.Add<ColorAdjustments>(true); ca.saturation.Override(saturation + 6f); ca.contrast.Override(18f); ca.postExposure.Override(0.35f);
+            var lgg = p.Add<LiftGammaGain>(true); lgg.lift.Override(new Vector4(0.97f, 0.99f, 1.06f, 0f)); lgg.gain.Override(new Vector4(1.02f, 1f, 0.97f, 0f));
+            var bloom = p.Add<Bloom>(true); bloom.intensity.Override(0.5f); bloom.threshold.Override(0.95f); bloom.scatter.Override(0.6f);
+            var vig = p.Add<Vignette>(true); vig.intensity.Override(0.16f);
+            var grain = p.Add<FilmGrain>(true); grain.type.Override(FilmGrainLookup.Thin1); grain.intensity.Override(0.18f);
+            var dof = p.Add<DepthOfField>(true); dof.mode.Override(DepthOfFieldMode.Bokeh); dof.focusDistance.Override(25f); dof.focalLength.Override(120f); dof.aperture.Override(5.6f);
+            foreach (var comp in p.components) { comp.hideFlags = HideFlags.HideInInspector | HideFlags.HideInHierarchy; AssetDatabase.AddObjectToAsset(comp, p); }
+            EditorUtility.SetDirty(p);
+            return p;
+        }
+
+        private static TrackPath RaceLayer(Ctx c)
         {
             var race = new GameObject("Race");
             var path = race.AddComponent<TrackPath>();
@@ -1076,6 +1027,7 @@ namespace PolyCar.Editor
             var amb = new GameObject("Ambience").AddComponent<AudioSource>();
             amb.clip = AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/Sounds/forest.wav");
             amb.loop = true; amb.playOnAwake = true; amb.volume = 0.25f; amb.spatialBlend = 0f;
+            return path;
         }
 
         private static Camera MakeCamera(Ctx c)

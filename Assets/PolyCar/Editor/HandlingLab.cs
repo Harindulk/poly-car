@@ -52,6 +52,7 @@ namespace PolyCar.Editor
                     Corner(spec, sb, 100f, 0.35f);
                     HandbrakeDrift(spec, sb);
                     LaneChange(spec, sb);
+                    ThrottleBend(spec, sb);
                     PowerSlide(spec, sb);
                 }
             }
@@ -97,6 +98,7 @@ namespace PolyCar.Editor
         {
             var car = Spawn(spec, 0f);
             float t100 = -1f, v10 = 0f, v20 = 0f, maxSlip = 0f;
+            string at120 = "";
             string gears = "";
             int lastGear = car.Gear;
             for (int i = 1; i <= 2500; i++)
@@ -108,8 +110,11 @@ namespace PolyCar.Editor
                 if (i == 1000) v20 = car.SpeedKmh;
                 if (t < 3f) maxSlip = Mathf.Max(maxSlip, car.SlipSpeed);
                 if (car.Gear != lastGear) { gears += $"{car.Gear}@{car.SpeedKmh:0} "; lastGear = car.Gear; }
+                if (at120 == "" && car.SpeedKmh >= 120f)
+                    foreach (var w in car.wheels) at120 += $"{(w.front ? "F" : "R")}{(w.left ? "L" : "R")} slip {w.slipSpeed:0.0} m/s sx {w.longSlip:0.00} sy {w.latSlip:0.00} load {w.load:0}; ";
             }
             sb.AppendLine($"  launch: 0-100 {t100:0.0}s, 10s {v10:0}, 20s {v20:0}, 50s {car.SpeedKmh:0} km/h (spec {spec.topSpeedKmh}), launch slip {maxSlip:0.0} m/s, shifts {gears}");
+            sb.AppendLine($"    at 120 km/h full throttle: {at120}");
             Object.DestroyImmediate(car.gameObject);
         }
 
@@ -192,6 +197,20 @@ namespace PolyCar.Editor
             }
             float lateral = car.transform.position.x - Origin.x;
             sb.AppendLine($"  keyboard lane change @120: heading swing {maxYaw:0}°, max slip {maxAngle:0}°, end heading {Mathf.DeltaAngle(y0, Yaw(car)):0}°, sideways {lateral:0.0} m, end slip {car.DriftAngle:0}°");
+            Object.DestroyImmediate(car.gameObject);
+        }
+
+        /// <summary>Full throttle through a long bend from 80 km/h: a planted car shouldn't step out by itself.</summary>
+        private static void ThrottleBend(CarSpec spec, StringBuilder sb)
+        {
+            var car = Spawn(spec, 80f);
+            float maxAngle = 0f;
+            for (int i = 0; i < 200; i++)
+            {
+                Step(car, new DriveInput { Throttle = 1f, Steer = 0.25f });
+                maxAngle = Mathf.Max(maxAngle, Mathf.Abs(car.DriftAngle));
+            }
+            sb.AppendLine($"  full throttle, steer 0.25 from 80: max slip {maxAngle:0}°, end {car.SpeedKmh:0} km/h");
             Object.DestroyImmediate(car.gameObject);
         }
 

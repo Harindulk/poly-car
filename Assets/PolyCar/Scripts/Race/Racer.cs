@@ -209,7 +209,7 @@ namespace PolyCar
             Vector3 p = Path.PointAt(d);
             Quaternion rot = Path.RotationAt(d);
             // Drop onto whatever is under the centreline.
-            if (Physics.Raycast(p + Vector3.up * 30f, Vector3.down, out var hit, 60f, ~0, QueryTriggerInteraction.Ignore))
+            if (Physics.Raycast(p + Vector3.up * 30f, Vector3.down, out var hit, 60f, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore))
                 p = hit.point;
             float carry = Mathf.Clamp(Car.ForwardSpeed, 0f, 12f);
             Car.Teleport(p + Vector3.up * 0.9f, rot);

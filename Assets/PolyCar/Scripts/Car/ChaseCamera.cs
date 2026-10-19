@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.Rendering;
+using UnityEngine.Rendering.Universal;
 
 namespace PolyCar
 {
@@ -6,7 +8,8 @@ namespace PolyCar
     /// Race camera. Default "Rally" modes follow the art of rally recipe: a high, telephoto view that sits
     /// a fixed distance behind and a fixed height above the car, turns with the car's heading through a
     /// gentle lerp (fading out while the car spins, so spins don't whip the view), aims slightly above the
-    /// car, widens the lens a little with speed and pulls in when terrain blocks the view.
+    /// car, widens the lens a little with speed and pulls in when terrain blocks the view. On High quality and up
+    /// the stage's depth of field is focused on the car every frame, which gives the miniature (tilt-shift) look.
     /// Also a low Chase camera and a Hood camera. C cycles, Q looks back.
     /// </summary>
     [DefaultExecutionOrder(100)]
@@ -21,9 +24,10 @@ namespace PolyCar
             { this.distance = distance; this.height = height; this.aimAbove = aimAbove; this.fov = fov; this.yawDamping = yawDamping; }
         }
 
-        // Rally: ~25 degrees down on the car, 42 degree lens. Rally Far: higher, more of the road ahead.
-        private static readonly Preset Rally = new Preset(17f, 7.2f, 1.6f, 42f, 2.4f);
-        private static readonly Preset RallyFar = new Preset(26f, 12.5f, 2.2f, 40f, 1.9f);
+        // art of rally's presets run from 29.5 m back / 15.5 m up to 44 / 45; its default is 38.5 / 21.5 with a
+        // 40 degree lens and a lazy 1.1/s yaw follow. Rally sits near its closest preset, Rally Far is its default.
+        private static readonly Preset Rally = new Preset(29.5f, 15.5f, 2f, 40f, 1.6f);
+        private static readonly Preset RallyFar = new Preset(38.5f, 21.5f, 2f, 40f, 1.1f);
         private static readonly Preset Chase = new Preset(7.2f, 2.6f, 1.2f, 60f, 6f);
 
         private Camera _cam;
@@ -34,6 +38,7 @@ namespace PolyCar
         private float _fov, _fovVel;
         private float _shake;
         private bool _snap = true;
+        private DepthOfField _dof;
 
         public CameraMode Mode => _mode;
 
@@ -41,6 +46,12 @@ namespace PolyCar
         {
             _cam = GetComponent<Camera>();
             _mode = (CameraMode)Mathf.Clamp(GameSettings.Current.cameraMode, 0, 3);
+        }
+
+        private void Start()
+        {
+            foreach (var v in FindObjectsByType<Volume>())
+                if (v.isGlobal && v.sharedProfile && v.sharedProfile.Has<DepthOfField>()) { v.profile.TryGet(out _dof); break; }
         }
 
         public void SetTarget(PolyCarController car)
@@ -71,6 +82,12 @@ namespace PolyCar
             float speed = rb ? rb.linearVelocity.magnitude : 0f;
             bool lookBack = PolyInput.LookBackHeld();
 
+            if (_dof != null)
+            {
+                _dof.active = _mode != CameraMode.Hood && QualitySettings.GetQualityLevel() >= 2;
+                _dof.focusDistance.value = Vector3.Distance(transform.position, t.position);
+            }
+
             if (_mode == CameraMode.Hood)
             {
                 transform.SetPositionAndRotation(t.TransformPoint(new Vector3(0f, 1.22f, 0.25f)), Quaternion.LookRotation(lookBack ? -t.forward : t.forward, t.up));
@@ -100,7 +117,7 @@ namespace PolyCar
             Vector3 carTop = t.position + Vector3.up * 1f;
             Vector3 back = Quaternion.Euler(0f, _yaw, 0f) * Vector3.back;
             Vector3 toCam = back * p.distance + Vector3.up * (p.height - 1f);
-            bool blocked = Physics.SphereCast(carTop, 0.4f, toCam.normalized, out var hit, toCam.magnitude, ~0, QueryTriggerInteraction.Ignore)
+            bool blocked = Physics.SphereCast(carTop, 0.4f, toCam.normalized, out var hit, toCam.magnitude, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore)
                            && hit.rigidbody != rb;
             float wantedDistance = blocked ? p.distance * 0.45f : p.distance;
             if (!_snap) _distance = Mathf.Lerp(_distance, wantedDistance, (blocked ? 3f : 1f) * dt);
@@ -109,7 +126,7 @@ namespace PolyCar
             float heightScale = _distance / p.distance;
             pos.y = Mathf.Lerp(t.position.y + 1.5f, _height, Mathf.Clamp01(heightScale));
             // Never below the ground under the camera.
-            if (Physics.Raycast(pos + Vector3.up * 50f, Vector3.down, out var ground, 100f, ~0, QueryTriggerInteraction.Ignore) && ground.rigidbody == null)
+            if (Physics.Raycast(pos + Vector3.up * 50f, Vector3.down, out var ground, 100f, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore) && ground.rigidbody == null)
                 pos.y = Mathf.Max(pos.y, ground.point.y + 1.2f);
 
             // Aim a little above the car; at speed the aim drops slightly to show more road ahead.

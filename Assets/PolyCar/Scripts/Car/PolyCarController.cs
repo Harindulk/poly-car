@@ -86,7 +86,7 @@ namespace PolyCar
         public float engineInertia = 0.2f;
         public float wheelInertia = 1.4f;
         [Tooltip("Front axle coupling relative to the rear (rear-biased four-wheel drive).")]
-        public float frontDriveWeight = 0.58f;
+        public float frontDriveWeight = 0.8f;
         [Tooltip("Viscous coupling between wheel speeds, N·m per rad/s.")]
         public float diffLock = 85f;
         public float shiftTime = 0.16f;
@@ -106,7 +106,7 @@ namespace PolyCar
         [Tooltip("Yaw acceleration (rad/s²) from the raw steering input at 45 m/s.")]
         public float yawAssist = 2.4f;
         [Tooltip("Yaw acceleration (rad/s²) that pulls the car out of very big slides.")]
-        public float stabilityAssist = 1.6f;
+        public float stabilityAssist = 2.2f;
         [Tooltip("Extra drag per second of speed while braking.")]
         public float brakeAssist = 0.4f;
         public float downforce = 0.0008f;
@@ -241,7 +241,7 @@ namespace PolyCar
             // Grip and character.
             _mu = Mathf.Lerp(1.05f, 1.3f, Mathf.InverseLerp(6.2f, 9.2f, grip));
             float loose = Mathf.InverseLerp(3.1f, 1.9f, driftGrip);   // 1 = the most tail-happy car
-            _rearGrip = Mathf.Lerp(1f, 0.93f, loose);
+            _rearGrip = Mathf.Lerp(1.02f, 0.96f, loose);
             _yawStrength = Mathf.Lerp(0.9f, 1.15f, loose) * turnRate / 95f;
             _steerMax = Mathf.Lerp(26f, 34f, Mathf.InverseLerp(80f, 105f, turnRate));
 
@@ -427,7 +427,7 @@ namespace PolyCar
         private bool CastWheel(Vector3 origin, Vector3 dir, float dist, out RaycastHit best)
         {
             best = default;
-            int n = Physics.RaycastNonAlloc(origin, dir, _hits, dist, ~0, QueryTriggerInteraction.Ignore);
+            int n = Physics.RaycastNonAlloc(origin, dir, _hits, dist, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
             float bestDist = float.MaxValue;
             bool found = false;
             for (int i = 0; i < n; i++)
@@ -597,7 +597,7 @@ namespace PolyCar
             if (GroundedWheels == 0)
             {
                 AirTime += dt;
-                bool clear = !Physics.Raycast(Body.position, Vector3.down, 0.5f + wheelRadius, ~0, QueryTriggerInteraction.Ignore);
+                bool clear = !Physics.Raycast(Body.position, Vector3.down, 0.5f + wheelRadius, Physics.DefaultRaycastLayers, QueryTriggerInteraction.Ignore);
                 if (clear)
                 {
                     _levelRamp = Mathf.Lerp(_levelRamp, 1f, dt * 3f);
