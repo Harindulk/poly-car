@@ -95,6 +95,15 @@ folder and quits), `-benchmarkSeconds <n>`, `-mute`, `-keyboardbot` (AI with key
 `-smoketest -autopilot` (clicks through the real menus, races every track and a championship, writes
 `smoketest.txt` and quits).
 
+## Testing
+
+- `Assets/PolyCar/Tests/EditMode`: unit tests (Test Runner).
+- `-smoketest -autopilot`: end-to-end run of a player build (menus, every stage, a championship, pause, respawn,
+  garage); fails on any logged error. Add `-smokeSpeed 1 -quality 0` on slow machines.
+- `.github/workflows/windows-smoke.yml`: runs that smoke test on a GitHub Windows runner with the real Windows
+  player (software Direct3D 11). The build is taken from the draft release `ci-windows-build`.
+- `Poly Car > Debug > Handling Lab`: scripted handling tests for every car.
+
 ## Project layout
 
 - `Assets/PolyCar/Scripts`: runtime code (`PolyCar.Runtime` assembly): `Car/`, `Race/`, `UI/`, `Core/`.
