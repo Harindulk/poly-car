@@ -89,8 +89,7 @@ namespace PolyCar
                 _engine[i].pitch = enginePitch * (0.8f + (rpm - Centers[i]) * 0.9f + 0.2f);
             }
 
-            float slip = car.IsDrifting ? Mathf.Clamp01((Mathf.Abs(car.LateralSpeed) - 2f) / 6f) : 0f;
-            if (car.Braking && car.SpeedKmh > 50f && car.Grounded) slip = Mathf.Max(slip, 0.35f);
+            float slip = car.Grounded ? Mathf.Clamp01((car.SlipSpeed - 3f) / 9f) : 0f;
             _squeal.volume = Mathf.Lerp(_squeal.volume, slip * 0.45f * _volume, 1f - Mathf.Exp(-12f * Time.deltaTime));
             _squeal.pitch = 0.9f + slip * 0.2f;
             if (_wind)

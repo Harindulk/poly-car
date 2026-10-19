@@ -5142,34 +5142,52 @@ MonoBehaviour:
   bodyVisual: {fileID: 5276219792833961483}
   wheelRadius: 0.35673842
   suspensionTravel: 0.30322766
-  springStrength: 2.3
-  damper: 9
-  antiRoll: 0.8
   centerOfMass: {x: 0, y: 0.3389015, z: 0.05}
   topSpeedKmh: 175
   acceleration: 10
   grip: 7
   driftGrip: 1.6
   turnRate: 95
-  brakeDecel: 24
-  reverseAccel: 7
-  maxReverse: 11
-  coastDecel: 2.2
-  handbrakeDecel: 4
-  steerBuildUp: 4.5
-  steerRelease: 9
-  yawResponse: 8
-  driftYawResponse: 5
-  driftYawBoost: 1.05
-  driftMomentum: 0.45
-  offRoadSpeed: 0.72
-  offRoadGrip: 0.65
-  downforce: 0.0016
-  airGravity: 6
-  airControl: 2.2
-  uprightStrength: 7
-  boostAccel: 9
-  boostTopSpeed: 1.22
+  staticSag: 0.45
+  bumpDamping: 0.35
+  reboundDamping: 0.55
+  antiRollFront: 0.55
+  antiRollRear: 0.5
+  forceLift: 0.35
+  inertiaScale: 1.3
+  peakSlipAngle: 10
+  peakSlipRatio: 0.12
+  lateralShape: 1.3
+  longShape: 1.5
+  relaxLong: 0.35
+  relaxLat: 0.5
+  lowSpeedDamping: 8
+  loadSensitivity: 0.08
+  redlineRpm: 7200
+  idleRpm: 900
+  launchRpm: 4200
+  engineInertia: 0.2
+  wheelInertia: 1.4
+  frontDriveWeight: 0.58
+  diffLock: 85
+  shiftTime: 0.16
+  gearCount: 5
+  brakeTorque: 2300
+  handbrakeTorque: 1300
+  highSpeedSteerAngle: 15
+  steerTime: 0.12
+  veloSteerTime: 0.025
+  releaseTime: 0.07
+  veloReleaseTime: 0.02
+  keyboardReleaseScale: 3
+  counterSteerBoost: 1.5
+  yawAssist: 2.4
+  stabilityAssist: 1.6
+  brakeAssist: 0.4
+  downforce: 0.0008
+  airLevelRate: 30
+  boostAccel: 8
+  boostTopSpeed: 1.2
   boostDrain: 0.33
   boostFillDrift: 0.2
   boostFillAir: 0.12

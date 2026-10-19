@@ -22,7 +22,7 @@ namespace PolyCar
             var pad = UnityEngine.InputSystem.Gamepad.current;
             if (pad == null) return;
             bool live = Time.timeScale > 0.01f && !_car.InputLocked;
-            float slide = _car.IsDrifting ? Mathf.Clamp01((Mathf.Abs(_car.LateralSpeed) - 2f) / 10f) * 0.25f : 0f;
+            float slide = Mathf.Clamp01((_car.SlipSpeed - 3f) / 12f) * 0.25f;
             float boost = _car.Boosting ? 0.15f : 0f;
             _kick = Mathf.MoveTowards(_kick, 0f, Time.unscaledDeltaTime * 3f);
             if (live) pad.SetMotorSpeeds(Mathf.Max(_kick, slide * 0.6f), Mathf.Max(_kick * 0.7f, Mathf.Max(slide, boost)));
@@ -42,9 +42,9 @@ namespace PolyCar
     public class BotDriver : MonoBehaviour
     {
         [Range(0.5f, 1.2f)] public float skill = 0.9f;
-        /// <summary>Test aid: drive like a keyboard player (on/off keys, human steering smoothing, auto-drift).</summary>
+        /// <summary>Test aid: drive like a keyboard player (on/off keys, human steering smoothing).</summary>
         public bool keyboardStyle;
-        public float lateralGrip = 15f; // m/s² the bot is willing to corner at (scaled by skill)
+        public float lateralGrip = 11f; // m/s² the bot is willing to corner at (scaled by skill)
 
         private PolyCarController _car;
         private Racer _racer;
@@ -61,13 +61,12 @@ namespace PolyCar
             _car = GetComponent<PolyCarController>();
             _racer = GetComponent<Racer>();
             _laneSeed = Random.value * 100f;
-            _car.AutoDrift = false;
             _car.FastSteer = true;
         }
 
         private void Start()
         {
-            if (keyboardStyle) { _car.AutoDrift = true; _car.FastSteer = false; }
+            if (keyboardStyle) _car.FastSteer = false;
         }
 
         private void Update()
@@ -96,7 +95,7 @@ namespace PolyCar
 
             // Speed plan: precomputed corner + braking profile along the track.
             float aLat = lateralGrip * skill;
-            float corner = path.SpeedLimitAt(d + Mathf.Max(0f, speed) * 0.25f, aLat, 13f * skill);
+            float corner = path.SpeedLimitAt(d + Mathf.Max(0f, speed) * 0.25f, aLat, 11f * skill);
             float desired = Mathf.Min(_car.TopSpeed * _car.SpeedMultiplier, corner);
             if (_racer.Finished) desired = Mathf.Min(desired, 16f); // cool-down lap after the line
             float maxCurv = path.CurvatureAhead(d, 40f);

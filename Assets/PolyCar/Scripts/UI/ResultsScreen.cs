@@ -65,29 +65,32 @@ namespace PolyCar
             if (multi)
             {
                 var right = UiKit.Box("results-right");
-                right.Add(UiKit.Label(cup != null ? $"RACE {cup.index + 1} OF {cup.maps.Length}" : "STANDINGS", "results-key"));
+                right.Add(UiKit.Label(cup != null ? $"STAGE {cup.index + 1} OF {cup.maps.Length}" : "STAGE TIMES", "results-key"));
                 int i = 1;
+                float lead = r.standings.Count > 0 ? r.standings[0].time : 0f;
                 foreach (var s in r.standings)
                 {
                     var row = UiKit.Box("results-row");
                     if (s.player) row.AddToClassList("results-row-player");
                     row.Add(UiKit.Label(i + ".", "results-row-pos"));
                     row.Add(UiKit.Label(s.name.ToUpper(), "results-row-name"));
-                    row.Add(UiKit.Label(s.finished ? UiKit.FormatTime(s.time) : "racing", "results-row-time"));
+                    row.Add(UiKit.Label(i == 1 ? UiKit.FormatTime(s.time) : UiKit.FormatTime(s.time - lead, true), "results-row-time"));
                     right.Add(row);
                     i++;
                 }
                 if (cup != null)
                 {
-                    right.Add(UiKit.Label(cup.IsLastRace ? "FINAL CUP STANDINGS" : "CUP POINTS", "results-key", "results-cup-head"));
+                    right.Add(UiKit.Label(cup.IsLastRace ? "FINAL CHAMPIONSHIP" : "CHAMPIONSHIP (TOTAL TIME)", "results-key", "results-cup-head"));
                     int k = 1;
-                    foreach (var kv in cup.Standings())
+                    var table = cup.Standings();
+                    float leader = table.Count > 0 ? table[0].Value : 0f;
+                    foreach (var kv in table)
                     {
                         var row = UiKit.Box("results-row");
                         if (kv.Key == "You") row.AddToClassList("results-row-player");
                         row.Add(UiKit.Label(k + ".", "results-row-pos"));
                         row.Add(UiKit.Label(kv.Key.ToUpper(), "results-row-name"));
-                        row.Add(UiKit.Label(kv.Value + " PTS", "results-row-time"));
+                        row.Add(UiKit.Label(k == 1 ? UiKit.FormatTime(kv.Value) : UiKit.FormatTime(kv.Value - leader, true), "results-row-time"));
                         right.Add(row);
                         k++;
                     }

@@ -25,9 +25,9 @@ namespace PolyCar
     }
 
     /// <summary>
-    /// Runs a race in a level scene: spawns the player, AI rivals and the best-run ghost on the grid,
-    /// plays the intro and countdown, tracks positions, and stores records, ghosts and unlocks at the
-    /// finish. The level only needs a TrackPath; HUD, pause and results are built at runtime.
+    /// Runs a race in a level scene: spawns the player and the best-run ghost, sets the virtual rivals' times,
+    /// plays the intro and countdown, keeps the live position against the rivals, and stores records, ghosts
+    /// and unlocks at the finish. The level only needs a TrackPath; HUD, pause and results are built at runtime.
     /// </summary>
     public class RaceManager : MonoBehaviour
     {
@@ -68,13 +68,17 @@ namespace PolyCar
         public event Action<bool> PauseChanged;
         public event Action<float, float> SplitDelta;     // delta vs best, race time
         public event Action<int, float, bool> LapDone;    // lap index, lap time, best lap
+        public event Action<int, string, float> RivalSplit; // position at a split, rival just ahead (or null), gap to them
+
+        /// <summary>Virtual rivals (art of rally style): they have a stage time, not a car on the road.</summary>
+        public VirtualRival[] Rivals { get; private set; } = new VirtualRival[0];
+        public int FieldSize => Rivals.Length + 1;
 
         private GhostRecorder _recorder;
         private GhostData _ghost;
         private Camera _cam;
-        private int _finishCounter;
         private bool _cupScored;
-        private static readonly string[] BotNames = { "Kenji", "Maya", "Rico", "Lena", "Viktor", "Aiko", "Sol", "Nova", "Dex", "Juno" };
+        private float _startProgress;
 
         private void Awake()
         {
@@ -186,36 +190,27 @@ namespace PolyCar
         {
             var catalog = CarCatalog.Instance;
             PlayerSpec = GameFlow.CurrentCar ?? catalog.cars[0];
+            GridPose(0, 1, out Vector3 pos, out Quaternion rot, out float dist);
+            var racer = SpawnCar(PlayerSpec, pos, rot, dist, true);
+            racer.displayName = "You";
+            _startProgress = racer.TotalProgress;
+
             var cup = GameFlow.Cup;
-            int opponents = cup != null ? cup.rivalCars.Length : Mathf.Clamp(GameSettings.Current.opponents, 0, 7);
-
-            // Rivals use the other cars, shuffled.
-            var pool = new List<CarSpec>();
-            foreach (var c in catalog.cars) if (c != PlayerSpec && c.prefab) pool.Add(c);
-            for (int i = pool.Count - 1; i > 0; i--) { int j = UnityEngine.Random.Range(0, i + 1); (pool[i], pool[j]) = (pool[j], pool[i]); }
-
             var diff = (Difficulty)GameSettings.Current.difficulty;
-            float skill = diff == Difficulty.Easy ? 0.72f : diff == Difficulty.Hard ? 0.98f : 0.86f;
-            float speedMul = diff == Difficulty.Easy ? 0.86f : diff == Difficulty.Hard ? 1.01f : 0.94f;
+            var rng = cup != null ? cup.StageRandom() : new System.Random();
+            Rivals = cup != null ? cup.rivals : RivalTimes.Field(GameSettings.Current.opponents, PlayerSpec.id, rng);
+            float baseline = RivalTimes.Baseline(Map, Laps);
+            foreach (var r in Rivals) RivalTimes.SetStageTime(r, baseline, diff, rng);
+        }
 
-            int slots = opponents + 1;
-            for (int slot = 0; slot < slots; slot++)
+        /// <summary>Share of the race distance covered by the player (0 at the start, 1 at the finish).</summary>
+        public float PlayerFraction
+        {
+            get
             {
-                bool isPlayer = slot == slots - 1; // player starts at the back and chases
-                CarSpec spec = isPlayer ? PlayerSpec : (pool.Count > 0 ? pool[slot % pool.Count] : PlayerSpec);
-                if (!isPlayer && cup != null) spec = catalog.Get(cup.rivalCars[slot]);
-                GridPose(slot, slots, out Vector3 pos, out Quaternion rot, out float dist);
-                var racer = SpawnCar(spec, pos, rot, dist, isPlayer);
-                racer.displayName = isPlayer ? "You" : cup != null ? cup.rivalNames[slot] : BotNames[slot % BotNames.Length];
-                if (!isPlayer)
-                {
-                    var bot = racer.gameObject.AddComponent<BotDriver>();
-                    bot.skill = skill * UnityEngine.Random.Range(0.96f, 1.04f);
-                    // Parity: rivals run at the player's car's top speed whatever they drive, then difficulty.
-                    float parity = Mathf.Clamp(PlayerSpec.topSpeedKmh / Mathf.Max(1f, spec.topSpeedKmh), 0.7f, 1.3f);
-                    racer.BaseSpeedMultiplier = speedMul * parity * UnityEngine.Random.Range(0.97f, 1.02f);
-                    racer.Car.SpeedMultiplier = racer.BaseSpeedMultiplier;
-                }
+                if (Player == null) return 0f;
+                float total = Path.loop ? Laps * Path.Length : Path.Length - _startProgress;
+                return Mathf.Clamp01((Player.TotalProgress - (Path.loop ? 0f : _startProgress)) / Mathf.Max(1f, total));
             }
         }
 
@@ -231,7 +226,7 @@ namespace PolyCar
             Vector3 dir = Path.DirectionAt(dist);
             Vector3 right = Vector3.Cross(Vector3.up, dir).normalized;
             float half = Path.HalfWidthAt(dist);
-            float lateral = (col == 0 ? -1f : 1f) * Mathf.Min(2.6f, half * 0.4f);
+            float lateral = slots == 1 ? 0f : (col == 0 ? -1f : 1f) * Mathf.Min(2.6f, half * 0.4f);
             pos = centre + right * lateral;
             if (Physics.Raycast(pos + Vector3.up * 20f, Vector3.down, out var hit, 60f, ~0, QueryTriggerInteraction.Ignore)) pos = hit.point;
             rot = Path.RotationAt(dist);
@@ -263,10 +258,6 @@ namespace PolyCar
                 racer.LapCompleted += (lap, t) => LapDone?.Invoke(lap, t, Mathf.Approximately(t, racer.BestLap));
                 racer.FinishedRace += OnPlayerFinish;
                 racer.Respawned += () => Chase.Snap();
-            }
-            else
-            {
-                racer.FinishedRace += () => racer.FinishOrder = ++_finishCounter;
             }
             Racers.Add(racer);
             return racer;
@@ -368,8 +359,7 @@ namespace PolyCar
             // Hide the mouse while driving; show it for pause and results.
             bool wantCursor = Paused || ResultsScreen.Visible;
             if (Cursor.visible != wantCursor) Cursor.visible = wantCursor;
-            UpdatePositions();
-            RubberBand();
+            UpdatePosition();
         }
 
         public void SetPaused(bool paused)
@@ -381,39 +371,45 @@ namespace PolyCar
             PauseChanged?.Invoke(paused);
         }
 
-        private void UpdatePositions()
+        /// <summary>Live position: rivals count as ahead when their pace (stage time x distance share) beats the clock.</summary>
+        private void UpdatePosition()
         {
-            Racers.Sort((a, b) =>
+            if (Player == null) return;
+            int pos = 1;
+            if (Player.Finished) { foreach (var r in Rivals) if (r.time < Player.FinishTime) pos++; }
+            else if (State == RaceState.Racing)
             {
-                if (a.Finished && b.Finished) return a.FinishTime.CompareTo(b.FinishTime);
-                if (a.Finished) return -1;
-                if (b.Finished) return 1;
-                return b.TotalProgress.CompareTo(a.TotalProgress);
-            });
-            for (int i = 0; i < Racers.Count; i++) Racers[i].Position = i + 1;
-        }
-
-        private void RubberBand()
-        {
-            if (Player == null || State != RaceState.Racing) return;
-            foreach (var r in Racers)
-            {
-                if (r == Player || r.Finished) continue;
-                float gap = r.TotalProgress - Player.TotalProgress; // + ahead of the player
-                float k = Mathf.Clamp(-gap / 150f, -1f, 1f);
-                r.Car.SpeedMultiplier = r.BaseSpeedMultiplier * (1f + k * 0.06f);
+                float f = PlayerFraction;
+                foreach (var r in Rivals) if (r.time * f < RaceTime) pos++;
             }
+            else pos = FieldSize;
+            Player.Position = pos;
         }
 
         private void OnPlayerCheckpoint(int index, float time)
         {
+            if (Rivals.Length > 0)
+            {
+                // Gap to the rival just ahead on pace at this point of the stage.
+                float f = PlayerFraction;
+                VirtualRival ahead = null;
+                float gap = 0f;
+                int pos = 1;
+                foreach (var r in Rivals)
+                {
+                    float at = r.time * f;
+                    if (at >= time) continue;
+                    pos++;
+                    if (ahead == null || at > ahead.time * f) { ahead = r; gap = time - at; }
+                }
+                RivalSplit?.Invoke(pos, ahead?.name, gap);
+            }
             if (PreviousRecord != null && PreviousRecord.splits != null && index < PreviousRecord.splits.Length && PreviousRecord.splits[index] > 0f)
                 SplitDelta?.Invoke(time - PreviousRecord.splits[index], time);
         }
 
         private void OnPlayerFinish()
         {
-            Player.FinishOrder = ++_finishCounter;
             _recorder.Recording = false;
             Drift.Bank();
             SetState(RaceState.Finished);
@@ -427,10 +423,11 @@ namespace PolyCar
             var save = SaveData.Current;
             string mapId = Map != null ? Map.id : fallbackMapId;
             int starsBefore = save.Stars;
+            UpdatePosition();
             var res = new RaceResult
             {
                 position = Player.Position,
-                racers = Racers.Count,
+                racers = FieldSize,
                 time = Player.FinishTime,
                 bestLap = Path.loop ? Player.BestLap : 0f,
                 medal = Medals.For(Map, Player.FinishTime, Laps),
@@ -439,7 +436,7 @@ namespace PolyCar
             };
             res.newRecord = save.Submit(mapId, RecordLaps, res.time, res.bestLap, res.medal, Player.Splits.ToArray(), PlayerSpec.id);
             save.racesFinished++;
-            if (res.position == 1 && Racers.Count > 1) save.racesWon++;
+            if (res.position == 1 && Rivals.Length > 0) save.racesWon++;
             save.totalDriftScore += res.driftScore;
             save.totalDistanceKm += Player.DistanceDriven / 1000f;
             save.Save();
@@ -461,22 +458,19 @@ namespace PolyCar
         private IEnumerator ShowResults()
         {
             yield return new WaitForSeconds(2.2f);
-            // Standings: finished racers by time, the rest by distance (estimated).
-            UpdatePositions();
+            // Stage results: everyone by time.
+            UpdatePosition();
             Result.standings.Clear();
-            foreach (var r in Racers)
-                Result.standings.Add((r.displayName, r.Finished ? r.FinishTime : -1f, r == Player, r.Finished));
+            Result.standings.Add(("You", Player.FinishTime, true, true));
+            foreach (var r in Rivals) Result.standings.Add((string.IsNullOrEmpty(r.note) ? r.name : r.name + "  (" + r.note + ")", r.time, false, true));
+            Result.standings.Sort((a, b) => a.time.CompareTo(b.time));
             Result.position = Player.Position;
             var cup = GameFlow.Cup;
             if (cup != null && !_cupScored)
             {
                 _cupScored = true;
-                for (int i = 0; i < Racers.Count; i++)
-                {
-                    string n = Racers[i].displayName;
-                    int pts = i < CupState.PointsTable.Length ? CupState.PointsTable[i] : 0;
-                    cup.points[n] = (cup.points.TryGetValue(n, out int had) ? had : 0) + pts;
-                }
+                cup.totals["You"] = (cup.totals.TryGetValue("You", out float had) ? had : 0f) + Player.FinishTime;
+                foreach (var r in Rivals) cup.totals[r.name] = (cup.totals.TryGetValue(r.name, out float t) ? t : 0f) + r.time;
                 if (cup.IsLastRace)
                 {
                     var st = cup.Standings();

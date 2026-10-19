@@ -103,7 +103,7 @@ namespace PolyCar
             yield return Wait(() => RaceManager.Current != null && RaceManager.Current.State == RaceState.Racing, 40f, name + ": race started");
             var race = RaceManager.Current;
             if (race == null) yield break;
-            Step(race.Player != null && race.Racers.Count >= 1, $"{name}: {race.Racers.Count} racers on the grid, map {race.Map?.id}");
+            Step(race.Player != null && race.Racers.Count == 1, $"{name}: player on the line, {race.Rivals.Length} rivals on the clock, map {race.Map?.id}");
             if (extraChecks)
             {
                 yield return new WaitForSecondsRealtime(2f);

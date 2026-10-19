@@ -14,8 +14,6 @@ namespace PolyCar
     {
         public string displayName = "Player";
         public bool isPlayer;
-        /// <summary>AI pace before catch-up: difficulty x parity with the player's car.</summary>
-        public float BaseSpeedMultiplier = 1f;
 
         public PolyCarController Car { get; private set; }
         public RaceManager Race { get; private set; }
@@ -29,7 +27,6 @@ namespace PolyCar
         public int NextCheckpoint { get; private set; }
         public bool Finished { get; private set; }
         public float FinishTime { get; private set; }
-        public int FinishOrder { get; set; }
         public int Position { get; set; } = 1;
         public bool WrongWay { get; private set; }
         /// <summary>Seconds without real progress along the track (stuck in a ditch, on a bank, against a tree).</summary>

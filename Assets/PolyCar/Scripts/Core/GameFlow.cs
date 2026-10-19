@@ -6,24 +6,29 @@ using UnityEngine.UIElements;
 
 namespace PolyCar
 {
-    /// <summary>A championship in progress: every track in order against the same rivals, points per race.</summary>
+    /// <summary>
+    /// A championship in progress, run like a rally: every track in order against the same virtual rivals,
+    /// and the lowest total time over all of them wins.
+    /// </summary>
     public class CupState
     {
-        public static readonly int[] PointsTable = { 10, 7, 5, 3, 2, 1 };
         public string[] maps;
         public int index;
         public string playerCar;
-        public string[] rivalCars;
-        public string[] rivalNames;
-        public readonly Dictionary<string, int> points = new Dictionary<string, int>();
+        public int seed;
+        public VirtualRival[] rivals = new VirtualRival[0];
+        public readonly Dictionary<string, float> totals = new Dictionary<string, float>();
 
         public bool IsLastRace => index >= maps.Length - 1;
         public string CurrentMap => maps[Mathf.Clamp(index, 0, maps.Length - 1)];
 
-        public List<KeyValuePair<string, int>> Standings()
+        /// <summary>Same rival times for a stage however often it's restarted.</summary>
+        public System.Random StageRandom() => new System.Random(seed + index * 7919);
+
+        public List<KeyValuePair<string, float>> Standings()
         {
-            var list = new List<KeyValuePair<string, int>>(points);
-            list.Sort((a, b) => b.Value.CompareTo(a.Value));
+            var list = new List<KeyValuePair<string, float>>(totals);
+            list.Sort((a, b) => a.Value.CompareTo(b.Value));
             return list;
         }
     }
@@ -32,25 +37,21 @@ namespace PolyCar
     public static class GameFlow
     {
         public static CupState Cup;
-        private static readonly string[] RivalNames = { "Kenji", "Maya", "Rico", "Lena", "Viktor" };
+        public const int CupRivals = 5;
 
         public static void StartCup(string carId)
         {
-            var maps = MapCatalog.Instance.maps;
-            var cars = new List<string>();
-            foreach (var c in CarCatalog.Instance.cars) if (c.id != carId) cars.Add(c.id);
-            for (int i = cars.Count - 1; i > 0; i--) { int j = Random.Range(0, i + 1); (cars[i], cars[j]) = (cars[j], cars[i]); }
-            int rivals = Mathf.Min(3, cars.Count);
+            int seed = Random.Range(1, int.MaxValue / 2);
             Cup = new CupState
             {
-                maps = System.Array.ConvertAll(maps, m => m.id),
+                maps = System.Array.ConvertAll(MapCatalog.Instance.maps, m => m.id),
                 index = 0,
                 playerCar = carId,
-                rivalCars = cars.GetRange(0, rivals).ToArray(),
-                rivalNames = new List<string>(RivalNames).GetRange(0, rivals).ToArray(),
+                seed = seed,
+                rivals = RivalTimes.Field(CupRivals, carId, new System.Random(seed)),
             };
-            Cup.points["You"] = 0;
-            foreach (var n in Cup.rivalNames) Cup.points[n] = 0;
+            Cup.totals["You"] = 0f;
+            foreach (var r in Cup.rivals) Cup.totals[r.name] = 0f;
             Laps = -1;
             StartRace(Cup.CurrentMap, carId);
         }

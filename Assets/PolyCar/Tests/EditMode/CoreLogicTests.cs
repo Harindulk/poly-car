@@ -168,10 +168,10 @@ namespace PolyCar.Tests
         }
 
         [Test]
-        public void CupStandingsSortByPoints()
+        public void CupStandingsSortByTotalTime()
         {
-            var cup = new CupState { maps = new[] { "a", "b" }, index = 0, rivalCars = new string[0], rivalNames = new string[0] };
-            cup.points["You"] = 7; cup.points["Maya"] = 10; cup.points["Rico"] = 3;
+            var cup = new CupState { maps = new[] { "a", "b" }, index = 0 };
+            cup.totals["You"] = 250f; cup.totals["Maya"] = 245.5f; cup.totals["Rico"] = 260f;
             var st = cup.Standings();
             Assert.AreEqual("Maya", st[0].Key);
             Assert.AreEqual("You", st[1].Key);
@@ -180,7 +180,32 @@ namespace PolyCar.Tests
             cup.index = 1;
             Assert.IsTrue(cup.IsLastRace);
             Assert.AreEqual("b", cup.CurrentMap);
-            Assert.AreEqual(10, CupState.PointsTable[0]);
+        }
+
+        [Test]
+        public void RivalTimesFollowTheDifficultyBands()
+        {
+            var map = new MapSpec { id = "m", laps = 2, goldTime = 100f, silverTime = 112f, bronzeTime = 128f };
+            float baseline = RivalTimes.Baseline(map, 4);
+            Assert.AreEqual(188f, baseline, 0.01f, "baseline scales with laps (2x gold x 0.94)");
+            var rng = new System.Random(7);
+            float easy = 0f, normal = 0f, hard = 0f;
+            for (int i = 0; i < 400; i++)
+            {
+                var r = new VirtualRival { talent = (float)rng.NextDouble() };
+                RivalTimes.SetStageTime(r, baseline, Difficulty.Easy, rng); easy += r.time;
+                Assert.GreaterOrEqual(r.time, baseline * 1.1f - 0.01f);
+                RivalTimes.SetStageTime(r, baseline, Difficulty.Normal, rng); normal += r.time;
+                RivalTimes.SetStageTime(r, baseline, Difficulty.Hard, rng); hard += r.time;
+                Assert.GreaterOrEqual(r.time, baseline - 0.01f, "nobody beats a perfect run");
+            }
+            Assert.Less(hard, normal);
+            Assert.Less(normal, easy);
+            // Same seed, same stage times (restarting a championship stage doesn't re-roll the rivals).
+            var a = new VirtualRival { talent = 0.5f }; var b = new VirtualRival { talent = 0.5f };
+            RivalTimes.SetStageTime(a, baseline, Difficulty.Normal, new System.Random(3));
+            RivalTimes.SetStageTime(b, baseline, Difficulty.Normal, new System.Random(3));
+            Assert.AreEqual(a.time, b.time);
         }
     }
 }

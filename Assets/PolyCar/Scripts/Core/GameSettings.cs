@@ -25,7 +25,7 @@ namespace PolyCar
         public bool useMph;
         public bool showFps;
         public int cameraMode;
-        public int opponents = 3;
+        public int opponents = 5;
         public int difficulty = 1;
         public bool ghost = true;
         public bool cameraShake = true;

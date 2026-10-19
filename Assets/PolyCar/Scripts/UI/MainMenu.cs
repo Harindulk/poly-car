@@ -170,7 +170,7 @@ namespace PolyCar
 
             if (map.IsCircuit)
                 panel.Add(UiKit.Stepper("LAPS", () => GameFlow.Laps.ToString(), d => GameFlow.Laps = Mathf.Clamp(GameFlow.Laps + d, 1, 10), out _));
-            panel.Add(UiKit.Stepper("RIVALS", () => st.opponents == 0 ? "NONE (TIME TRIAL)" : st.opponents.ToString(), d => st.opponents = Mathf.Clamp(st.opponents + d, 0, 5), out _));
+            panel.Add(UiKit.Stepper("RIVALS", () => st.opponents == 0 ? "NONE (TIME TRIAL)" : st.opponents.ToString(), d => st.opponents = Mathf.Clamp(st.opponents + d, 0, 7), out _));
             panel.Add(UiKit.Stepper("DIFFICULTY", () => ((Difficulty)st.difficulty).ToString().ToUpper(), d => st.difficulty = (st.difficulty + d + 3) % 3, out _));
             panel.Add(UiKit.Stepper("GHOST", () => st.ghost ? "ON" : "OFF", _ => st.ghost = !st.ghost, out _));
 
@@ -205,7 +205,7 @@ namespace PolyCar
             var panel = UiKit.Box("panel", "panel-setup");
             var car = Cars.cars[_carIndex];
             panel.Add(UiKit.Label("CAR:  " + car.displayName.ToUpper(), "panel-subtitle"));
-            panel.Add(UiKit.Label($"Race all {Maps.maps.Length} tracks back to back against the same three rivals. Points for every finish: 10, 7, 5, 3. Highest total wins the cup.", "garage-blurb"));
+            panel.Add(UiKit.Label($"A rally over all {Maps.maps.Length} tracks against five rivals on the clock. Your times add up stage by stage; the lowest total wins the championship.", "garage-blurb"));
             var trackList = new System.Text.StringBuilder();
             foreach (var m in Maps.maps) trackList.Append(m.displayName.ToUpper()).Append(m.IsCircuit ? $" ({m.laps} LAPS)" : " (SPRINT)").Append("   ");
             panel.Add(UiKit.Label(trackList.ToString(), "info-small"));

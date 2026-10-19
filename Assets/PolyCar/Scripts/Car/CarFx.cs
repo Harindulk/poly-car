@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace PolyCar
 {
-    /// <summary>Skid marks and tyre smoke on the rear wheels while drifting, flames while boosting.</summary>
+    /// <summary>Skid marks and tyre smoke from the rear tyres' sliding speed, flames while boosting.</summary>
     public class CarFx : MonoBehaviour
     {
         public PolyCarController car;
@@ -27,11 +27,10 @@ namespace PolyCar
         private void LateUpdate()
         {
             if (car == null) return;
-            bool hardBrake = car.Braking && car.SpeedKmh > 45f;
             for (int i = 0; i < skids.Length && i < _rear.Length; i++)
             {
                 var w = _rear[i];
-                bool mark = w.grounded && (car.IsDrifting || hardBrake);
+                bool mark = w.grounded && w.slipSpeed > 4f;
                 var s = skids[i];
                 if (!s) continue;
                 if (w.grounded) s.transform.position = w.hit.point + w.hit.normal * 0.03f;
@@ -41,9 +40,10 @@ namespace PolyCar
             {
                 var p = smoke[i];
                 if (!p) continue;
-                bool on = car.IsDrifting && i < _rear.Length && _rear[i].grounded;
+                float slip = i < _rear.Length && _rear[i].grounded ? _rear[i].slipSpeed : 0f;
+                bool on = slip > 6f;
                 var em = p.emission;
-                em.rateOverTimeMultiplier = on ? Mathf.Lerp(14f, 60f, Mathf.Clamp01((Mathf.Abs(car.LateralSpeed) - 2.5f) / 7f)) : 0f;
+                em.rateOverTimeMultiplier = on ? Mathf.Lerp(14f, 60f, Mathf.Clamp01((slip - 6f) / 10f)) : 0f;
                 if (on && !p.isPlaying) p.Play();
             }
             foreach (var p in boostFlames)

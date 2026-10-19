@@ -4,17 +4,20 @@ using UnityEngine.UIElements;
 
 namespace PolyCar
 {
-    /// <summary>In-race HUD: position, laps, timers, split deltas, speed/gear/boost, drift combo, minimap.</summary>
+    /// <summary>In-race HUD: live position against the rivals' times, laps, timers, split deltas and rival gaps,
+    /// speed/gear/boost, drift combo, minimap.</summary>
     public class RaceHud : MonoBehaviour
     {
         private RaceManager _race;
         private UIDocument _doc;
         private VisualElement _root;
-        private Label _pos, _posTotal, _lap, _lapTime, _time, _best, _delta, _speed, _unit, _gear, _center, _sub, _driftPts, _driftMult, _driftTotal, _fps, _hint;
+        private Label _pos, _posTotal, _lap, _lapTime, _time, _best, _delta, _rivalGap, _speed, _unit, _gear, _center, _sub, _driftPts, _driftMult, _driftTotal, _fps, _hint;
         private VisualElement _boostFill, _boostBar, _drift, _standings, _mini, _miniPath;
         private readonly Dictionary<Racer, VisualElement> _dotOf = new Dictionary<Racer, VisualElement>();
         private readonly List<Label> _rows = new List<Label>();
-        private float _deltaHide, _centerHide;
+        private float _deltaHide, _rivalHide, _centerHide;
+        private VirtualRival[] _byTime = new VirtualRival[0];
+        private int _shownPos = -1;
         private Bounds _bounds;
         private float _miniScale;
         private Vector2 _miniOffset;
@@ -56,7 +59,8 @@ namespace PolyCar
             _time = UiKit.Label("0:00.00", "hud-time");
             _best = UiKit.Label("", "hud-best");
             _delta = UiKit.Label("", "hud-delta");
-            tc.Add(_time); tc.Add(_best); tc.Add(_delta);
+            _rivalGap = UiKit.Label("", "hud-best");
+            tc.Add(_time); tc.Add(_best); tc.Add(_delta); tc.Add(_rivalGap);
             _root.Add(tc);
 
             // Top right: minimap.
@@ -116,12 +120,17 @@ namespace PolyCar
             // Player dot last so it draws on top.
             foreach (var kv in _dotOf) if (!kv.Key.isPlayer) _mini.Add(kv.Value);
             foreach (var kv in _dotOf) if (kv.Key.isPlayer) _mini.Add(kv.Value);
-            if (_race.Racers.Count > 1)
-                for (int i = 0; i < _race.Racers.Count; i++) { var l = UiKit.Label("", "hud-standing"); _standings.Add(l); _rows.Add(l); }
+            if (_race.Rivals.Length > 0)
+            {
+                _byTime = (VirtualRival[])_race.Rivals.Clone();
+                System.Array.Sort(_byTime, (a, b) => a.time.CompareTo(b.time));
+                for (int i = 0; i < _race.FieldSize; i++) { var l = UiKit.Label("", "hud-standing"); _standings.Add(l); _rows.Add(l); }
+            }
 
             PrepareMinimap();
             _race.CountdownTick += OnCountdown;
             _race.SplitDelta += OnSplit;
+            _race.RivalSplit += OnRivalSplit;
             _race.LapDone += OnLap;
             _race.StateChanged += s => { if (s == RaceState.Intro) Show(_race.Map != null ? _race.Map.displayName.ToUpper() : "", LapsLabel(), 2.4f); };
             _race.PauseChanged += p => _root.style.display = p ? DisplayStyle.None : DisplayStyle.Flex;
@@ -137,13 +146,13 @@ namespace PolyCar
             _best.text = rec != null && rec.bestTime > 0f ? "BEST  " + UiKit.FormatTime(rec.bestTime) : "NO RECORD YET";
             _lap.style.display = _race.Path.loop ? DisplayStyle.Flex : DisplayStyle.None;
             _lapTime.style.display = _race.Path.loop ? DisplayStyle.Flex : DisplayStyle.None;
-            if (_race.Racers.Count <= 1) _pos.parent.style.display = DisplayStyle.None;
+            if (_race.Rivals.Length == 0) _pos.parent.style.display = DisplayStyle.None;
         }
 
         private string LapsLabel()
         {
             string what = _race.Path.loop ? _race.Laps + (_race.Laps == 1 ? " LAP" : " LAPS") : "SPRINT";
-            string who = _race.Racers.Count > 1 ? "  -  " + (_race.Racers.Count - 1) + " RIVALS" : "  -  TIME TRIAL";
+            string who = _race.Rivals.Length > 0 ? "  -  " + _race.Rivals.Length + " RIVALS ON THE CLOCK" : "  -  TIME TRIAL";
             return what + who + (_race.HasGhost ? "  -  GHOST ON" : "");
         }
 
@@ -175,6 +184,12 @@ namespace PolyCar
 
         private void OnSplit(float delta, float time) => ShowSmall(UiKit.FormatTime(delta, true), delta <= 0f ? "hud-delta-good" : "hud-delta-bad");
 
+        private void OnRivalSplit(int position, string ahead, float gap)
+        {
+            _rivalGap.text = ahead == null ? "P1  -  FASTEST SO FAR" : $"P{position}  -  {UiKit.FormatTime(gap, true)} TO {ahead.ToUpper()}";
+            _rivalHide = Time.unscaledTime + 3f;
+        }
+
         private void OnLap(int lap, float lapTime, bool best)
         {
             if (_race.Player.Finished) return;
@@ -189,7 +204,7 @@ namespace PolyCar
             var car = _race.PlayerCar;
 
             _pos.text = p.Position.ToString();
-            _posTotal.text = "/" + _race.Racers.Count;
+            _posTotal.text = "/" + _race.FieldSize;
             int lapShown = Mathf.Clamp(p.Lap + 1, 1, _race.Laps);
             _lap.text = "LAP " + lapShown + "/" + _race.Laps;
             _lapTime.text = p.Lap >= 0 && _race.State == RaceState.Racing ? UiKit.FormatTime(_race.RaceTime - p.CurrentLapStart) + (p.BestLap > 0f ? "   BEST " + UiKit.FormatTime(p.BestLap) : "") : "";
@@ -213,6 +228,7 @@ namespace PolyCar
             }
 
             if (Time.unscaledTime > _deltaHide) _delta.text = "";
+            if (Time.unscaledTime > _rivalHide) _rivalGap.text = "";
             if (p.WrongWay && _race.State == RaceState.Racing)
             {
                 _center.text = "WRONG WAY";
@@ -230,12 +246,16 @@ namespace PolyCar
 
             _hint.style.opacity = Mathf.Clamp01(1f - (_race.RaceTime - 6f) / 2f);
 
-            // Standings.
-            for (int i = 0; i < _rows.Count && i < _race.Racers.Count; i++)
+            // Standings: rivals in time order with you slotted in at your live position.
+            if (_rows.Count > 0 && p.Position != _shownPos)
             {
-                var r = _race.Racers[i];
-                _rows[i].text = (i + 1) + "  " + r.displayName.ToUpper();
-                _rows[i].EnableInClassList("hud-standing-player", r.isPlayer);
+                _shownPos = p.Position;
+                for (int i = 0, k = 0; i < _rows.Count; i++)
+                {
+                    bool me = i == p.Position - 1;
+                    _rows[i].text = (i + 1) + "  " + (me ? "YOU" : _byTime[Mathf.Min(k++, _byTime.Length - 1)].name.ToUpper());
+                    _rows[i].EnableInClassList("hud-standing-player", me);
+                }
             }
 
             UpdateMinimapDots();
