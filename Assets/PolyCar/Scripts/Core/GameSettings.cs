@@ -60,8 +60,10 @@ namespace PolyCar
         /// <summary>Applies everything that is engine-wide (display, quality, frame pacing, audio).</summary>
         public void Apply(bool display = true)
         {
-            if (quality >= 0 && quality < QualitySettings.names.Length && QualitySettings.GetQualityLevel() != quality)
-                QualitySettings.SetQualityLevel(quality, true);
+            // -quality <index> overrides the saved preset for test runs (e.g. CI machines without a GPU).
+            int q = int.TryParse(GameFlow.Arg("-quality"), out int argQ) ? argQ : quality;
+            if (q >= 0 && q < QualitySettings.names.Length && QualitySettings.GetQualityLevel() != q)
+                QualitySettings.SetQualityLevel(q, true);
 
             QualitySettings.vSyncCount = vSync && fpsLimit <= 0 ? 1 : 0;
             Application.targetFrameRate = fpsLimit > 0 ? fpsLimit : (vSync ? -1 : 300);

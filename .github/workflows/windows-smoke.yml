@@ -1,0 +1,45 @@
+# Runs the real Windows player's end-to-end smoke test on a GitHub Windows runner (software D3D11, no GPU):
+# clicks through the menus, races every stage and a full championship, and fails on any logged error.
+# The build comes from the draft release "ci-windows-build" (upload PolyCar-Windows-*.zip there).
+name: Windows smoke test
+on:
+  workflow_dispatch:
+  push:
+    branches: [unity6-remaster]
+    paths: ['.github/workflows/windows-smoke.yml']
+permissions:
+  contents: write
+jobs:
+  smoke:
+    runs-on: windows-latest
+    timeout-minutes: 75
+    steps:
+      - name: Download the build
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $id = gh api "repos/$env:GITHUB_REPOSITORY/releases" --jq '.[] | select(.tag_name=="ci-windows-build") | .assets[] | select(.name | test("PolyCar-Windows.*zip")) | .id' | Select-Object -First 1
+          curl.exe -sSL -H "Authorization: Bearer $env:GH_TOKEN" -H "Accept: application/octet-stream" -o build.zip "https://api.github.com/repos/$env:GITHUB_REPOSITORY/releases/assets/$id"
+          Expand-Archive -Path build.zip -DestinationPath game
+          Get-ChildItem game\Windows | Select-Object Name, Length
+      - name: Graphics adapter
+        shell: pwsh
+        run: Get-CimInstance Win32_VideoController | Format-List Name, DriverVersion
+      - name: Smoke test
+        shell: pwsh
+        run: |
+          $out = "$env:GITHUB_WORKSPACE\smoke.txt"; $log = "$env:GITHUB_WORKSPACE\player.log"
+          $args = @("-smoketest", "-autopilot", "-mute", "-smokeSpeed", "1", "-quality", "0", "-smokeOut", $out, "-logFile", $log, "-screen-fullscreen", "0", "-screen-width", "960", "-screen-height", "540")
+          $p = Start-Process -FilePath "game\Windows\PolyCar.exe" -ArgumentList $args -PassThru
+          if (-not $p.WaitForExit(4200000)) { Stop-Process -Id $p.Id -Force; Write-Host "timed out" }
+          if (Test-Path $out) { Get-Content $out } else { Write-Host "no smoke result"; if (Test-Path $log) { Get-Content $log -Tail 120 }; exit 1 }
+          if (-not (Select-String -Path $out -Pattern "SMOKE TEST PASSED" -Quiet)) { exit 1 }
+      - name: Upload results
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: windows-smoke
+          path: |
+            smoke.txt
+            player.log

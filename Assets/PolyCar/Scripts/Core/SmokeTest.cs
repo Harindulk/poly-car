@@ -41,12 +41,15 @@ namespace PolyCar
             }
         }
 
+        private float _speed = 3f;
+
         private void Update()
         {
-            // Race at triple speed to keep the run short (physics still steps at the fixed rate).
+            // Race at triple speed to keep the run short (physics still steps at the fixed rate);
+            // -smokeSpeed 1 for slow machines (a software renderer can't keep physics steps per frame sane at 3x).
             var race = RaceManager.Current;
             if (race != null && !race.Paused && (race.State == RaceState.Racing || race.State == RaceState.Finished))
-                Time.timeScale = 3f;
+                Time.timeScale = _speed;
         }
 
         private void Step(bool ok, string what)
@@ -59,6 +62,8 @@ namespace PolyCar
         private IEnumerator Start()
         {
             _started = Time.realtimeSinceStartup;
+            if (float.TryParse(GameFlow.Arg("-smokeSpeed"), out float sp) && sp > 0f) _speed = sp;
+            _log.AppendLine($"platform {Application.platform}, {SystemInfo.operatingSystem}, {SystemInfo.graphicsDeviceType} on {SystemInfo.graphicsDeviceName}, quality {QualitySettings.names[QualitySettings.GetQualityLevel()]}, {Screen.width}x{Screen.height}");
             yield return Wait(() => FindAnyObjectByType<MainMenu>() != null && FindButton("RACE") != null, 30f, "main menu shown");
 
             // Single races on every track via the real menu.
@@ -117,7 +122,7 @@ namespace PolyCar
                 race.Player.Respawn();
                 Step(race.Player.Respawns == before + 1, $"{name}: respawn");
             }
-            yield return Wait(() => ResultsScreen.Visible, 420f, name + ": finished and results shown");
+            yield return Wait(() => ResultsScreen.Visible, 420f * 3f / _speed, name + ": finished and results shown");
             var r = race.Result;
             if (r != null)
                 Step(r.time > 10f, $"{name}: place {r.position}/{r.racers}, time {UiKit.FormatTime(r.time)}, medal {r.medal}, record {r.newRecord}, drift {r.driftScore}, respawns {race.Player.Respawns}");
