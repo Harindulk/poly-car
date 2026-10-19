@@ -115882,6 +115882,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: SGS_Cliff
       objectReference: {fileID: 0}
+    - target: {fileID: 7065556545918662852, guid: 7da2b0e23a61d374db258ffc53358f97, type: 3}
+      propertyPath: m_Convex
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
